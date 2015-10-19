@@ -24,4 +24,4 @@ typedef struct CircularList{
    unsigned int count;
 } CircularList;
 
-#endif
+#endif // COMMON_H_

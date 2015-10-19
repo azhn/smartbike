@@ -1,3 +1,6 @@
+#ifndef BUTTONCONTROL_H_
+#define BUTTONCONTROL_H_
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -15,3 +18,4 @@ typedef struct {
 /* check if the button was toggled on */
 bool button(ButtonType type, ButtonPosition pos);
 
+#endif // BUTTONCONTROL_H_

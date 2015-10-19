@@ -1,3 +1,6 @@
+#ifndef LIGHTCONTROL_H_
+#define LIGHTCONTROL_H_
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -68,3 +71,4 @@ LightState backLightStatus( );
 /* turn off all lights */
 void turnOffAllLights( );
 
+#endif // LIGHTCONTROL_H_
