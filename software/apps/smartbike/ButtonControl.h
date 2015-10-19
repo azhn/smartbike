@@ -8,6 +8,15 @@ typedef struct {
     bool _has_led;
 } Button;
 
+/************************************************************************
+			    Initialize Button
+************************************************************************/
+/* initialize a specific button */
+void initButton(ButtonType type, ButtonPosition pos);
+
+/* initialize all buttons to default/preset values */
+void initAllButtons();
+
 /*****************************************************************************
                             Check Button Status                         
 *****************************************************************************/

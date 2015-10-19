@@ -1,5 +1,5 @@
 #include "AccelerometerControl.h"
-#include <adxl362.h>
+#include "adxl362.h"
 
 /*
 typedef struct {
@@ -52,14 +52,14 @@ void initializeAccelerometer( ) {
 int16_t readAxisX( ) {
 
   // create temp variable to return
-  uint16_t x_data;
+  uint8_t x_data[2];
 
   // read the data
-  adxl362_sample_accel_word_x( &x_data );
+  adxl362_sample_accel_word_x( x_data );
 
   // return the data
-  //  NOTE: What do we need to do about signed/unsigned...?
-  return( x_data );
+  //   NOTE: second 8-bit value read should be MSB
+  return( (x_data[1] << 8) | x_data[0] );
 
 }
 
@@ -67,14 +67,14 @@ int16_t readAxisX( ) {
 int16_t readAxisY( ) {
 
   // create temp variable to return
-  uint16_t y_data;
+  uint8_t y_data[2];
 
   // read the data
-  adxl362_sample_accel_word_y( &y_data );
+  adxl362_sample_accel_word_y( y_data );
 
   // return the data
-  //  NOTE: What do we need to do about signed/unsigned...?
-  return( y_data );
+  //  NOTE: second 8-bit value read should be MSB
+  return( (y_data[1] << 8) | y_data[0] );
 
 }
 
@@ -82,14 +82,14 @@ int16_t readAxisY( ) {
 int16_t readAxisZ( ) {
 
   // create temp variable to return
-  uint16_t z_data;
+  uint8_t z_data[2];
 
   // read the data
-  adxl362_sample_accel_word_z( &z_data );
+  adxl362_sample_accel_word_z( z_data );
 
   // return the data
-  //  NOTE: What do we need to do about signed/unsigned...?
-  return( z_data );
+  //  NOTE: second 8-bit value read should be MSB
+  return( (z_data[1] << 8) | z_data[0] );
 
 }
 
