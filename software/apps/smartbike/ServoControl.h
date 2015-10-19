@@ -1,3 +1,13 @@
+#ifndef SERVOCONTROL_H_
+#define SERVOCONTROL_H_
+
+#include <stdbool.h>
+#include <stdint.h>
+
+/****************************************************************************
+                               Types  
+*****************************************************************************/
+
 typedef enum {BACK=0, FRONT=1, _NUM_SERVOS=2} ServoPosition;
 
 typedef struct {
@@ -10,7 +20,7 @@ typedef struct {
 Servo* servos[_NUM_SERVOS];
 
 /****************************************************************************
-                Initialization
+                           Initialization
 *****************************************************************************/
 
 /* NOTE: need to remember to initialize I2C to PWM driver and
@@ -23,8 +33,10 @@ void initializeServo(ServoPosition pos);
 
 
 /*****************************************************************************
-                 Servo Read/Write
+                           Servo Read/Write
 *****************************************************************************/
 
 /* rotate to the specified angle */
 void rotateServo(ServoPosition pos, int angle);
+
+#endif // SERVOCONTROL_H_

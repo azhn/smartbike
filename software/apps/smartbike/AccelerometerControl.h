@@ -1,3 +1,6 @@
+#ifndef ACCELEROMETERCONTROL_H_
+#define ACCELEROMETERCONTROL_H_
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -39,3 +42,4 @@ int16_t readAxisZ( );
 /* update all data */
 void updateAccelerometerState( );
 
+#endif // ACCELEROMETERCONTROL_H_
