@@ -14,7 +14,8 @@
 // Platform, Peripherals, Devices, Services
 #include "blees.h"
 #include "led.h"
-
+#include "adxl362.h"
+#include "spi_driver.h"
 
 /*******************************************************************************
  *   DEFINES
@@ -98,7 +99,23 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 
 // Timer fired handler
 static void timer_handler (void* p_context) {
-    led_toggle(BLEES_LED_PIN);
+    //led_toggle(LED_0);
+    //spi_write(0xAA);
+    //uint8_t buf[1];
+    //buf[0] = 0xAA;
+    //buf[1] = 0x81;
+    //spi_write_reg(0xFF, buf, 2);
+    //spi_read_reg(0x00, buf, 1);
+    //if (buf[0] == 0xAD) {
+ // /	led_toggle(LED_1);
+   // }
+
+    uint8_t z_data[2];
+    adxl362_sample_accel_word_z(z_data);
+    int16_t z_value = (z_data[1] << 8) | z_data[0];
+
+    spi_write(z_data[1]);
+    spi_write(z_data[0]);
 }
 
 
@@ -144,9 +161,22 @@ int main(void) {
     uint32_t err_code;
 
     // Initialization
-    led_init(BLEES_LED_PIN);
-    led_on(BLEES_LED_PIN);
+    led_init(LED_0);
+    led_init(LED_1);
+    led_init(LED_2);
+    led_on(LED_0);
 
+    adxl362_accelerometer_init(adxl362_NOISE_NORMAL, true, false, false);
+    //uint8_t buf;
+
+    //adxl362_read_dev_id(&buf);
+    //if (buf == 0x1D || buf == 0xAD) {
+//	led_on(LED_2);
+  //  }
+    //uint8_t buf[1] = {0xAA};
+    //spi_init();
+    //spi_write(buf);
+    led_on(LED_2);
     // Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 

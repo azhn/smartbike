@@ -23,20 +23,25 @@ extern uint8_t MAC_ADDR[6];
 #define SQUALL_LED_PIN 13
 
 // Blue led on BLEES
-#define BLEES_LED_PIN 25
+//#define BLEES_LED_PIN 25
+#define LED_START      18
+#define LED_0          18
+#define LED_1          19
+#define LED_2          20
+#define LED_END	       20
 
 // UART on squall
 #define UART_RX_PIN 28
 #define UART_TX_PIN 29
 
 // I2C through headers
-#define I2C_SCL_PIN 7
-#define I2C_SDA_PIN 8
+#define I2C_SCL_PIN 1
+#define I2C_SDA_PIN 7
 
 // SPI through headers
-#define SPI_SCLK_PIN 9
-#define SPI_MISO_PIN 10
-#define SPI_MOSI_PIN 11
+#define SPI_SCLK_PIN 0
+#define SPI_MISO_PIN 29
+#define SPI_MOSI_PIN 30
 
 // Light sensor
 #define TSL2560_IRQ_PIN 22
