@@ -27,7 +27,7 @@ typedef struct {
 void initializeAccelerometer( ) {
 
   // initialize accel to measurement mode (with normal noise levels)
-  adxl362_accelerometer_init( adxl_362_NOISE_NORMAL, 1, 0, 0 );
+  adxl362_accelerometer_init( adxl362_NOISE_NORMAL, 1, 0, 0 );
 
   // set measurement range to 2G
   adxl362_config_measurement_range( adxl362_MEAS_RANGE_2G );
@@ -45,6 +45,11 @@ void initializeAccelerometer( ) {
   Read Accelerometer Data
  *****************************************************************************/
 
+/* combine two 8-bit values to form a 16-bit */
+uint16_t convertTo16Bit(uint8_t * msb, uint8_t * lsb) {
+  return ( (*msb << 8) | *lsb );
+}
+
 // Do we want these functions to return the values or pass in a
 //   pointer to a state struct and update the value in there...? 
 
@@ -59,7 +64,7 @@ int16_t readAxisX( ) {
 
   // return the data
   //   NOTE: second 8-bit value read should be MSB
-  return( (x_data[1] << 8) | x_data[0] );
+  return( convertTo16Bit(&x_data[1], &x_data[0]) );
 
 }
 
@@ -74,7 +79,7 @@ int16_t readAxisY( ) {
 
   // return the data
   //  NOTE: second 8-bit value read should be MSB
-  return( (y_data[1] << 8) | y_data[0] );
+  return( convertTo16Bit(&y_data[1], &y_data[0]) );
 
 }
 
@@ -89,17 +94,18 @@ int16_t readAxisZ( ) {
 
   // return the data
   //  NOTE: second 8-bit value read should be MSB
-  return( (z_data[1] << 8) | z_data[0] );
+  return( convertTo16Bit(&z_data[1], &z_data[0]) );
 
 }
 
 /* update all data */
 void updateAccelerometerState( AccelerometerState * state ) {
   // read data from each axis
-  adxl362_sample_accel_word( state->axis_x,
-			     state->axis_y,
-			     state->axis_z
+  /*adxl362_sample_accel_word( state->_axis_x,
+			     state->_axis_y,
+			     state->_axis_z
 			    );
+  */
   // update the timestamp
   //state->timestamp = 
   //	This has to be updated using an internal timer...(?)

@@ -15,7 +15,7 @@ typedef struct {
 			    Initialize Button
 ************************************************************************/
 /* initialize a specific button */
-void initButton(ButtonType type, ButtonPosition pos);
+void initButton(ButtonType type, ButtonPosition pos, Button * state, uint8_t pinNum) {
 
 /* initialize all buttons to default/preset values */
 void initAllButtons();

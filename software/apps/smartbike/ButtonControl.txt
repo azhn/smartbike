@@ -1,5 +1,5 @@
 #include "ButtonControl.h"
-#include "app_button.h"
+//#include "app_button.h"
 
 /*
 typedef enum {SHIFT, SIGNAL, _BUTTON_TYPE_SIZE} ButtonType;
@@ -21,6 +21,7 @@ Button* rightSignal;
 ************************************************************************/
 /* initialize a specific button */
 void initButton(ButtonType type, ButtonPosition pos, Button * state, uint8_t pinNum) {
+ /*
   // create button config struct
   app_button_cfg_t btn_cfg;
   btn_cfg.pin_no = pinNum;
@@ -57,6 +58,7 @@ void initButton(ButtonType type, ButtonPosition pos, Button * state, uint8_t pin
     default:
 	break;
   }
+  */
 }
 
 /* initialize all buttons to default/preset values */

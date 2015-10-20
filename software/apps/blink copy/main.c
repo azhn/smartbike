@@ -15,7 +15,6 @@
 #include "blees.h"
 #include "led.h"
 
-#include "AccelerometerControl.h"
 
 /*******************************************************************************
  *   DEFINES
@@ -99,7 +98,6 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 
 // Timer fired handler
 static void timer_handler (void* p_context) {
-    
     led_toggle(BLEES_LED_PIN);
 }
 
@@ -137,13 +135,12 @@ static void timers_start(void) {
     APP_ERROR_CHECK(err_code);
 }
 
+
 /*******************************************************************************
  *   MAIN LOOP
  ******************************************************************************/
 
 int main(void) {
-
-    //initializeAccelerometer();
     uint32_t err_code;
 
     // Initialization
