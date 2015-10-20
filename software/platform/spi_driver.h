@@ -4,10 +4,10 @@
 
 // Pin selections
 #define LED_PIN 25
-#define SPI_SCK_PIN 9
-#define SPI_MISO_PIN 10
-#define SPI_MOSI_PIN 11
-#define SPI_SS_PIN 4
+#define SPI_SCK_PIN 0
+#define SPI_MISO_PIN 29
+#define SPI_MOSI_PIN 30
+#define SPI_SS_PIN 24
 #define NRF_SPI NRF_SPI0
 
 //Initializes and enables spi
