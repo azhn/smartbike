@@ -1,33 +1,29 @@
 /*
- * GPIO TEST APP
+ * LED Blink App
  */
 
 // Standard Libraries
+#include <stdint.h>
 #include <stdbool.h>
-#include <string.h>
 
 // Nordic Libraries
 #include "nordic_common.h"
 #include "softdevice_handler.h"
-#include "app_button.h"
-#include "app_gpiote.h"
 #include "app_timer.h"
-#include "gpio_assignments.h"
+#include "app_button.h"
+//#include "boards.h"
+ #include "nrf_gpiote.h"
+ #include "nrf_drv_gpiote.h"
 
 // Platform, Peripherals, Devices, Services
-#include "led.h"
 #include "blees.h"
+#include "led.h"
 
-#define APP_TIMER_PRESCALER             0  // Value of the RTC1 PRESCALER register.
-#define APP_TIMER_MAX_TIMERS            1  // Maximum number of simultaneously created timers. 
-#define APP_TIMER_OP_QUEUE_SIZE         2  // Size of timer operation queues. 
-#define BUTTON_DEBOUNCE_DELAY                   50 // Delay from a GPIOTE event until a button is reported as pushed. 
-#define APP_GPIOTE_MAX_USERS            1  // Maximum number of users of the GPIOTE handler. 
 
 /*******************************************************************************
  *   DEFINES
  ******************************************************************************/
-//#include "nrf_drv_config.h"
+#include "nrf_drv_config.h"
 
 #define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
 #define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
@@ -41,33 +37,10 @@
 
 static app_timer_id_t test_timer;
 
+
 /*******************************************************************************
  *   HANDLERS AND CALLBACKS
  ******************************************************************************/
-
-static int count = 0;
-
-static void button_handler(uint8_t pin_no, uint8_t button_action)
-{
-    //led_toggle(LED_0);
-    count++;
-    /*if(button_action == APP_BUTTON_PUSH)
-    {
-        switch(pin_no)
-        {
-            case GPIO_TURN_BUTTON_1:
-                //nrf_gpio_pin_toggle(LED_1);
-                led_toggle(LED_0);
-                break;
-            case GPIO_TURN_BUTTON_2:
-                //nrf_gpio_pin_toggle(LED_2);
-                led_toggle(LED_1);
-                break;
-            default:
-                break;
-        }
-    }*/
-}
 
 /**@brief Function for error handling, which is called when an error has occurred.
  *
@@ -95,7 +68,7 @@ void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p
     NVIC_SystemReset();
 }
 
-/**@brief Function for asserts in the SoftDevice.
+/*@brief Function for asserts in the SoftDevice.
  *
  * @details This function will be called in case of an assert in the SoftDevice.
  *
@@ -170,44 +143,57 @@ static void timers_start(void) {
 /*******************************************************************************
  *   MAIN LOOP
  ******************************************************************************/
-int main(void) {
-    uint32_t err_code;
 
-    // Initialization
+#define GPIOTE_CHANNEL_0 0
+#define BUTTON_PIN 21
+#define OUTPUT_PIN 22
+
+// Interrupt handler
+void GPIOTE_IRQHandler(){
+    //led_toggle(LED_1);
+    //nrf_gpio_pin_toggle(LED_0);
+    nrf_gpio_pin_toggle(OUTPUT_PIN);
+    NRF_GPIOTE->EVENTS_IN[0] = 0;
+}
+
+int main(void) {
+    // uint32_t err_code;
+
+    // // Initialization
     led_init(LED_0);
     led_init(LED_1);
-    led_init(LED_2);
+    //led_on(LED_0);
 
-    led_toggle(LED_0);
-
-    static app_button_cfg_t p_button[] = {  {GPIO_TURN_BUTTON_1, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler},
-                                            {GPIO_TURN_BUTTON_2, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler}};
-
+    // //Initialize button
     
-    // Setup clock
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
-    
-    
-    APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, APP_TIMER_OP_QUEUE_SIZE, NULL);
 
-    // Macro for initializing the GPIOTE module.
-    // It will handle dimensioning and allocation of the memory buffer required by the module, making sure that the buffer is correctly aligned.
-    APP_GPIOTE_INIT(APP_GPIOTE_MAX_USERS);
-    //nrf_drv_gpiote_init();
+    // // Setup clock
+    // SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
-    // Initializing the buttons.
-    err_code = app_button_init(p_button, sizeof(p_button) / sizeof(p_button[0]), BUTTON_DEBOUNCE_DELAY);
-    APP_ERROR_CHECK(err_code);
-                                            
-    // Enabling the buttons.                                                                            
-    err_code = app_button_enable();
-    APP_ERROR_CHECK(err_code);
+    // // Setup and start timer
+    // timers_init();
+    // timers_start();
 
-    while(true)
+    // while (1) {
+    //     power_manage();
+    // }
+
+    nrf_gpio_cfg_output(LED_0);  //Configure LED 0 as output
+    nrf_gpio_cfg_output(LED_1);
+    nrf_gpio_cfg_output(OUTPUT_PIN);
+    nrf_gpio_cfg_input(BUTTON_PIN,NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
+    //Configure GPIOTE channel 0, to generate an event from button 0:
+    nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
+    nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
+    NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
+    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
+    int count = 0;
+    for(;;)
     {
-        if (count % 2 == 0) {
-            led_toggle(LED_0);
-        }
+        //if (nrf_gpio_pin_read(BUTTON_PIN)) {
+            //nrf_drv_gpiote_out_task_trigger(BUTTON_PIN); 
+        //}
     }
 }
+
 
