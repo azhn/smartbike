@@ -16,6 +16,7 @@
 #include "led.h"
 
 #include "AccelerometerControl.h"
+//#include "EncoderControl.h"
 
 /*******************************************************************************
  *   DEFINES
@@ -100,7 +101,7 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 // Timer fired handler
 static void timer_handler (void* p_context) {
     
-    led_toggle(BLEES_LED_PIN);
+    led_toggle(LED_0);
 }
 
 
@@ -147,8 +148,8 @@ int main(void) {
     uint32_t err_code;
 
     // Initialization
-    led_init(BLEES_LED_PIN);
-    led_on(BLEES_LED_PIN);
+    led_init(LED_0);
+    //led_on(LED_0);
 
     // Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
@@ -157,8 +158,47 @@ int main(void) {
     timers_init();
     timers_start();
 
+    /*********************************************************/
+    /*                  QUADRATURE TESTING                   */
+    /*********************************************************/
+    // int16_t counterVal;
+    // if( initializeQuadDecoder( 3, 4) ) {
+    //     // initialization succeeded
+    //     while(1) {
+    //         counterVal = readCurrentCounter();
+    //         if((counterVal > 512) || (counterVal < -512)) {
+    //             led_on(LED_0);
+    //             led_off(LED_1);
+    //         } else {
+    //             led_on(LED_1);
+    //             led_off(LED_0);
+    //         }
+    //     }
+    // }
+
+    /*********************************************************/
+    /*                  ACCELEROMETER TESTING                */
+    /*********************************************************/
+    //accelerometer readings - 12bit readings 
+    //      (-2048 to 2047 --> range of 12bit 2's compliment)
+    //      In +/- 2g range, we should reach close to 1g (or half) the 
+    //      counts in each direction (so around -1024 to 1023)
+    
+    /*
+    while(1) {
+        if(readAxisX() > 0)
+        {
+            led_on(LED_0);
+        }
+        else
+        {
+            led_off(LED_0);
+        }
+    }
+    */
+
     while (1) {
-        power_manage();
+        //power_manage();
     }
 }
 
