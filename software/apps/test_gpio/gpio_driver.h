@@ -6,7 +6,6 @@
 
 // Nordic Libraries
 #include "nordic_common.h"
-#include "softdevice_handler.h"
 #include "nrf_gpiote.h"
 #include "nrf_drv_gpiote.h"
 #include "nrf.h"
@@ -18,14 +17,12 @@
 
 #define GPIOTE_CHANNEL_0 0
 
-typedef void (*gpiote_handler_t)(uint8_t pin_no, uint8_t gpio_action);
-
 typedef struct
 {
     uint8_t               pin_no;
     nrf_gpiote_polarity_t polarity;
     nrf_gpio_pin_pull_t   pull_cfg;     /**< Pull-up or -down configuration. */
-    gpiote_handler_t      gpio_handler; /**< Handler to be called when gpiote is triggered. */
+    nrf_drv_gpiote_evt_handler_t gpio_handler; /**< Handler to be called when gpiote is triggered. */
 } gpio_input_cfg_t;
 
 
