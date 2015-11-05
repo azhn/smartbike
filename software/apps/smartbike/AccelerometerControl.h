@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h> /* memset */
+#include "spi_driver.h"
 
 typedef struct {
     int _timestamp;
@@ -22,6 +24,9 @@ typedef struct {
  *****************************************************************************/
 
 // Note: Remeber to use SPI with accelerometer and the correct pins for those
+
+/* configure accelerometer registers */
+void config_accelerometer();
 
 /* initialize the accelerometer */
 void initializeAccelerometer( );
