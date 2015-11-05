@@ -10,15 +10,11 @@
 #include "nordic_common.h"
 #include "softdevice_handler.h"
 #include "app_timer.h"
-#include "app_button.h"
-//#include "boards.h"
- #include "nrf_gpiote.h"
- #include "nrf_drv_gpiote.h"
 
 // Platform, Peripherals, Devices, Services
 #include "blees.h"
 #include "led.h"
-#include "gpio_driver.h"
+#include "pwm.h"
 
 
 /*******************************************************************************
@@ -69,7 +65,7 @@ void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p
     NVIC_SystemReset();
 }
 
-/*@brief Function for asserts in the SoftDevice.
+/**@brief Function for asserts in the SoftDevice.
  *
  * @details This function will be called in case of an assert in the SoftDevice.
  *
@@ -103,7 +99,7 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 
 // Timer fired handler
 static void timer_handler (void* p_context) {
-    led_toggle(LED_0);
+    //led_toggle(BLEES_LED_PIN);
 }
 
 
@@ -145,123 +141,22 @@ static void timers_start(void) {
  *   MAIN LOOP
  ******************************************************************************/
 
-#define BUTTON_PIN 21
-
-#define OUTPUT_PIN 22
-
-#define PIN1 8 
-#define PIN2 9
-#define PIN3 10
-static volatile uint32_t i = 0;
-// Interrupt handler
-/*void GPIOTE_IRQHandler(){
-    //led_toggle(LED_0);
-    nrf_gpio_pin_toggle(LED_0);
-    //nrf_gpio_pin_toggle(OUTPUT_PIN);
-    NRF_GPIOTE->EVENTS_IN[0] = 0;
-}*/
-
-
-volatile bool b8, b9, b10, b21, b22;
-
-void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
-    if (pin == 8) {
-        b8 = true;
-    } else if (pin == 9) {
-        b9 = true;
-    } else if (pin == 10) {
-        b10 = true;
-    } else if (pin == 21) {
-        b21 = true;
-    } else if (pin == 22) {
-        b22 = true;
-    }
-}
-
 int main(void) {
     uint32_t err_code;
-    uint8_t gpio_input_count;
-    // // Initialization
-    uint32_t i;
-    i=0;
-    b8=false; b9=false; b10=false; b21=false; b22=false;
-    led_init(LED_0);
-    led_init(LED_1);
-    led_init(LED_2);
-    for (i=0;i<1000;++i) {
-        if (i%100 == 0) {
-            led_toggle(LED_0); 
-        }
-    }
-    led_off(LED_0);
 
-    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                        {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                        {PIN1, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                        {PIN2, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                        {PIN3, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler}};
-    gpio_input_count = 5;
+    // Initialization
+   // led_init(BLEES_LED_PIN);
+   // led_on(BLEES_LED_PIN);
 
-    /* SET OUTPUT WITH DRIVER */
-    /* uint8_t output_pins[] = {PIN1,PIN2,PIN3};
-     * gpio_output_init(output_pins, 3);
-     */
+    // Setup clock
+    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
-    /* SET OUTPUT OLD WAY */
-    /* nrf_gpio_cfg_output(OUTPUT_PIN);
-     */
+    // Setup and start timer
+    timers_init();
+    timers_start();
 
-    
-    /* SET INPUT WITH DRIVER */
-    err_code = gpio_input_init(cfgs, gpio_input_count);
-    if (err_code) {
-        led_on(LED_1);
-    }
-    gpio_input_enable_all();
-
-    /* SET INPUT OLD WAY */
-    /* nrf_gpio_cfg_input(BUTTON_PIN, NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
-     * nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
-     * nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
-     */ 
-
-    //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
-    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
-
-    while (true) {
-        if (b21 == true) {
-            b21 = false;
-            led_toggle(LED_0);
-        }
-        if (b22 == true) {
-            b22 = false;
-            led_toggle(LED_1);
-        }
-
-        if (b8 == true) {
-            b8 = false;
-            led_toggle(LED_2);
-        }
-        if (b9 == true) {
-            b9 = false;
-            for (i=0;i<1000;++i) {
-                if (i%100 == 0) {
-                    led_toggle(LED_0); 
-                }
-            }
-            led_off(LED_0); 
-        }
-        if (b10 == true) {
-            b9 = false;
-            for (i=0;i<1000;++i) {
-                if (i%100 == 0) {
-                    led_toggle(LED_1); 
-                }
-            }
-            led_off(LED_1); 
-        }
-
+    while (1) {
+        power_manage();
     }
 }
-
 
