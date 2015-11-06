@@ -15,7 +15,7 @@
 #include "nrf_soc.h"
 
 // Platform, Peripherals, Devices, Services
-#include "blees.h"
+#include "smartbike.h"
 #include "led.h"
 
 

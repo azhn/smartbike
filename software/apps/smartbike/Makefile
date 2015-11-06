@@ -22,7 +22,7 @@ APPLICATION_SRCS += app_error.c
 #APPLICATION_SRCS += nrf_gpio.c
 
 ifndef TARGET
-	TARGET = BLEES
+	TARGET = SMARTBIKE
 endif
 
 TARGET_UPPER = $(shell echo $(TARGET) | tr a-z A-Z)

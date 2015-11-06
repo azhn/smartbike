@@ -18,7 +18,7 @@ APPLICATION_SRCS += eddystone.c
 APPLICATION_SRCS += led.c
 
 ifndef TARGET
-	TARGET = BLEES
+	TARGET = SMARTBIKE
 endif
 
 TARGET_UPPER = $(shell echo $(TARGET) | tr a-z A-Z)

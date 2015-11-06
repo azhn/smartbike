@@ -45,7 +45,7 @@
 #include "softdevice_handler.h"
 
 // Platform, Peripherals, Devices, Services
-#include "blees.h"
+#include "smartbike.h"
 #include "led.h"
 #include "tsl2561.h"
 #include "si7021.h"

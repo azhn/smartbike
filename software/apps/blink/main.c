@@ -12,7 +12,7 @@
 #include "app_timer.h"
 
 // Platform, Peripherals, Devices, Services
-#include "blees.h"
+#include "smartbike.h"
 #include "led.h"
 
 

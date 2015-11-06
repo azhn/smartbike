@@ -16,7 +16,7 @@
  #include "nrf_drv_gpiote.h"
 
 // Platform, Peripherals, Devices, Services
-#include "blees.h"
+#include "smartbike.h"
 #include "led.h"
 #include "gpio_driver.h"
 

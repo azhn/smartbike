@@ -15,7 +15,7 @@
 
 // Platform, Peripherals, Devices, Services
 #include "nrf_drv_config.h"
-#include "blees.h"
+#include "smartbike.h"
 #include "led.h"
 #include "simple_ble.h"
 #include "eddystone.h"

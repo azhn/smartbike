@@ -9,7 +9,7 @@
 #include "app_error.h"
 #include "nrf_gpio.h"
 #include "nrf_drv_config.h"
-#include "blees.h"
+//#include "smartbike.h"
 #include "led.h"
 
 #include "gpio_driver.h"
