@@ -1,8 +1,8 @@
-#ifndef BLEES_H
-#define BLEES_H
+#ifndef SMARTBIKE_H
+#define SMARTBIKE_H
 
 #ifndef DEVICE_NAME
-    #define DEVICE_NAME "BLEES"
+    #define DEVICE_NAME "SMARTBIKE"
 #endif /*DEVICE_NAME*/
 
 #include <stdint.h>
