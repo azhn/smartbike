@@ -10,9 +10,12 @@
 #include "nordic_common.h"
 #include "softdevice_handler.h"
 #include "app_timer.h"
+#include "app_util.h"
+#include "app_util_platform.h"
+#include "nrf_drv_twi.h"
 
 // Platform, Peripherals, Devices, Services
-#include "blees.h"
+#include "smartbike.h"
 #include "led.h"
 #include "pwm.h"
 
@@ -33,7 +36,7 @@
  ******************************************************************************/
 
 static app_timer_id_t test_timer;
-
+static nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
 
 /*******************************************************************************
  *   HANDLERS AND CALLBACKS
@@ -100,6 +103,7 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 // Timer fired handler
 static void timer_handler (void* p_context) {
     //led_toggle(BLEES_LED_PIN);
+    led_toggle(LED_2);
 }
 
 
@@ -136,6 +140,19 @@ static void timers_start(void) {
     APP_ERROR_CHECK(err_code);
 }
 
+static void i2c_init() {
+    nrf_drv_twi_config_t twi_config;
+
+    // Initialize the I2C module
+    twi_config.sda                = I2C_SDA_PIN;
+    twi_config.scl                = I2C_SCL_PIN;
+    twi_config.frequency          = NRF_TWI_FREQ_400K;
+    twi_config.interrupt_priority = APP_IRQ_PRIORITY_HIGH;
+
+    nrf_drv_twi_init(&twi_instance, &twi_config, NULL);
+    nrf_drv_twi_enable(&twi_instance);
+}
+
 
 /*******************************************************************************
  *   MAIN LOOP
@@ -145,8 +162,9 @@ int main(void) {
     uint32_t err_code;
 
     // Initialization
-   // led_init(BLEES_LED_PIN);
-   // led_on(BLEES_LED_PIN);
+    led_init(LED_2);
+    led_on(LED_2);
+    i2c_init();
 
     // Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
@@ -155,6 +173,10 @@ int main(void) {
     timers_init();
     timers_start();
 
+    pca9685_init(&twi_instance);
+    pca9685_setPWMFreq(1600);
+    //pca9685_setPWM(0x01, 0x0199, 0x04CC);
+    pca9685_setPin(1, 2047, 0);
     while (1) {
         power_manage();
     }

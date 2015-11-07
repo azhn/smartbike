@@ -4,7 +4,8 @@
 #include "nrf_drv_config.h"
 #include "nrf_drv_twi.h"
 #include "nrf_soc.h"
-#include "blees.h"
+#include "nrf_delay.h"
+#include "smartbike.h"
 
 #define PCA9685_SUBADR1 0x2
 #define PCA9685_SUBADR2 0x3
@@ -26,11 +27,12 @@
 #define ADDR 0x40
 
 
-void init(void);
-void reset(void);
-void setPWMFreq(float freq);
-void setPWM(uint8_t num, uint16_t on, uint16_t off);
-void write8(uint8_t reg, uint8_t in_data);
-uint8_t read8(uint8_t reg);
+void pca9685_init(nrf_drv_twi_t * i2c_instance_param);
+void pca9685_reset(void);
+void pca9685_setPWMFreq(float freq);
+void pca9685_setPWM(uint8_t num, uint16_t on, uint16_t off);
+void pca9685_setPin(uint8_t num, uint16_t val, uint8_t invert);
+void pca9685_writeByte(uint8_t reg, uint8_t in_data);
+uint8_t pca9685_readByte(uint8_t reg);
 
 #endif

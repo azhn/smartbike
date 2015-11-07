@@ -16,7 +16,7 @@ APPLICATION_SRCS += led.c
 APPLICATION_SRCS += app_scheduler.c
 
 ifndef TARGET
-	TARGET = BLEES
+	TARGET = SMARTBIKE
 endif
 
 TARGET_UPPER = $(shell echo $(TARGET) | tr a-z A-Z)

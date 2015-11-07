@@ -18,7 +18,7 @@ APPLICATION_SRCS += adxl362.c
 APPLICATION_SRCS += spi_driver.c
 
 ifndef TARGET
-	TARGET = BLEES
+	TARGET = SMARTBIKE
 endif
 
 TARGET_UPPER = $(shell echo $(TARGET) | tr a-z A-Z)
