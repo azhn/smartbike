@@ -54,8 +54,10 @@ uint32_t gpio_input_init(gpio_input_cfg_t *gpio_cfgs,
 
         //Next line takes care of above 2 in nrf_drv_gpiote.c :330
        
+        // set the last arg to true to have high accuracy
+        //      (Needed so pin gpiote registration finds channels)
         nrf_drv_gpiote_in_config_t p_config =
-            {curr_input->polarity, curr_input->pull_cfg, false,false};
+            {curr_input->polarity, curr_input->pull_cfg, false,true};
 
         err_code = nrf_drv_gpiote_in_init(curr_input->pin_no, 
                                           &p_config,
