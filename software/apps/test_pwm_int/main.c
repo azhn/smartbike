@@ -13,11 +13,14 @@
 #include "app_util.h"
 #include "app_util_platform.h"
 #include "nrf_drv_twi.h"
+#include "nrf_gpiote.h"
+#include "nrf_drv_gpiote.h"
 
 // Platform, Peripherals, Devices, Services
 #include "smartbike.h"
 #include "led.h"
 #include "pwm.h"
+#include "gpio_driver.h"
 
 
 /*******************************************************************************
@@ -37,7 +40,7 @@
 
 static app_timer_id_t test_timer;
 static nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
-static uint8_t toggle = 0;
+static uint8_t toggle = 1;
 
 /*******************************************************************************
  *   HANDLERS AND CALLBACKS
@@ -104,13 +107,20 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 // Timer fired handler
 static void timer_handler (void* p_context) {
     //led_toggle(BLEES_LED_PIN);
-    led_toggle(LED_2);
-    /*if (toggle) {
-	pca9685_setPWM(1, 163, 0);
-    } else {
-	pca9685_setPWM(1, 532, 0);
-    }
-    toggle = !(toggle);*/
+    // led_toggle(LED_2);
+
+
+ //    if (toggle) {
+	// pca9685_setPin(1, 200, 0);
+ //    toggle = 0;
+ //    led_on(LED_2);
+ //    } else {
+	// pca9685_setPin(1, 400, 0);
+ //    led_off(LED_2);
+ //    toggle = 1;
+ //    }
+    
+    //toggle = !(toggle);
 }
 
 
@@ -165,27 +175,90 @@ static void i2c_init() {
  *   MAIN LOOP
  ******************************************************************************/
 
+#define BUTTON_PIN 21
+
+#define OUTPUT_PIN 22
+
+static volatile uint32_t i = 0;
+
+volatile bool b21, b22;
+volatile uint16_t pwm_count = 300;
+
+void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    if (pin == 21) { // increase duty cycle
+        b21 = true;
+    } else if (pin == 22) { //decrease duty cycle
+        b22 = true;
+    }
+}
+
 int main(void) {
     uint32_t err_code;
+    uint8_t gpio_input_count;
 
     // Initialization
+    // led_init(LED_2);
+    // led_on(LED_2);
+    uint32_t i;
+    i=0;
+    b21=false; b22=false;
+    led_init(LED_0);
+    led_init(LED_1);
     led_init(LED_2);
-    led_on(LED_2);
+    //led_on(LED_0);
+
     i2c_init();
 
+    // since active high, pins need to be set to have a pull-down resistor,
+    //      otherwise they will be floating
+    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
+                                        {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+
+    // It seems only 4 pins can be registered per channel
+    gpio_input_count = 2;
+
+
+    /* SET INPUT WITH DRIVER */
+    err_code = gpio_input_init(cfgs, gpio_input_count);
+    if (err_code) {
+        led_on(LED_1);
+    }
+    gpio_input_enable_all();
+
+
     // Setup clock
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+    //SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
     // Setup and start timer
-    timers_init();
-    timers_start();
+    //timers_init();
+    //timers_start();
 
     pca9685_init(&twi_instance);
     pca9685_setPWMFreq(50);
     //pca9685_setPWM(0x01, 0x0199, 0x04CC);
-    pca9685_setPin(1, 200, 0);
+    pca9685_setPin(1, pwm_count, 0);
     while (1) {
-        power_manage();
+        if (b21 == true) { //increase duty cycle
+            pwm_count += 40;
+            if(pwm_count >= 400){
+                pwm_count = 400;
+            }else{
+                pca9685_setPin(1, pwm_count, 0);
+            }
+            b21 = false;
+            led_toggle(LED_0);
+        }
+        if (b22 == true) {  //decrease duty cycle
+            pwm_count -= 40;
+            if(pwm_count <= 200){
+                pwm_count = 200;
+            }else{
+                pca9685_setPin(1, pwm_count, 0);
+            }
+            b22 = false;
+            led_toggle(LED_1);
+        }
+        //power_manage();
     }
 }
 
