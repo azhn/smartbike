@@ -10,33 +10,30 @@
 #include "nordic_common.h"
 #include "softdevice_handler.h"
 #include "app_timer.h"
-#include "nrf_gpiote.h"
-#include "nrf_drv_gpiote.h"
+#include "app_button.h"
+//#include "boards.h"
+ #include "nrf_gpiote.h"
+ #include "nrf_drv_gpiote.h"
 
 // Platform, Peripherals, Devices, Services
 #include "smartbike.h"
 #include "led.h"
-
+#include "gpio_driver.h"
 #include "AccelerometerControl.h"
-//#include "EncoderControl.h"
+
 
 /*******************************************************************************
  *   DEFINES
  ******************************************************************************/
 #include "nrf_drv_config.h"
 
-#define GPIOTE_CHANNEL_0 0
-#define GPIOTE_CHANNEL_1 1
-
-#define BUTTON_PIN 21
-#define OUTPUT_PIN 22
-
-// # defines from Blink app
 #define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
 #define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
 #define BLINK_RATE  APP_TIMER_TICKS(500, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
 
+#define GPIOTE_CHANNEL_0 0
+#define GPIOTE_CHANNEL_1 1
 
 /*******************************************************************************
  *   STATIC AND GLOBAL VARIABLES
@@ -75,7 +72,7 @@ void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p
     NVIC_SystemReset();
 }
 
-/**@brief Function for asserts in the SoftDevice.
+/*@brief Function for asserts in the SoftDevice.
  *
  * @details This function will be called in case of an assert in the SoftDevice.
  *
@@ -107,32 +104,8 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
     // on_sys_evt(sys_evt);
 }
 
-static uint16_t num_ready = 0;
 // Timer fired handler
 static void timer_handler (void* p_context) {
-    
-    // adxl362_num_FIFO_samples_ready(&num_ready);
-    // while(num_ready <= 0) {
-    //     adxl362_num_FIFO_samples_ready(&num_ready);
-    // }
-    // uint8_t buf[1];
-
-    // adxl362_read_FIFO(buf, 1);
-
-
-
-    // uint8_t buf[1];
-    // spi_read_reg(0x0B, buf, 1);
-    // if(((buf[0]& 0x80) == 1)){
-    //     led_toggle(LED_0);
-    // }
-    //     if(  ((buf[0]& 0x40) == 1) && ((buf[0]& 0x01) == 1) ){
-    //         led_on(LED_1);
-    //     } else if (((buf[0]& 0x40) == 1) && ((buf[0]& 0x01) == 0) ) {
-    //         led_on(LED_2);
-    //     }
-
-    //led_toggle(22);
     led_toggle(LED_0);
 }
 
@@ -170,111 +143,161 @@ static void timers_start(void) {
     APP_ERROR_CHECK(err_code);
 }
 
-/*******************************************************************************
-*   INTERRUPT HANDLER
-******************************************************************************/
-static bool accelDataReady = false;
-
-void GPIOTE_IRQHandler(){
-    led_toggle(LED_1);
-    //nrf_gpio_pin_toggle(LED_1);
-    accelDataReady = true;
-    
-    //nrf_gpio_pin_toggle(OUTPUT_PIN);
-    //uint8_t data[1];
-    //spi_read_reg(0x0B, data, 1);
-    NRF_GPIOTE->EVENTS_IN[0] = 0;
-}
 
 /*******************************************************************************
  *   MAIN LOOP
  ******************************************************************************/
 
-int main(void) {
+#define BUTTON_PIN 21
 
-    // variables
-    uint32_t err_code;
+#define OUTPUT_PIN 22
 
-    //initializeAccelerometer();
-    initializeAccelerometer();
+#define PIN1 8 
+#define PIN2 9
+#define PIN3 10
+static volatile uint32_t i = 0;
+static bool accelDataReady = false;
+volatile int16_t sampled_accel_x = 0;
+#define ACCEL_THRESH 5
+// Interrupt handler
+/*void GPIOTE_IRQHandler(){
+    //led_toggle(LED_0);
+    nrf_gpio_pin_toggle(LED_0);
+    //nrf_gpio_pin_toggle(OUTPUT_PIN);
+    NRF_GPIOTE->EVENTS_IN[0] = 0;
+}*/
 
-    // Initialization of LEDs (two methods)
-    led_init(LED_0);
-    led_init(LED_1);
-    led_init(LED_2);
-    //  OR
-    // nrf_gpio_cfg_output(LED_0);  //Configure LED 0 as output
-    // nrf_gpio_cfg_output(LED_1);  //Configure LED 1 as output
 
-    // Setup clock
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+volatile bool b8, b9, b10, b21, b22;
+volatile bool checkForReturn;
 
-    // Setup and start timer
-    timers_init();
-    timers_start();
+void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    // if (pin == 8) {
+    //     b8 = true;
+    // } else if (pin == 9) {
+    //     b9 = true;
+    // } else if (pin == 10) {
+    //     b10 = true;
+    if (pin == 21) { //button interrupt
+        b21 = true;
+    } else if (pin == 22) { // accelerometer interrupt
+         //b22 = true;
+        accelDataReady = true;
+    }
+}
 
-    // Setup GPIO interrupt stuff
-    //nrf_gpio_cfg_output(22);
-    nrf_gpio_cfg_output(OUTPUT_PIN);
-    nrf_gpio_cfg_input(BUTTON_PIN,NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
-    //Configure GPIOTE channel 0, to generate an event from button 0:
-    nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
-    nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
-    NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
-    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
-
-    /*********************************************************/
-    /*                  QUADRATURE TESTING                   */
-    /*********************************************************/
-    // int16_t counterVal;
-    // if( initializeQuadDecoder( 3, 4) ) {
-    //     // initialization succeeded
-    //     while(1) {
-    //         counterVal = readCurrentCounter();
-    //         if((counterVal > 512) || (counterVal < -512)) {
-    //             led_on(LED_0);
-    //             led_off(LED_1);
-    //         } else {
-    //             led_on(LED_1);
-    //             led_off(LED_0);
-    //         }
-    //     }
-    // }
-
-    /*********************************************************/
-    /*                  ACCELEROMETER TESTING                */
-    /*********************************************************/
-    //accelerometer readings - 12bit readings 
-    //      (-2048 to 2047 --> range of 12bit 2's compliment)
-    //      In +/- 2g range, we should reach close to 1g (or half) the 
-    //      counts in each direction (so around -1024 to 1023)
-    AccelerometerState accelState;
-    uint16_t num_samples_ready = 0;
-    uint8_t  fifo_sample[1];
-    uint8_t buf[1];
-
-    // reset the data ready interrupt
-    readAxisX();
-    while(1) {
+// checks if the accelerometer is within the threshold of the sampled value
+bool check_accel_x(){
+    // while(1) {
         if(accelDataReady){
-            led_toggle(LED_2);
-            if(readAxisX() > 0)
-            {
-                led_on(LED_0);
-            }
-            else
-            {
+
+            if(abs(readAxisX() - sampled_accel_x) <= ACCEL_THRESH){
                 led_off(LED_0);
             }
             accelDataReady = false;
         }
         // reset the data ready interrupt by reading an axis reg
         readAxisX();
-    }
-    led_on(LED_0);
+    // }
+}
 
-    while (1) {
-        //power_manage();
+int main(void) {
+    uint32_t err_code;
+    uint8_t gpio_input_count;
+    // // Initialization
+    uint32_t i;
+    i=0;
+    b8=false; b9=false; b10=false; b21=false; b22=false;
+    checkForReturn = false;
+    led_init(LED_0);
+    led_init(LED_1);
+    led_init(LED_2);
+
+    // since active high, pins need to be set to have a pull-down resistor,
+    //      otherwise they will be floating
+    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
+                                        {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    //                                     {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
+    //                                     {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
+    //                                     {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    // // It seems only 4 pins can be registered per channel
+    gpio_input_count = 2;
+
+    /* SET OUTPUT WITH DRIVER */
+    /* uint8_t output_pins[] = {PIN1,PIN2,PIN3};
+     * gpio_output_init(output_pins, 3);
+     */
+
+    /* SET OUTPUT OLD WAY */
+    /* nrf_gpio_cfg_output(OUTPUT_PIN);
+     */
+
+    
+    /* SET INPUT WITH DRIVER */
+    err_code = gpio_input_init(cfgs, gpio_input_count);
+    if (err_code) {
+        led_on(LED_1);
+    }
+    gpio_input_enable_all();
+
+    /* SET INPUT OLD WAY */
+    /* nrf_gpio_cfg_input(BUTTON_PIN, NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
+     * nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
+     * nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
+     */ 
+
+    //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
+    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
+
+led_on(LED_2);
+    // reset accelerometer data ready interrupt
+    readAxisX();
+    while (true) {
+        if (b21 == true) { //button was toggled
+            led_toggle(LED_0);
+            // need to sample the accelerometer value
+            sampled_accel_x = readAxisX();
+            accelDataReady = false;
+            
+            checkForReturn = true;
+            
+            b21 = false;
+        }
+
+        // if(checkForReturn){
+        //     if(check_accel_x()){
+        //         checkForReturn = false;
+        //     }
+        // }
+        // if (b22 == true) {
+        //     b22 = false;
+        //     led_toggle(LED_1);
+        // }
+
+        // if (b8 == true) {
+        //     b8 = false;
+        //     led_toggle(LED_2);
+        // }
+        // if (b9 == true) {
+        //     b9 = false;
+        //     for (i=0;i<1000;++i) {
+        //         if (i%100 == 0) {
+        //             led_toggle(LED_0); 
+        //         }
+        //     }
+        //     led_off(LED_0); 
+        // }
+        // if (b10 == true) {
+        //     b9 = false;
+        //     for (i=0;i<1000;++i) {
+        //         if (i%100 == 0) {
+        //             led_toggle(LED_1); 
+        //         }
+        //     }
+        //     led_off(LED_1); 
+        // }
+
     }
 }
+
 

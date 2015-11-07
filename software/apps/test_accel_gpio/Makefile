@@ -2,25 +2,26 @@ PROJECT_NAME = $(shell basename "$(realpath ./)")
 
 APPLICATION_SRCS = $(notdir $(wildcard ./*.c))
 APPLICATION_SRCS += softdevice_handler.c
+APPLICATION_SRCS += smartbike.c
 APPLICATION_SRCS += ble_advdata.c
 APPLICATION_SRCS += ble_conn_params.c
 APPLICATION_SRCS += ble_debug_assert_handler.c
 APPLICATION_SRCS += ble_srv_common.c
 APPLICATION_SRCS += app_timer.c
+#APPLICATION_SRCS += app_button.c
 APPLICATION_SRCS += app_util_platform.c
 APPLICATION_SRCS += nrf_delay.c
-#APPLICATION_SRCS += nrf_drv_config.c
 APPLICATION_SRCS += nrf_drv_common.c
 APPLICATION_SRCS += nrf_drv_gpiote.c
+#APPLICATION_SRCS += app_gpiote.c
 APPLICATION_SRCS += nrf_drv_twi.c
-#APPLICATION_SRCS += nrf_drv_qdec.c
+APPLICATION_SRCS += spi_driver.c
 APPLICATION_SRCS += led.c
 APPLICATION_SRCS += app_scheduler.c
 APPLICATION_SRCS += adxl362.c
-APPLICATION_SRCS += spi_driver.c
-APPLICATION_SRCS += app_error.c
-#APPLICATION_SRCS += nrf_gpio.c
+APPLICATION_SRCS += gpio_driver.c
 APPLICATION_SRCS += AccelerometerControl.c
+
 ifndef TARGET
 	TARGET = SMARTBIKE
 endif
@@ -33,20 +34,8 @@ APPLICATION_SRCS += $(TARGET_LOWER).c
 
 LIBRARY_PATHS += ./ ../../platform/
 LIBRARY_PATHS += ../../drivers/
-LIBRARY_PATHS += ../../nrf5x-base/
-LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/
-LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/config/
-#LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/qdec/
-LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/
-LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/
-
 SOURCE_PATHS += ../../platform/
 SOURCE_PATHS += ../../drivers/
-SOURCE_PATHS += ../../nrf5x-base/
-SOURCE_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/
-SOURCE_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/
-SOURCE_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/config/
-SOURCE_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/qdec/
 
 NRF_BASE_PATH ?= ../../nrf5x-base/
 TEMPLATE_PATH ?= $(NRF_BASE_PATH)/nrf51-pure-gcc-setup/template/

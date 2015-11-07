@@ -10,28 +10,22 @@
 #include "nordic_common.h"
 #include "softdevice_handler.h"
 #include "app_timer.h"
-#include "nrf_gpiote.h"
-#include "nrf_drv_gpiote.h"
+#include "app_button.h"
+//#include "boards.h"
+ #include "nrf_gpiote.h"
+ #include "nrf_drv_gpiote.h"
 
 // Platform, Peripherals, Devices, Services
-#include "smartbike.h"
+#include "blees.h"
 #include "led.h"
+#include "gpio_driver.h"
 
-#include "AccelerometerControl.h"
-//#include "EncoderControl.h"
 
 /*******************************************************************************
  *   DEFINES
  ******************************************************************************/
 #include "nrf_drv_config.h"
 
-#define GPIOTE_CHANNEL_0 0
-#define GPIOTE_CHANNEL_1 1
-
-#define BUTTON_PIN 21
-#define OUTPUT_PIN 22
-
-// # defines from Blink app
 #define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
 #define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
@@ -75,7 +69,7 @@ void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p
     NVIC_SystemReset();
 }
 
-/**@brief Function for asserts in the SoftDevice.
+/*@brief Function for asserts in the SoftDevice.
  *
  * @details This function will be called in case of an assert in the SoftDevice.
  *
@@ -107,32 +101,8 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
     // on_sys_evt(sys_evt);
 }
 
-static uint16_t num_ready = 0;
 // Timer fired handler
 static void timer_handler (void* p_context) {
-    
-    // adxl362_num_FIFO_samples_ready(&num_ready);
-    // while(num_ready <= 0) {
-    //     adxl362_num_FIFO_samples_ready(&num_ready);
-    // }
-    // uint8_t buf[1];
-
-    // adxl362_read_FIFO(buf, 1);
-
-
-
-    // uint8_t buf[1];
-    // spi_read_reg(0x0B, buf, 1);
-    // if(((buf[0]& 0x80) == 1)){
-    //     led_toggle(LED_0);
-    // }
-    //     if(  ((buf[0]& 0x40) == 1) && ((buf[0]& 0x01) == 1) ){
-    //         led_on(LED_1);
-    //     } else if (((buf[0]& 0x40) == 1) && ((buf[0]& 0x01) == 0) ) {
-    //         led_on(LED_2);
-    //     }
-
-    //led_toggle(22);
     led_toggle(LED_0);
 }
 
@@ -170,111 +140,156 @@ static void timers_start(void) {
     APP_ERROR_CHECK(err_code);
 }
 
-/*******************************************************************************
-*   INTERRUPT HANDLER
-******************************************************************************/
-static bool accelDataReady = false;
-
-void GPIOTE_IRQHandler(){
-    led_toggle(LED_1);
-    //nrf_gpio_pin_toggle(LED_1);
-    accelDataReady = true;
-    
-    //nrf_gpio_pin_toggle(OUTPUT_PIN);
-    //uint8_t data[1];
-    //spi_read_reg(0x0B, data, 1);
-    NRF_GPIOTE->EVENTS_IN[0] = 0;
-}
 
 /*******************************************************************************
  *   MAIN LOOP
  ******************************************************************************/
 
-int main(void) {
+#define BUTTON_PIN 21
 
-    // variables
-    uint32_t err_code;
+#define OUTPUT_PIN 22
 
-    //initializeAccelerometer();
-    initializeAccelerometer();
+#define PIN1 8 
+#define PIN2 9
+#define PIN3 10
+static volatile uint32_t i = 0;
 
-    // Initialization of LEDs (two methods)
-    led_init(LED_0);
-    led_init(LED_1);
-    led_init(LED_2);
-    //  OR
-    // nrf_gpio_cfg_output(LED_0);  //Configure LED 0 as output
-    // nrf_gpio_cfg_output(LED_1);  //Configure LED 1 as output
+volatile bool b8, b9, b10, b21, b22;
 
-    // Setup clock
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+// Interrupt handler
+// void GPIOTE_IRQHandler(){
+//     //led_toggle(LED_0);
+//     //nrf_gpio_pin_toggle(LED_0);
+//     //nrf_gpio_pin_toggle(OUTPUT_PIN);
+//     b21 = true;
+//     NRF_GPIOTE->EVENTS_IN[0] = 0;
+// }
 
-    // Setup and start timer
-    timers_init();
-    timers_start();
 
-    // Setup GPIO interrupt stuff
-    //nrf_gpio_cfg_output(22);
-    nrf_gpio_cfg_output(OUTPUT_PIN);
-    nrf_gpio_cfg_input(BUTTON_PIN,NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
-    //Configure GPIOTE channel 0, to generate an event from button 0:
-    nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
-    nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
-    NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
-    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
-    /*********************************************************/
-    /*                  QUADRATURE TESTING                   */
-    /*********************************************************/
-    // int16_t counterVal;
-    // if( initializeQuadDecoder( 3, 4) ) {
-    //     // initialization succeeded
-    //     while(1) {
-    //         counterVal = readCurrentCounter();
-    //         if((counterVal > 512) || (counterVal < -512)) {
-    //             led_on(LED_0);
-    //             led_off(LED_1);
-    //         } else {
-    //             led_on(LED_1);
-    //             led_off(LED_0);
-    //         }
-    //     }
-    // }
-
-    /*********************************************************/
-    /*                  ACCELEROMETER TESTING                */
-    /*********************************************************/
-    //accelerometer readings - 12bit readings 
-    //      (-2048 to 2047 --> range of 12bit 2's compliment)
-    //      In +/- 2g range, we should reach close to 1g (or half) the 
-    //      counts in each direction (so around -1024 to 1023)
-    AccelerometerState accelState;
-    uint16_t num_samples_ready = 0;
-    uint8_t  fifo_sample[1];
-    uint8_t buf[1];
-
-    // reset the data ready interrupt
-    readAxisX();
-    while(1) {
-        if(accelDataReady){
-            led_toggle(LED_2);
-            if(readAxisX() > 0)
-            {
-                led_on(LED_0);
-            }
-            else
-            {
-                led_off(LED_0);
-            }
-            accelDataReady = false;
-        }
-        // reset the data ready interrupt by reading an axis reg
-        readAxisX();
-    }
-    led_on(LED_0);
-
-    while (1) {
-        //power_manage();
+void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    if (pin == 8) {
+        b8 = true;
+    } else if (pin == 9) {
+        b9 = true;
+    } else if (pin == 10) {
+        b10 = true;
+    } else if (pin == 21) {
+        b21 = true;
+    } else if (pin == 22) {
+        b22 = true;
     }
 }
+
+int main(void) {
+    uint32_t err_code;
+    uint8_t gpio_input_count;
+    // // Initialization
+    uint32_t i;
+    i=0;
+    b8=false; b9=false; b10=false; b21=false; b22=false;
+    led_init(LED_0);
+    nrf_gpio_cfg_output(LED_0);  //Configure LED 0 as output
+    led_init(LED_1);
+    led_init(LED_2);
+
+    //led_on(LED_0);
+    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
+                                        {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
+                                        {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
+                                        {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
+                                        {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    gpio_input_count = 4;
+
+    /* SET OUTPUT WITH DRIVER */
+    /* uint8_t output_pins[] = {PIN1,PIN2,PIN3};
+     * gpio_output_init(output_pins, 3);
+     */
+
+    /* SET OUTPUT OLD WAY */
+    /* nrf_gpio_cfg_output(OUTPUT_PIN);
+     */
+
+    
+    /* SET INPUT WITH DRIVER */
+     if (!nrf_drv_gpiote_is_init())
+    {
+        err_code = nrf_drv_gpiote_init();
+        if (err_code != NRF_SUCCESS)
+        {
+            led_toggle(LED_2);
+            // return err_code;
+        }
+    }
+
+     for( i = 0; i < gpio_input_count; i++){
+
+        nrf_gpio_cfg_input(cfgs[i].pin_no, cfgs[i].pull_cfg);
+        
+    }
+    err_code = gpio_input_init(cfgs, gpio_input_count);
+        // if (err_code != NRF_SUCCESS) {
+        //     led_on(LED_1);
+        // }
+        if(err_code == NRF_ERROR_NO_MEM){
+            led_on(LED_1);
+        }
+        if(err_code == NRF_ERROR_INVALID_STATE){
+            led_on(LED_2);
+        }
+        gpio_input_enable_all();
+
+    /* SET INPUT OLD WAY */
+     // nrf_gpio_cfg_input(BUTTON_PIN, NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
+     // nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
+     // nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
+      
+
+    NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
+    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
+//led_on(LED_0);
+// for(i = 0; i < 32; i++){
+//     if(!pin_in_use(i)){
+//         led_toggle(LED_0);
+//     }
+
+// }
+    while (true) {
+
+
+        if (b21 == true) {
+            b21 = false;
+            led_toggle(LED_0);
+        }
+        if (b22 == true) {
+            b22 = false;
+            led_toggle(LED_1);
+        }
+
+        if (b8 == true) {
+            b8 = false;
+            led_toggle(LED_2);
+        }
+        if (b9 == true) {
+            b9 = false;
+            for (i=0;i<1000000;++i) {
+                if (i%100000 == 0) {
+                    led_toggle(LED_0); 
+                }
+            }
+            led_off(LED_0); 
+        }
+        if (b10 == true) {
+            b9 = false;
+            for (i=0;i<1000000;++i) {
+                if (i%100000 == 0) {
+                    led_toggle(LED_1); 
+                }
+            }
+            led_off(LED_1); 
+        }
+
+    }
+}
+
 

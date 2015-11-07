@@ -20,7 +20,7 @@ void pca9685_reset(void) {
 				   ADDR,
 				   data,
 				   sizeof(data),
-				   true);
+				   false);
 
 	nrf_drv_twi_disable(i2c_instance);
 }
@@ -69,7 +69,7 @@ void pca9685_setPWM(uint8_t num, uint16_t on, uint16_t off) {
 				   ADDR,
 				   data,
 				   sizeof(data),
-				   true);
+				   false);
 
 	nrf_drv_twi_disable(i2c_instance);
 
@@ -128,7 +128,7 @@ uint8_t pca9685_readByte(uint8_t reg) {
 		ADDR,
 		reg_addr,
 		sizeof(reg_addr),
-		true
+		false
 	);
 
 
@@ -163,7 +163,7 @@ void pca9685_writeByte(uint8_t reg, uint8_t in_data) {
 				   ADDR,
 				   data,
 				   sizeof(data),
-				   true);
+				   false);
 
 	nrf_drv_twi_disable(i2c_instance);
 }
