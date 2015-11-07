@@ -32,7 +32,7 @@ BOARD = BOARD_$(TARGET_UPPER)
 APPLICATION_SRCS += $(TARGET_LOWER).c
 
 LIBRARY_PATHS += ./ ../../platform/
-LIBRARY_PATHS += ../../chips/
+LIBRARY_PATHS += ../../drivers/
 LIBRARY_PATHS += ../../nrf5x-base/
 LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/
 LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/config/
@@ -41,7 +41,7 @@ LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/
 LIBRARY_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/
 
 SOURCE_PATHS += ../../platform/
-SOURCE_PATHS += ../../chips/
+SOURCE_PATHS += ../../drivers/
 SOURCE_PATHS += ../../nrf5x-base/
 SOURCE_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/
 SOURCE_PATHS += ../../nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/

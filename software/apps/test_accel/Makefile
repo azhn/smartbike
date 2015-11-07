@@ -27,8 +27,8 @@ BOARD = BOARD_$(TARGET_UPPER)
 
 APPLICATION_SRCS += $(TARGET_LOWER).c
 
-LIBRARY_PATHS += ./ ../../platform/ ../../chips
-SOURCE_PATHS += ../../platform/ ../../chips
+LIBRARY_PATHS += ./ ../../platform/ ../../drivers
+SOURCE_PATHS += ../../platform/ ../../drivers
 
 NRF_BASE_PATH ?= ../../nrf5x-base/
 TEMPLATE_PATH ?= $(NRF_BASE_PATH)/nrf51-pure-gcc-setup/template/
