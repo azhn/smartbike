@@ -99,7 +99,7 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 // Timer fired handler
 static void timer_handler (void* p_context) {
     //led_toggle(BLEES_LED_PIN);
-    led_toggle(10);
+    led_toggle(LED_0);
 }
 
 
@@ -145,8 +145,8 @@ int main(void) {
     uint32_t err_code;
 
     // Initialization
-    led_init(10);
-    led_on(10);
+    led_init(LED_0);
+    led_on(LED_0);
 
     // Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);

@@ -12,7 +12,7 @@ typedef struct DataPair {
 DataPair* DataPair_new(uint32_t count, uint32_t time);
 
 /* circular linked list  */
-typedef struct ListNode {
+/*typedef struct ListNode {
    ListNode * prev;
    ListNode * next;
    DataPair data;
@@ -22,6 +22,6 @@ typedef struct CircularList{
    ListNode * head;
    ListNode * tail;
    unsigned int count;
-} CircularList;
+} CircularList;*/
 
 #endif // COMMON_H_

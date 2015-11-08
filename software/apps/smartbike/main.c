@@ -175,7 +175,7 @@ static void timers_start(void) {
 ******************************************************************************/
 static bool accelDataReady = false;
 
-void GPIOTE_IRQHandler(){
+/*void GPIOTE_IRQHandler(){
     led_toggle(LED_1);
     //nrf_gpio_pin_toggle(LED_1);
     accelDataReady = true;
@@ -184,7 +184,7 @@ void GPIOTE_IRQHandler(){
     //uint8_t data[1];
     //spi_read_reg(0x0B, data, 1);
     NRF_GPIOTE->EVENTS_IN[0] = 0;
-}
+}*/
 
 /*******************************************************************************
  *   MAIN LOOP
