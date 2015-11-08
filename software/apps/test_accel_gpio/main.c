@@ -180,15 +180,18 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     //     b10 = true;
     if (pin == 21) { //button interrupt
         b21 = true;
-    } else if (pin == 22) { // accelerometer interrupt
+    }
+    /* else if (pin == 22) { // accelerometer interrupt
          //b22 = true;
         accelDataReady = true;
     }
+    */
 }
 
 // checks if the accelerometer is within the threshold of the sampled value
 bool check_accel_x(){
     // while(1) {
+    led_on(LED_2);
         if(accelDataReady){
 
             if(abs(readAxisX() - sampled_accel_x) <= ACCEL_THRESH){
@@ -198,6 +201,8 @@ bool check_accel_x(){
         }
         // reset the data ready interrupt by reading an axis reg
         readAxisX();
+
+        led_off(LED_2);
     // }
 }
 
@@ -205,6 +210,7 @@ int main(void) {
     uint32_t err_code;
     uint8_t gpio_input_count;
     // // Initialization
+    volatile uint32_t time_cnt = 0;
     uint32_t i;
     i=0;
     b8=false; b9=false; b10=false; b21=false; b22=false;
@@ -213,10 +219,14 @@ int main(void) {
     led_init(LED_1);
     led_init(LED_2);
 
+    //initializeAccelerometer();
+    initializeAccelerometer();
+
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
     static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                        {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+                                        {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler}};
+                                        //{OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
     //                                     {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
     //                                     {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
     //                                     {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
@@ -249,25 +259,48 @@ int main(void) {
     //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
     NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
-led_on(LED_2);
+//mled_on(LED_2);
+    accelDataReady = true;
     // reset accelerometer data ready interrupt
     readAxisX();
     while (true) {
         if (b21 == true) { //button was toggled
-            led_toggle(LED_0);
+            
+            led_on(LED_0);
             // need to sample the accelerometer value
             sampled_accel_x = readAxisX();
-            accelDataReady = false;
+            //accelDataReady = false;
             
             checkForReturn = true;
             
             b21 = false;
+
+            for(time_cnt = 0; time_cnt < 1000000; time_cnt++){
+                //do nothing, jsut to delay
+            }
         }
 
         // if(checkForReturn){
-        //     if(check_accel_x()){
-        //         checkForReturn = false;
-        //     }
+        while(checkForReturn){
+
+            if(abs(readAxisX() - sampled_accel_x) <= ACCEL_THRESH){
+                led_off(LED_0);
+                checkForReturn = false;
+            }
+            // accelDataReady = false;
+        }
+        // reset the data ready interrupt by reading an axis reg
+        readAxisX();
+            // while(check_accel_x() == false){
+            //     led_toggle(LED_1);
+            //     for(time_cnt = 0; time_cnt < 1000000; time_cnt++){
+            //     //do nothing, jsut to delay
+            //     }
+            // }
+            // if(check_accel_x()){
+                // checkForReturn = false;
+
+            // }
         // }
         // if (b22 == true) {
         //     b22 = false;
