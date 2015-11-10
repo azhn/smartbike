@@ -541,6 +541,22 @@ Kenny, Singh, Zhen</text>
 <wire x1="-13.716" y1="12.446" x2="-16.256" y2="12.446" width="0.3048" layer="21"/>
 <wire x1="-16.256" y1="12.446" x2="-16.256" y2="16.002" width="0.3048" layer="21"/>
 <text x="-15.621" y="13.462" size="1.778" layer="21" ratio="12">A</text>
+<wire x1="-58.928" y1="-60.198" x2="-57.658" y2="-60.198" width="0.254" layer="21"/>
+<wire x1="-57.658" y1="-60.198" x2="-57.658" y2="-61.976" width="0.254" layer="21"/>
+<wire x1="-57.658" y1="-61.976" x2="-58.928" y2="-61.976" width="0.254" layer="21"/>
+<wire x1="-58.928" y1="-61.976" x2="-58.928" y2="-60.198" width="0.254" layer="21"/>
+<text x="-58.5597" y="-61.468" size="0.8128" layer="21" ratio="12">A</text>
+<text x="57.658" y="-62.738" size="0.7112" layer="21" ratio="12">D.A., C.H.,
+T.K., K.S.,
+A.Z.</text>
+<text x="-6.604" y="29.464" size="0.7112" layer="21" ratio="12" rot="R90">SCL</text>
+<text x="-6.604" y="32.512" size="0.7112" layer="21" ratio="12" rot="R90">SDA</text>
+<text x="11.938" y="-61.976" size="0.7112" layer="21" ratio="12">SDA</text>
+<text x="9.144" y="-61.976" size="0.7112" layer="21" ratio="12">SCL</text>
+<text x="29.21" y="-58.42" size="0.7112" layer="21" ratio="12">L</text>
+<text x="26.416" y="-58.42" size="0.7112" layer="21" ratio="12">R</text>
+<text x="23.876" y="-58.42" size="0.7112" layer="21" ratio="12">I</text>
+<text x="21.336" y="-58.42" size="0.7112" layer="21" ratio="12">D</text>
 </plain>
 <libraries>
 <library name="atum">
@@ -2368,6 +2384,27 @@ Source: http://www.osram.convergy.de/ ... Lb_q993.pdf</description>
 <vertex x="2.0701" y="2.7559"/>
 </polygon>
 </package>
+<package name="UMICH_SOLID_75MIL">
+<description>University of Michigan - Solid block M 0.075 in tall.</description>
+<rectangle x1="0" y1="1.3716" x2="0.8001" y2="1.905" layer="21"/>
+<wire x1="0.8001" y1="1.8923" x2="1.3335" y2="1.1811" width="0.0254" layer="21"/>
+<wire x1="1.3335" y1="1.1811" x2="1.8669" y2="1.8923" width="0.0254" layer="21"/>
+<wire x1="1.3335" y1="0.3429" x2="1.8923" y2="1.0668" width="0.0254" layer="21"/>
+<wire x1="1.3335" y1="0.3429" x2="0.7747" y2="1.0541" width="0.0254" layer="21"/>
+<rectangle x1="0.2032" y1="0.5334" x2="0.7874" y2="1.3716" layer="21"/>
+<rectangle x1="0" y1="0" x2="1.016" y2="0.5334" layer="21"/>
+<rectangle x1="1.651" y1="0" x2="2.667" y2="0.5334" layer="21"/>
+<rectangle x1="1.8796" y1="0.5334" x2="2.4638" y2="1.3716" layer="21"/>
+<rectangle x1="1.8669" y1="1.3716" x2="2.667" y2="1.905" layer="21"/>
+<polygon width="0.0254" layer="21">
+<vertex x="1.8669" y="1.8923"/>
+<vertex x="1.3335" y="1.1811"/>
+<vertex x="0.8001" y="1.8923"/>
+<vertex x="0.8001" y="1.0414"/>
+<vertex x="1.3335" y="0.3683"/>
+<vertex x="1.8796" y="1.0795"/>
+</polygon>
+</package>
 </packages>
 </library>
 </libraries>
@@ -2717,14 +2754,38 @@ design rules under a new name.</description>
 <element name="R16" library="rcl" package="R0402" value="261" x="17.78" y="-47.625" rot="R270"/>
 <element name="GLED1" library="led" package="CHIP-LED0603" value="" x="38.1" y="-50.8"/>
 <element name="GLED2" library="led" package="CHIP-LED0603" value="" x="-38.1" y="-50.8"/>
-<element name="RLED1" library="led" package="CHIP-LED0603" value="" x="-17.78" y="-43.18"/>
-<element name="RLED2" library="led" package="CHIP-LED0603" value="" x="-12.7" y="-43.18"/>
-<element name="RLED3" library="led" package="CHIP-LED0603" value="" x="-7.62" y="-43.18"/>
-<element name="RLED4" library="led" package="CHIP-LED0603" value="" x="-2.54" y="-43.18"/>
-<element name="RLED5" library="led" package="CHIP-LED0603" value="" x="2.54" y="-43.18"/>
-<element name="RLED6" library="led" package="CHIP-LED0603" value="" x="7.62" y="-43.18"/>
-<element name="RLED7" library="led" package="CHIP-LED0603" value="" x="12.7" y="-43.18"/>
-<element name="RLED8" library="led" package="CHIP-LED0603" value="" x="17.78" y="-43.18"/>
+<element name="RLED1" library="led" package="CHIP-LED0603" value="" x="-17.78" y="-43.18" smashed="yes">
+<attribute name="NAME" x="-18.415" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="-15.875" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="RLED2" library="led" package="CHIP-LED0603" value="" x="-12.7" y="-43.18" smashed="yes">
+<attribute name="NAME" x="-13.335" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="-10.795" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="RLED3" library="led" package="CHIP-LED0603" value="" x="-7.62" y="-43.18" smashed="yes">
+<attribute name="NAME" x="-8.255" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="-5.715" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="RLED4" library="led" package="CHIP-LED0603" value="" x="-2.54" y="-43.18" smashed="yes">
+<attribute name="NAME" x="-3.175" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="-0.635" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="RLED5" library="led" package="CHIP-LED0603" value="" x="2.54" y="-43.18" smashed="yes">
+<attribute name="NAME" x="1.905" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="4.445" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="RLED6" library="led" package="CHIP-LED0603" value="" x="7.62" y="-43.18" smashed="yes">
+<attribute name="NAME" x="6.985" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="9.525" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="RLED7" library="led" package="CHIP-LED0603" value="" x="12.7" y="-43.18" smashed="yes">
+<attribute name="NAME" x="11.811" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="14.605" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="RLED8" library="led" package="CHIP-LED0603" value="" x="17.78" y="-43.18" smashed="yes">
+<attribute name="NAME" x="17.145" y="-44.831" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="19.685" y="-43.815" size="1.27" layer="27" rot="R90"/>
+</element>
 <element name="U$12" library="25AA02E48" package="SOT23-6" value="25AA02E48-SOT-23-6" x="44.45" y="-12.7"/>
 <element name="U$13" library="25AA02E48" package="SOT23-6" value="25AA02E48-SOT-23-6" x="44.45" y="-31.75"/>
 <element name="U$18" library="25AA02E48" package="SOT23-6" value="HALLEFFECT" x="44.45" y="12.7"/>
@@ -2806,6 +2867,7 @@ design rules under a new name.</description>
 <element name="U$11" library="PJ063PH" package="PJ063BH" value="PJ063PH" x="-3.81" y="34.29" rot="R270"/>
 <element name="U$14" library="PJ063PH" package="PJ063BH" value="PJ063PH" x="-3.81" y="19.05" rot="R270"/>
 <element name="U$1" library="logos" package="UMICH_SOLID_200MIL" value="" x="-24.638" y="12.192"/>
+<element name="U$3" library="logos" package="UMICH_SOLID_75MIL" value="" x="-62.484" y="-61.976"/>
 </elements>
 <signals>
 <signal name="GND">
