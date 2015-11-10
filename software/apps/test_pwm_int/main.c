@@ -185,11 +185,34 @@ volatile bool b21, b22;
 volatile uint16_t pwm_count = 300;
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
-    if (pin == 21) { // increase duty cycle
+    /*if (pin == 21) { // increase duty cycle
         b21 = true;
     } else if (pin == 22) { //decrease duty cycle
         b22 = true;
-    }
+    }*/
+
+        if (pin == 21) { //increase duty cycle
+            pwm_count += 40;
+            if(pwm_count >= 400){
+                pwm_count = 400;
+            }
+            pca9685_setPin(1, pwm_count, 0);
+            
+            //b21 = false;
+            led_toggle(LED_0);
+        }
+        if (pin == 22) {  //decrease duty cycle
+            pwm_count -= 40;
+            if(pwm_count <= 200){
+                pwm_count = 200;
+            }
+            pca9685_setPin(1, pwm_count, 0);
+         
+            //b22 = false;
+            led_toggle(LED_1);
+        }
+
+    //led_toggle(LED_0);
 }
 
 int main(void) {
@@ -207,12 +230,15 @@ int main(void) {
     led_init(LED_2);
     //led_on(LED_0);
 
+    // Setup clock
+    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+
     i2c_init();
 
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
-    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-                                        {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
+                                        {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler}};
 
     // It seems only 4 pins can be registered per channel
     gpio_input_count = 2;
@@ -224,6 +250,7 @@ int main(void) {
         led_on(LED_1);
     }
     gpio_input_enable_all();
+    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
 
     // Setup clock
@@ -238,26 +265,7 @@ int main(void) {
     //pca9685_setPWM(0x01, 0x0199, 0x04CC);
     pca9685_setPin(1, pwm_count, 0);
     while (1) {
-        if (b21 == true) { //increase duty cycle
-            pwm_count += 40;
-            if(pwm_count >= 400){
-                pwm_count = 400;
-            }else{
-                pca9685_setPin(1, pwm_count, 0);
-            }
-            b21 = false;
-            led_toggle(LED_0);
-        }
-        if (b22 == true) {  //decrease duty cycle
-            pwm_count -= 40;
-            if(pwm_count <= 200){
-                pwm_count = 200;
-            }else{
-                pca9685_setPin(1, pwm_count, 0);
-            }
-            b22 = false;
-            led_toggle(LED_1);
-        }
+
         //power_manage();
     }
 }
