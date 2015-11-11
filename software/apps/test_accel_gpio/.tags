@@ -1,901 +1,0 @@
-	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_db_discovery/ble_db_discovery.h	/^    union$/
-AMLI_RAMPRI_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} AMLI_RAMPRI_Type;$/
-ANT_ENABLE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s210/headers/ant_interface.h	/^} ANT_ENABLE;$/
-ANT_ENABLE_GET_REQUIRED_SPACE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s210/headers/ant_parameters.h	/^#define ANT_ENABLE_GET_REQUIRED_SPACE(ucTotalNumbe/
-ANT_ENABLE_GET_REQUIRED_SPACE_LESS_THAN_OR_EQ_TWO_CH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s210/headers/ant_parameters.h	/^#define ANT_ENABLE_GET_REQUIRED_SPACE_LESS_THAN_OR/
-ANT_ENABLE_GET_REQUIRED_SPACE_MORE_THAN_TWO_CH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s210/headers/ant_parameters.h	/^#define ANT_ENABLE_GET_REQUIRED_SPACE_MORE_THAN_TW/
-ANT_HRM_BEAT_TIME_MSEC	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/utils/ant_hrm_utils.h	/^#define ANT_HRM_BEAT_TIME_MSEC(BEAT_TIME)         /
-ANT_HRM_BEAT_TIME_SEC	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/utils/ant_hrm_utils.h	/^#define ANT_HRM_BEAT_TIME_SEC(BEAT_TIME)          /
-ANT_HRM_OPERATING_DAYS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/utils/ant_hrm_utils.h	/^#define ANT_HRM_OPERATING_DAYS(OPERATING_TIME)    /
-ANT_HRM_OPERATING_HOURS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/utils/ant_hrm_utils.h	/^#define ANT_HRM_OPERATING_HOURS(OPERATING_TIME)   /
-ANT_HRM_OPERATING_MINUTES	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/utils/ant_hrm_utils.h	/^#define ANT_HRM_OPERATING_MINUTES(OPERATING_TIME) /
-ANT_HRM_OPERATING_SECONDS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/utils/ant_hrm_utils.h	/^#define ANT_HRM_OPERATING_SECONDS(OPERATING_TIME) /
-ANT_MESSAGE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s210/headers/ant_parameters.h	/^} ANT_MESSAGE;$/
-APP_ERROR_CHECK	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_error.h	/^#define APP_ERROR_CHECK(ERR_CODE)                 /
-APP_ERROR_CHECK_BOOL	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_error.h	/^#define APP_ERROR_CHECK_BOOL(BOOLEAN_VALUE)       /
-APP_ERROR_HANDLER	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_error.h	/^#define APP_ERROR_HANDLER(ERR_CODE)               /
-APP_GPIOTE_BUF_SIZE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/gpiote/app_gpiote.h	/^#define APP_GPIOTE_BUF_SIZE(MAX_USERS)  ((MAX_USER/
-APP_GPIOTE_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/gpiote/app_gpiote.h	/^#define APP_GPIOTE_INIT(MAX_USERS)                /
-APP_MAILBOX	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/application/transport/app_mailbox.h	/^#define APP_MAILBOX(name) \\$/
-APP_MAILBOX_DEF	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/application/transport/app_mailbox.h	/^#define APP_MAILBOX_DEF(name, queue_sz, type)     /
-APP_PWM_DEFAULT_CONFIG_1CH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^#define APP_PWM_DEFAULT_CONFIG_1CH(period_in_us, p/
-APP_PWM_DEFAULT_CONFIG_2CH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^#define APP_PWM_DEFAULT_CONFIG_2CH(period_in_us, p/
-APP_PWM_INSTANCE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^#define APP_PWM_INSTANCE(name, num)               /
-APP_SCHED_BUF_SIZE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/scheduler/app_scheduler.h	/^#define APP_SCHED_BUF_SIZE(EVENT_SIZE, QUEUE_SIZE)/
-APP_SCHED_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/scheduler/app_scheduler.h	/^#define APP_SCHED_INIT(EVENT_SIZE, QUEUE_SIZE)    /
-APP_TIMER_APPSH_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/timer/app_timer_appsh.h	/^#define APP_TIMER_APPSH_INIT(PRESCALER, MAX_TIMERS/
-APP_TIMER_BUF_SIZE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/timer/app_timer.h	/^#define APP_TIMER_BUF_SIZE(MAX_TIMERS, OP_QUEUE_SI/
-APP_TIMER_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/timer/app_timer.h	/^#define APP_TIMER_INIT(PRESCALER, MAX_TIMERS, OP_Q/
-APP_TIMER_TICKS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/timer/app_timer.h	/^#define APP_TIMER_TICKS(MS, PRESCALER)\\$/
-APP_UART_FIFO_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^#define APP_UART_FIFO_INIT(P_COMM_PARAMS, RX_BUF_S/
-APP_UART_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^#define APP_UART_INIT(P_COMM_PARAMS, EVT_HANDLER, /
-APSR_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^} APSR_Type;$/
-ASSERT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nrf_assert.h	/^#define ASSERT(expr) \\$/
-AccelerometerRobustData	../../../software/apps/smartbike/AccelerometerControl.h	/^} AccelerometerRobustData;$/
-AccelerometerState	../../../software/apps/smartbike/AccelerometerControl.h	/^} AccelerometerState;$/
-BLE_COMMON_EVTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^enum BLE_COMMON_EVTS$/
-BLE_COMMON_OPTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^enum BLE_COMMON_OPTS$/
-BLE_COMMON_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^enum BLE_COMMON_SVCS$/
-BLE_GAP_CONN_SEC_MODE_SET_ENC_NO_MITM	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^#define BLE_GAP_CONN_SEC_MODE_SET_ENC_NO_MITM(ptr)/
-BLE_GAP_CONN_SEC_MODE_SET_ENC_WITH_MITM	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^#define BLE_GAP_CONN_SEC_MODE_SET_ENC_WITH_MITM(pt/
-BLE_GAP_CONN_SEC_MODE_SET_NO_ACCESS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^#define BLE_GAP_CONN_SEC_MODE_SET_NO_ACCESS(ptr)  /
-BLE_GAP_CONN_SEC_MODE_SET_OPEN	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^#define BLE_GAP_CONN_SEC_MODE_SET_OPEN(ptr)       /
-BLE_GAP_CONN_SEC_MODE_SET_SIGNED_NO_MITM	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^#define BLE_GAP_CONN_SEC_MODE_SET_SIGNED_NO_MITM(p/
-BLE_GAP_CONN_SEC_MODE_SET_SIGNED_WITH_MITM	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^#define BLE_GAP_CONN_SEC_MODE_SET_SIGNED_WITH_MITM/
-BLE_GAP_EVTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^enum BLE_GAP_EVTS$/
-BLE_GAP_OPTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^enum BLE_GAP_OPTS$/
-BLE_GAP_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^enum BLE_GAP_SVCS$/
-BLE_GATTC_EVTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^enum BLE_GATTC_EVTS$/
-BLE_GATTC_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^enum BLE_GATTC_SVCS$/
-BLE_GATTS_EVTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^enum BLE_GATTS_EVTS$/
-BLE_GATTS_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^enum BLE_GATTS_SVCS$/
-BLE_L2CAP_EVTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s310/headers/ble_l2cap.h	/^enum BLE_L2CAP_EVTS$/
-BLE_L2CAP_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s310/headers/ble_l2cap.h	/^enum BLE_L2CAP_SVCS$/
-BLE_UUID_BLE_ASSIGN	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_types.h	/^#define BLE_UUID_BLE_ASSIGN(instance, value) do {/
-BLE_UUID_COPY_INST	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_types.h	/^#define BLE_UUID_COPY_INST(dst, src) do {\\$/
-BLE_UUID_COPY_PTR	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_types.h	/^#define BLE_UUID_COPY_PTR(dst, src) do {\\$/
-BLE_UUID_EQ	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_types.h	/^#define BLE_UUID_EQ(p_uuid1, p_uuid2) \\$/
-BLE_UUID_NEQ	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_types.h	/^#define BLE_UUID_NEQ(p_uuid1, p_uuid2) \\$/
-BOOTLOADER_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_ble_svc.h	/^enum BOOTLOADER_SVCS$/
-Button	../../../software/apps/smartbike/ButtonControl.h	/^} Button;$/
-ButtonPosition	../../../software/apps/smartbike/ButtonControl.h	/^typedef enum {LEFT, RIGHT, _BUTTON_POS_SIZE} Butto/
-ButtonType	../../../software/apps/smartbike/ButtonControl.h	/^typedef enum {SHIFT, SIGNAL, _BUTTON_TYPE_SIZE} Bu/
-CEIL_DIV	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^#define CEIL_DIV(A, B)      \\$/
-CONTROL_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^} CONTROL_Type;$/
-CRITICAL_REGION_ENTER	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_platform.h	/^#define CRITICAL_REGION_ENTER()                   /
-CRITICAL_REGION_EXIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_platform.h	/^#define CRITICAL_REGION_EXIT()                    /
-CircularList	../../../software/apps/smartbike/common.h	/^} CircularList;$/
-DEBUG_EVT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT(evt, data)    \\$/
-DEBUG_EVT_HCI_PHY_EVT_BUF_REQUEST	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_HCI_PHY_EVT_BUF_REQUEST(data)$/
-DEBUG_EVT_HCI_PHY_EVT_RX_PKT_DROPPED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_HCI_PHY_EVT_RX_PKT_DROPPED(data)/
-DEBUG_EVT_HCI_PHY_EVT_RX_PKT_RECEIVED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_HCI_PHY_EVT_RX_PKT_RECEIVED(data/
-DEBUG_EVT_HCI_PHY_EVT_TX_ERROR	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_HCI_PHY_EVT_TX_ERROR(data)$/
-DEBUG_EVT_HCI_PHY_EVT_TX_PKT_SENT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_HCI_PHY_EVT_TX_PKT_SENT(data)$/
-DEBUG_EVT_MAIN_BUSY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_MAIN_BUSY(data)$/
-DEBUG_EVT_SLIP_ACK_RXED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_SLIP_ACK_RXED(data)$/
-DEBUG_EVT_SLIP_ACK_TX	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_SLIP_ACK_TX(data)$/
-DEBUG_EVT_SLIP_ACK_TXED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_SLIP_ACK_TXED(data)$/
-DEBUG_EVT_SLIP_ERR_RXED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_SLIP_ERR_RXED(data)$/
-DEBUG_EVT_SLIP_PACKET_RXED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_SLIP_PACKET_RXED(data)$/
-DEBUG_EVT_SLIP_PACKET_TX	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_SLIP_PACKET_TX(data)$/
-DEBUG_EVT_SLIP_PACKET_TXED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_SLIP_PACKET_TXED(data)$/
-DEBUG_EVT_SPI_MASTER_PHY_BUF_REQUEST	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_PHY_BUF_REQUEST(data)/
-DEBUG_EVT_SPI_MASTER_PHY_RX_PKT_DROPPED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_PHY_RX_PKT_DROPPED(da/
-DEBUG_EVT_SPI_MASTER_PHY_RX_PKT_RECEIVED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_PHY_RX_PKT_RECEIVED(d/
-DEBUG_EVT_SPI_MASTER_PHY_TX_PKT_SENT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_PHY_TX_PKT_SENT(data)/
-DEBUG_EVT_SPI_MASTER_RAW_API_CALL	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_API_CALL(data)$/
-DEBUG_EVT_SPI_MASTER_RAW_READY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_READY(data)$/
-DEBUG_EVT_SPI_MASTER_RAW_READY_EDGE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_READY_EDGE(data)/
-DEBUG_EVT_SPI_MASTER_RAW_REQUEST	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_REQUEST(data)$/
-DEBUG_EVT_SPI_MASTER_RAW_REQUEST_EDGE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_REQUEST_EDGE(data/
-DEBUG_EVT_SPI_MASTER_RAW_XFER_ABORTED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_XFER_ABORTED(data/
-DEBUG_EVT_SPI_MASTER_RAW_XFER_DONE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_XFER_DONE(data)$/
-DEBUG_EVT_SPI_MASTER_RAW_XFER_GUARDED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_XFER_GUARDED(data/
-DEBUG_EVT_SPI_MASTER_RAW_XFER_PASSED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_XFER_PASSED(data)/
-DEBUG_EVT_SPI_MASTER_RAW_XFER_RESTARTED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^#define DEBUG_EVT_SPI_MASTER_RAW_XFER_RESTARTED(da/
-DEBUG_EVT_SPI_SLAVE_PHY_BUF_REQUEST	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_PHY_BUF_REQUEST(data);/
-DEBUG_EVT_SPI_SLAVE_PHY_PKT_DROPPED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_PHY_PKT_DROPPED(data);/
-DEBUG_EVT_SPI_SLAVE_PHY_PKT_RECEIVED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_PHY_PKT_RECEIVED(data)/
-DEBUG_EVT_SPI_SLAVE_PHY_PKT_SENT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_PHY_PKT_SENT(data);$/
-DEBUG_EVT_SPI_SLAVE_RAW_BUFFERS_SET	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_RAW_BUFFERS_SET(data);/
-DEBUG_EVT_SPI_SLAVE_RAW_REQ_CLEARED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_RAW_REQ_CLEARED(data);/
-DEBUG_EVT_SPI_SLAVE_RAW_REQ_SET	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_RAW_REQ_SET(data);$/
-DEBUG_EVT_SPI_SLAVE_RAW_RX_XFER_DONE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_RAW_RX_XFER_DONE(data)/
-DEBUG_EVT_SPI_SLAVE_RAW_TX_XFER_DONE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^#define DEBUG_EVT_SPI_SLAVE_RAW_TX_XFER_DONE(data)/
-DEBUG_EVT_TIMEOUT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_TIMEOUT(data)$/
-DEBUG_EVT_TX_REQ	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_EVT_TX_REQ(data)$/
-DEBUG_HCI_RETX	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^#define DEBUG_HCI_RETX(data)$/
-DEFAULT_ANT_HRM_PAGE0	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_0.h	/^#define DEFAULT_ANT_HRM_PAGE0()     \\$/
-DEFAULT_ANT_HRM_PAGE1	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_1.h	/^#define DEFAULT_ANT_HRM_PAGE1()     \\$/
-DEFAULT_ANT_HRM_PAGE2	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_2.h	/^#define DEFAULT_ANT_HRM_PAGE2()     \\$/
-DEFAULT_ANT_HRM_PAGE3	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_3.h	/^#define DEFAULT_ANT_HRM_PAGE3()     \\$/
-DEFAULT_ANT_HRM_PAGE4	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_4.h	/^#define DEFAULT_ANT_HRM_PAGE4()     \\$/
-DataPair	../../../software/apps/smartbike/common.h	/^} DataPair;$/
-GET_SP	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/compiler_abstraction.h	/^    #define GET_SP()                __current_sp()/
-GET_TX_BURST_QUEUE_SIZE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s210/headers/ant_parameters.h	/^#define GET_TX_BURST_QUEUE_SIZE(requestedSize) \\/
-GPIOTE_CONFIG_IN_SENSE_HITOLO	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^#define GPIOTE_CONFIG_IN_SENSE_HITOLO(hi_accu)    /
-GPIOTE_CONFIG_IN_SENSE_LOTOHI	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^#define GPIOTE_CONFIG_IN_SENSE_LOTOHI(hi_accu)    /
-GPIOTE_CONFIG_IN_SENSE_TOGGLE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^#define GPIOTE_CONFIG_IN_SENSE_TOGGLE(hi_accu)   /
-GPIOTE_CONFIG_OUT_SIMPLE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^#define GPIOTE_CONFIG_OUT_SIMPLE(init_high)       /
-GPIOTE_CONFIG_OUT_TASK_TOGGLE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^#define GPIOTE_CONFIG_OUT_TASK_TOGGLE(init_high)  /
-HIGH16	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/ble_serialization.h	/^#define HIGH16(a) ((uint16_t)((a & 0xFFFF0000) >> /
-HRM_RX_CHANNEL_CONFIG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/ant_hrm.h	/^#define HRM_RX_CHANNEL_CONFIG(CHANNEL_NUMBER, TRAN/
-HRM_TX_CHANNEL_CONFIG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/ant_hrm.h	/^#define HRM_TX_CHANNEL_CONFIG(CHANNEL_NUMBER, TRAN/
-IMAGE_WRITE_IN_PROGRESS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^#define IMAGE_WRITE_IN_PROGRESS()   (m_data_receiv/
-IPSR_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^} IPSR_Type;$/
-IRQn_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} IRQn_Type;$/
-IS_POWER_OF_TWO	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^#define IS_POWER_OF_TWO(A) ( ((A) != 0) && ((((A) /
-IS_UPDATING_APP	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^#define IS_UPDATING_APP(START_PKT)  ((START_PKT).d/
-IS_UPDATING_BL	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^#define IS_UPDATING_BL(START_PKT)   ((START_PKT).d/
-IS_UPDATING_SD	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^#define IS_UPDATING_SD(START_PKT)   ((START_PKT).d/
-IS_WORD_SIZED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^#define IS_WORD_SIZED(SIZE)         ((SIZE & (size/
-LOG_HRM	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/logger/ant_hrm_page_logger.h	/^#define LOG_HRM(...)$/
-LOG_PAGE0	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/logger/ant_hrm_page_logger.h	/^#define LOG_PAGE0(...)$/
-LOG_PAGE1	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/logger/ant_hrm_page_logger.h	/^#define LOG_PAGE1(...)$/
-LOG_PAGE2	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/logger/ant_hrm_page_logger.h	/^#define LOG_PAGE2(...)$/
-LOG_PAGE3	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/logger/ant_hrm_page_logger.h	/^#define LOG_PAGE3(...)$/
-LOG_PAGE4	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/logger/ant_hrm_page_logger.h	/^#define LOG_PAGE4(...)$/
-LOW16	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/ble_serialization.h	/^#define  LOW16(a) ((uint16_t)((a & 0x0000FFFF) >> /
-LSB	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nordic_common.h	/^#define LSB(a) ((a) & 0xFF)$/
-Light	../../../software/apps/smartbike/LightControl.h	/^} Light;$/
-LightPosition	../../../software/apps/smartbike/LightControl.h	/^typedef enum {CENTER=0, LEFT=0, RIGHT=1, _LIGHT_PO/
-LightState	../../../software/apps/smartbike/LightControl.h	/^typedef enum {OFF, BLINKING, ON} LightState;$/
-LightType	../../../software/apps/smartbike/LightControl.h	/^              TURN=3, _LIGHT_TYPE_SIZE=4} LightTyp/
-ListNode	../../../software/apps/smartbike/common.h	/^} ListNode;$/
-MAX	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nordic_common.h	/^#define MAX(a, b) ((a) < (b) ? (b) : (a))$/
-MIN	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nordic_common.h	/^#define MIN(a, b) ((a) < (b) ? (a) : (b))$/
-MSB	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nordic_common.h	/^#define MSB(a) (((a) & 0xFF00) >> 8)$/
-MSEC_TO_UNITS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^#define MSEC_TO_UNITS(TIME, RESOLUTION) (((TIME) */
-NRF_AAR_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_AAR_Type;$/
-NRF_ADC_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_ADC_Type;$/
-NRF_AMLI_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_AMLI_Type;$/
-NRF_APP_PRIORITIES	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_APP_PRIORITIES$/
-NRF_CCM_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_CCM_Type;$/
-NRF_CLOCK_LFCLKSRCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_sdm.h	/^enum NRF_CLOCK_LFCLKSRCS$/
-NRF_CLOCK_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_CLOCK_Type;$/
-NRF_DRV_RTC_DEFAULT_CONFIG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rtc/nrf_drv_rtc.h	/^#define NRF_DRV_RTC_DEFAULT_CONFIG(id)            /
-NRF_DRV_RTC_INSTANCE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rtc/nrf_drv_rtc.h	/^#define NRF_DRV_RTC_INSTANCE(id)                  /
-NRF_DRV_TIMER_DEFAULT_CONFIG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^#define NRF_DRV_TIMER_DEFAULT_CONFIG(id)          /
-NRF_DRV_TIMER_INSTANCE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^#define NRF_DRV_TIMER_INSTANCE(id)                /
-NRF_DRV_TWI_DEFAULT_CONFIG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^#define NRF_DRV_TWI_DEFAULT_CONFIG(id)            /
-NRF_DRV_TWI_INSTANCE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^#define NRF_DRV_TWI_INSTANCE(id)                  /
-NRF_ECB_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_ECB_Type;$/
-NRF_FICR_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_FICR_Type;$/
-NRF_GPIOTE_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_GPIOTE_Type;$/
-NRF_GPIO_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_GPIO_Type;$/
-NRF_LPCOMP_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_LPCOMP_Type;$/
-NRF_MBR_COMMANDS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_mbr.h	/^enum NRF_MBR_COMMANDS$/
-NRF_MBR_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_mbr.h	/^enum NRF_MBR_SVCS$/
-NRF_MPU_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_MPU_Type;$/
-NRF_MUTEX_VALUES	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_MUTEX_VALUES$/
-NRF_NVMC_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_NVMC_Type;$/
-NRF_POWER_DCDC_MODES	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_POWER_DCDC_MODES$/
-NRF_POWER_MODES	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_POWER_MODES$/
-NRF_POWER_THRESHOLDS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_POWER_THRESHOLDS$/
-NRF_POWER_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_POWER_Type;$/
-NRF_PPI_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_PPI_Type;$/
-NRF_QDEC_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_QDEC_Type;$/
-NRF_RADIO_CALLBACK_SIGNAL_TYPE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_RADIO_CALLBACK_SIGNAL_TYPE$/
-NRF_RADIO_HFCLK_CFG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_RADIO_HFCLK_CFG$/
-NRF_RADIO_NOTIFICATION_DISTANCES	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_RADIO_NOTIFICATION_DISTANCES$/
-NRF_RADIO_NOTIFICATION_TYPES	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_RADIO_NOTIFICATION_TYPES$/
-NRF_RADIO_PRIORITY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_RADIO_PRIORITY$/
-NRF_RADIO_REQUEST_TYPE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_RADIO_REQUEST_TYPE$/
-NRF_RADIO_SIGNAL_CALLBACK_ACTION	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_RADIO_SIGNAL_CALLBACK_ACTION$/
-NRF_RADIO_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_RADIO_Type;$/
-NRF_RNG_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_RNG_Type;$/
-NRF_RTC_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_RTC_Type;$/
-NRF_SD_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_sdm.h	/^enum NRF_SD_SVCS$/
-NRF_SEC_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/experimental/nrf_sec.h	/^enum NRF_SEC_SVCS$/
-NRF_SOC_EVTS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_SOC_EVTS$/
-NRF_SOC_SVCS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^enum NRF_SOC_SVCS$/
-NRF_SPIM_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_SPIM_Type;$/
-NRF_SPIS_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_SPIS_Type;$/
-NRF_SPI_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_SPI_Type;$/
-NRF_SWI_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_SWI_Type;$/
-NRF_TEMP_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_TEMP_Type;$/
-NRF_TIMER_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_TIMER_Type;$/
-NRF_TWI_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_TWI_Type;$/
-NRF_UART_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_UART_Type;$/
-NRF_UICR_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_UICR_Type;$/
-NRF_WDT_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} NRF_WDT_Type;$/
-NVIC_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^}  NVIC_Type;$/
-PACKED	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_platform.h	/^#define PACKED(TYPE) __packed TYPE$/
-PINCNF	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/common.h	/^#define PINCNF(p)                PINX_GLUE(PIN,p,C/
-PINOUT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/common.h	/^#define PINOUT(p)                PINX_GLUE(PIN,p,O/
-PINX_GLUE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/common.h	/^#define PINX_GLUE(x, y, z)       x##y##_##z       /
-PPI_CH_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} PPI_CH_Type;$/
-PPI_TASKS_CHG_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} PPI_TASKS_CHG_Type;$/
-PRAGMA	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_svc.h	/^#define PRAGMA(x) _Pragma(#x)$/
-ROUNDED_DIV	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^#define ROUNDED_DIV(A, B) (((A) + ((B) \/ 2)) \/ (/
-RTC_CHANNEL_EVENT_ADDR	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rtc.h	/^#define RTC_CHANNEL_EVENT_ADDR(ch)  (nrf_rtc_event/
-RTC_CHANNEL_INT_MASK	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rtc.h	/^#define RTC_CHANNEL_INT_MASK(ch)    ((uint32_t)NRF/
-RTC_US_TO_TICKS	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rtc/nrf_drv_rtc.h	/^#define RTC_US_TO_TICKS(us,freq) ((us*freq)\/10000/
-RTC_WRAP	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rtc.h	/^#define RTC_WRAP(val) (val & RTC_COUNTER_COUNTER_M/
-SCB_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^} SCB_Type;$/
-SDK_MUTEX_DEFINE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/sdk_os.h	/^#define SDK_MUTEX_DEFINE(X)$/
-SDK_MUTEX_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/sdk_os.h	/^#define SDK_MUTEX_INIT(X)$/
-SDK_MUTEX_LOCK	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/sdk_os.h	/^#define SDK_MUTEX_LOCK(X)$/
-SDK_MUTEX_UNLOCK	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/sdk_os.h	/^#define SDK_MUTEX_UNLOCK(X)$/
-SD_FWID_GET	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_sdm.h	/^#define SD_FWID_GET(baseaddr) ((*((uint32_t *) ((b/
-SD_SIZE_GET	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_sdm.h	/^#define SD_SIZE_GET(baseaddr) (*((uint32_t *) ((ba/
-SOFTDEVICE_HANDLER_APPSH_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/common/softdevice_handler/softdevice_handler_appsh.h	/^#define SOFTDEVICE_HANDLER_APPSH_INIT(CLOCK_SOURCE/
-SOFTDEVICE_HANDLER_INIT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/common/softdevice_handler/softdevice_handler.h	/^#define SOFTDEVICE_HANDLER_INIT(CLOCK_SOURCE,     /
-SPIM_PSEL_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} SPIM_PSEL_Type;$/
-SPIM_RXD_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} SPIM_RXD_Type;$/
-SPIM_TXD_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/nrf51.h	/^} SPIM_TXD_Type;$/
-STATIC_ASSERT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^#define STATIC_ASSERT(EXPR) \\$/
-STRING_CONCATENATE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^#define STRING_CONCATENATE(lhs, rhs) STRING_CONCAT/
-STRING_CONCATENATE_IMPL	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^#define STRING_CONCATENATE_IMPL(lhs, rhs) lhs ## r/
-SVCALL	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_svc.h	/^#define SVCALL(number, return_type, signature) ret/
-SWAP	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nordic_common.h	/^#define SWAP(x) ((((x)&0xFF)<<8)|(((x)>>8)&0xFF))/
-Servo	../../../software/apps/smartbike/ServoControl.h	/^} Servo;$/
-ServoPosition	../../../software/apps/smartbike/ServoControl.h	/^typedef enum {BACK=0, FRONT=1, _NUM_SERVOS=2} Serv/
-SysTick_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^} SysTick_Type;$/
-TIMER_CC_SHORT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^#define TIMER_CC_SHORT(ch) ((TIMER_SHORTS_COMPARE0/
-TIMER_CONFIG_BIT_WIDTH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^#define TIMER_CONFIG_BIT_WIDTH(id)    TIMER##id##_/
-TIMER_CONFIG_FREQUENCY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^#define TIMER_CONFIG_FREQUENCY(id)    TIMER##id##_/
-TIMER_CONFIG_IRQ_PRIORITY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^#define TIMER_CONFIG_IRQ_PRIORITY(id) TIMER##id##_/
-TIMER_CONFIG_MODE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^#define TIMER_CONFIG_MODE(id)         TIMER##id##_/
-TIMER_IS_BIT_WIDTH_VALID	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^#define TIMER_IS_BIT_WIDTH_VALID(instance_id, mode/
-TWI_CONFIG_FREQUENCY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^#define TWI_CONFIG_FREQUENCY(id)      TWI##id##_CO/
-TWI_CONFIG_IRQ_PRIORITY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^#define TWI_CONFIG_IRQ_PRIORITY(id)   TWI##id##_CO/
-TWI_CONFIG_SCL	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^#define TWI_CONFIG_SCL(id)            TWI##id##_CO/
-TWI_CONFIG_SDA	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^#define TWI_CONFIG_SDA(id)            TWI##id##_CO/
-TWI_DELAY	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_DELAY() nrf_delay_us(4) \/*!< Time to /
-TWI_SCL_HIGH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SCL_HIGH()   do { NRF_GPIO->OUTSET = (/
-TWI_SCL_LOW	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SCL_LOW()    do { NRF_GPIO->OUTCLR = (/
-TWI_SCL_OUTPUT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SCL_OUTPUT() do { NRF_GPIO->DIRSET = (/
-TWI_SCL_READ	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SCL_READ() ((NRF_GPIO->IN >> TWI_MASTE/
-TWI_SDA_HIGH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SDA_HIGH()   do { NRF_GPIO->OUTSET = (/
-TWI_SDA_INPUT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SDA_INPUT()  do { NRF_GPIO->DIRCLR = (/
-TWI_SDA_LOW	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SDA_LOW()    do { NRF_GPIO->OUTCLR = (/
-TWI_SDA_OUTPUT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SDA_OUTPUT() do { NRF_GPIO->DIRSET = (/
-TWI_SDA_READ	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/incubated/twi_master.h	/^#define TWI_SDA_READ() ((NRF_GPIO->IN >> TWI_MASTE/
-TouchpadSleepMode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/synaptics_touchpad/synaptics_touchpad.h	/^} TouchpadSleepMode_t;$/
-UNUSED_PARAMETER	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nordic_common.h	/^#define UNUSED_PARAMETER(X) UNUSED_VARIABLE(X)$/
-UNUSED_VARIABLE	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/nordic_common.h	/^#define UNUSED_VARIABLE(X)  ((void)(X))$/
-_BIT_SHIFT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^#define _BIT_SHIFT(IRQn)         (  (((uint32_t)(I/
-_IP_IDX	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^#define _IP_IDX(IRQn)            (   ((uint32_t)(I/
-_SHP_IDX	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^#define _SHP_IDX(IRQn)           ( ((((uint32_t)(I/
-__ALIGN	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/device/compiler_abstraction.h	/^        #define __ALIGN(n)          __align(n)    /
-__BKPT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __BKPT(value)                       __brea/
-__CMSIS_GCC_OUT_REG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __CMSIS_GCC_OUT_REG(r) "=l" (r)$/
-__CMSIS_GCC_USE_REG	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __CMSIS_GCC_USE_REG(r) "l" (r)$/
-__DMB	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __DMB()                           __dmb(0x/
-__DSB	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __DSB()                           __dsb(0x/
-__ISB	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __ISB()                           __isb(0x/
-__LDREXB	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __LDREXB(ptr)                     ((uint8_/
-__LDREXH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __LDREXH(ptr)                     ((uint16/
-__LDREXW	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __LDREXW(ptr)                     ((uint32/
-__SSAT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __SSAT(ARG1,ARG2) \\$/
-__STREXB	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __STREXB(value, ptr)              __strex(/
-__STREXH	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __STREXH(value, ptr)              __strex(/
-__STREXW	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __STREXW(value, ptr)              __strex(/
-__USAT	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cmInstr.h	/^#define __USAT(ARG1,ARG2) \\$/
-__attribute__	../../../software/nrf5x-base/lib/simple_ble.h	/^extern void __attribute__((weak)) ble_evt_connecte/
-action	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^typedef void (*nrf_drv_gpiote_evt_handler_t)(nrf_d/
-adjust_reason_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^} adjust_reason_t;$/
-adns2080_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/adns2080/adns2080.h	/^} adns2080_mode_t;$/
-adns2080_motion_bits_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/adns2080/adns2080.h	/^} adns2080_motion_bits_t;$/
-adns2080_resolution_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/adns2080/adns2080.h	/^} adns2080_resolution_t;$/
-adns2080_status_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/adns2080/adns2080.h	/^} adns2080_status_t;$/
-adv_evt	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_advertising/ble_advertising.h	/^typedef void (*ble_advertising_evt_handler_t) (ble/
-adxl362_fifo_mode	../../../software/chips/adxl362.h	/^} adxl362_fifo_mode;$/
-adxl362_interrupt_map_t	../../../software/chips/adxl362.h	/^} adxl362_interrupt_map_t;$/
-adxl362_interrupt_mode	../../../software/chips/adxl362.h	/^} adxl362_interrupt_mode;$/
-adxl362_measurement_range	../../../software/chips/adxl362.h	/^} adxl362_measurement_range;$/
-adxl362_noise_mode	../../../software/chips/adxl362.h	/^} adxl362_noise_mode;$/
-ant_channel_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_channel_config/ant_channel_config.h	/^}ant_channel_config_t;$/
-ant_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/ant_hrm.h	/^typedef void (* ant_hrm_evt_handler_t) (ant_hrm_pr/
-ant_hrm_page0_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_0.h	/^} ant_hrm_page0_data_t;$/
-ant_hrm_page1_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_1.h	/^} ant_hrm_page1_data_t;$/
-ant_hrm_page2_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_2.h	/^} ant_hrm_page2_data_t;$/
-ant_hrm_page3_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_3.h	/^} ant_hrm_page3_data_t;$/
-ant_hrm_page4_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/pages/ant_hrm_page_4.h	/^} ant_hrm_page4_data_t;$/
-ant_hrm_page_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/ant_hrm.h	/^} ant_hrm_page_t;$/
-ant_hrm_profile_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/ant_hrm.h	/^}ant_hrm_profile_t;$/
-ant_hrm_tx_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ant/ant_profiles/ant_hrm/ant_hrm.h	/^} ant_hrm_tx_config_t;$/
-antfs_authenticate_substate_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_authenticate_substate_t;$/
-antfs_beacon_status_byte1_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_beacon_status_byte1_t;$/
-antfs_dir_header_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_dir_header_t;$/
-antfs_dir_struct_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_dir_struct_t;$/
-antfs_event_return_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_event_return_t;$/
-antfs_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_event_t;$/
-antfs_link_substate_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_link_substate_t;$/
-antfs_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_params_t;$/
-antfs_request_info_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_request_info_t;$/
-antfs_state_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_state_t;$/
-antfs_transport_substate_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/antfs.h	/^} antfs_transport_substate_t;$/
-app_button_cfg_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/button/app_button.h	/^} app_button_cfg_t;$/
-app_fifo_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/fifo/app_fifo.h	/^} app_fifo_t;$/
-app_gpiote_user_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/gpiote/app_gpiote.h	/^typedef uint8_t app_gpiote_user_id_t;$/
-app_irq_priority_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_platform.h	/^} app_irq_priority_t;$/
-app_mailbox_def_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/application/transport/app_mailbox.h	/^} app_mailbox_def_t;$/
-app_mailbox_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/application/transport/app_mailbox.h	/^typedef struct app_mailbox *app_mailbox_id_t;$/
-app_pwm_cb_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^    } app_pwm_cb_t;$/
-app_pwm_channel_cb_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^    } app_pwm_channel_cb_t;$/
-app_pwm_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^} app_pwm_config_t;$/
-app_pwm_duty_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^typedef uint16_t app_pwm_duty_t;$/
-app_pwm_polarity_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^} app_pwm_polarity_t;$/
-app_pwm_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^} app_pwm_t;$/
-app_simple_timer_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/simple_timer/app_simple_timer.h	/^} app_simple_timer_mode_t;$/
-app_timer_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/timer/app_timer_appsh.h	/^} app_timer_event_t;$/
-app_timer_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/timer/app_timer.h	/^typedef uint32_t app_timer_id_t;$/
-app_timer_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/timer/app_timer.h	/^} app_timer_mode_t;$/
-app_trace_dump	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/trace/app_trace.h	/^#define app_trace_dump(...)$/
-app_trace_init	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/trace/app_trace.h	/^#define app_trace_init(...)$/
-app_trace_log	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/trace/app_trace.h	/^#define app_trace_log(...)$/
-app_uart_buffers_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^} app_uart_buffers_t;$/
-app_uart_comm_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^} app_uart_comm_params_t;$/
-app_uart_connection_state_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^} app_uart_connection_state_t;$/
-app_uart_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^} app_uart_evt_t;$/
-app_uart_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^} app_uart_evt_type_t;$/
-app_uart_flow_control_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^} app_uart_flow_control_t;$/
-app_uart_stream_baud_rate_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/dtm_uart_params.h	/^} app_uart_stream_baud_rate_t;$/
-app_uart_stream_comm_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/dtm_uart_params.h	/^} app_uart_stream_comm_params_t;$/
-ble_add_char_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_srv_common.h	/^} ble_add_char_params_t;$/
-ble_adv_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_advertising/ble_advertising.h	/^} ble_adv_evt_t;$/
-ble_adv_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_advertising/ble_advertising.h	/^}ble_adv_init_t;$/
-ble_adv_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_advertising/ble_advertising.h	/^} ble_adv_mode_t;$/
-ble_adv_modes_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_advertising/ble_advertising.h	/^}ble_adv_modes_config_t;$/
-ble_advdata_conn_int_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_advdata.h	/^} ble_advdata_conn_int_t;$/
-ble_advdata_manuf_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_advdata.h	/^} ble_advdata_manuf_data_t;$/
-ble_advdata_name_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_advdata.h	/^} ble_advdata_name_type_t;$/
-ble_advdata_service_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_advdata.h	/^} ble_advdata_service_data_t;$/
-ble_advdata_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_advdata.h	/^} ble_advdata_t;$/
-ble_advdata_uuid_list_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_advdata.h	/^} ble_advdata_uuid_list_t;$/
-ble_ancs_c_attr_list_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_attr_list_t;$/
-ble_ancs_c_category_id_values_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_category_id_values_t;$/
-ble_ancs_c_command_id_values_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_command_id_values_t;$/
-ble_ancs_c_evt_id_values_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_evt_id_values_t;$/
-ble_ancs_c_evt_notif_attr_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_evt_notif_attr_t;$/
-ble_ancs_c_evt_notif_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_evt_notif_t;$/
-ble_ancs_c_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_evt_t;$/
-ble_ancs_c_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_evt_type_t;$/
-ble_ancs_c_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_init_t;$/
-ble_ancs_c_notif_attr_id_values_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_notif_attr_id_values_t;$/
-ble_ancs_c_notif_flags_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_notif_flags_t;$/
-ble_ancs_c_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ancs_c/ble_ancs_c.h	/^} ble_ancs_c_t;$/
-ble_ans_alert_notification_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_alert_notification_t;$/
-ble_ans_alert_settings_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_alert_settings_t;$/
-ble_ans_c_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_c_evt_t;$/
-ble_ans_c_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_c_evt_type_t;$/
-ble_ans_c_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_c_init_t;$/
-ble_ans_c_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^struct ble_ans_c_s$/
-ble_ans_c_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^typedef struct ble_ans_c_s ble_ans_c_t;$/
-ble_ans_category_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_category_id_t;$/
-ble_ans_command_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_command_id_t;$/
-ble_ans_control_point_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ans_c/ble_ans_c.h	/^} ble_ans_control_point_t;$/
-ble_bas_c_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas_c/ble_bas_c.h	/^} ble_bas_c_evt_t;$/
-ble_bas_c_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas_c/ble_bas_c.h	/^} ble_bas_c_evt_type_t;$/
-ble_bas_c_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas_c/ble_bas_c.h	/^} ble_bas_c_init_t;$/
-ble_bas_c_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas_c/ble_bas_c.h	/^struct ble_bas_c_s$/
-ble_bas_c_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas_c/ble_bas_c.h	/^typedef struct ble_bas_c_s ble_bas_c_t;$/
-ble_bas_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas/ble_bas.h	/^} ble_bas_evt_t;$/
-ble_bas_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas/ble_bas.h	/^} ble_bas_evt_type_t;$/
-ble_bas_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas/ble_bas.h	/^} ble_bas_init_t;$/
-ble_bas_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas/ble_bas.h	/^struct ble_bas_s$/
-ble_bas_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bas/ble_bas.h	/^typedef struct ble_bas_s ble_bas_t;$/
-ble_bps_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bps/ble_bps.h	/^} ble_bps_evt_t;$/
-ble_bps_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bps/ble_bps.h	/^} ble_bps_evt_type_t;$/
-ble_bps_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bps/ble_bps.h	/^} ble_bps_init_t;$/
-ble_bps_meas_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bps/ble_bps.h	/^} ble_bps_meas_t;$/
-ble_bps_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bps/ble_bps.h	/^struct ble_bps_s$/
-ble_bps_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bps/ble_bps.h	/^typedef struct ble_bps_s ble_bps_t;$/
-ble_common_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_common_evt_t;$/
-ble_common_opt_radio_cpu_mutex_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_common_opt_radio_cpu_mutex_t;$/
-ble_common_opt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_common_opt_t;$/
-ble_conn_params_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_conn_params.h	/^} ble_conn_params_evt_t;$/
-ble_conn_params_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_conn_params.h	/^} ble_conn_params_evt_type_t;$/
-ble_conn_params_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_conn_params.h	/^} ble_conn_params_init_t;$/
-ble_cs_ctrlpt_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^} ble_cs_ctrlpt_init_t;$/
-ble_cscs_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_cscs.h	/^} ble_cscs_evt_t;$/
-ble_cscs_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_cscs.h	/^} ble_cscs_evt_type_t;$/
-ble_cscs_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_cscs.h	/^} ble_cscs_init_t;$/
-ble_cscs_meas_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_cscs.h	/^} ble_cscs_meas_t;$/
-ble_cscs_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_cscs.h	/^struct ble_cscs_s$/
-ble_cscs_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_cscs.h	/^typedef struct ble_cscs_s ble_cscs_t;$/
-ble_cts_c_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^} ble_cts_c_evt_t;$/
-ble_cts_c_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^} ble_cts_c_evt_type_t;$/
-ble_cts_c_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^} ble_cts_c_init_t;$/
-ble_cts_c_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^struct ble_cts_c_s$/
-ble_cts_c_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^typedef struct ble_cts_c_s ble_cts_c_t;$/
-ble_date_time_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_date_time.h	/^} ble_date_time_t;$/
-ble_db_discovery_char_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_db_discovery/ble_db_discovery.h	/^} ble_db_discovery_char_t;$/
-ble_db_discovery_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_db_discovery/ble_db_discovery.h	/^} ble_db_discovery_evt_t;$/
-ble_db_discovery_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_db_discovery/ble_db_discovery.h	/^} ble_db_discovery_evt_type_t;$/
-ble_db_discovery_srv_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_db_discovery/ble_db_discovery.h	/^} ble_db_discovery_srv_t;$/
-ble_db_discovery_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_db_discovery/ble_db_discovery.h	/^} ble_db_discovery_t;$/
-ble_dfu_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^} ble_dfu_evt_t;$/
-ble_dfu_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^} ble_dfu_evt_type_t;$/
-ble_dfu_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^} ble_dfu_init_t;$/
-ble_dfu_pkt_write_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^} ble_dfu_pkt_write_t;$/
-ble_dfu_procedure_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^} ble_dfu_procedure_t;$/
-ble_dfu_resp_val_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^} ble_dfu_resp_val_t;$/
-ble_dfu_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^struct ble_dfu_s$/
-ble_dfu_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^typedef struct ble_dfu_s ble_dfu_t;$/
-ble_dis_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dis/ble_dis.h	/^} ble_dis_init_t;$/
-ble_dis_pnp_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dis/ble_dis.h	/^} ble_dis_pnp_id_t;$/
-ble_dis_reg_cert_data_list_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dis/ble_dis.h	/^} ble_dis_reg_cert_data_list_t;$/
-ble_dis_sys_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dis/ble_dis.h	/^} ble_dis_sys_id_t;$/
-ble_enable_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_enable_params_t;$/
-ble_error_log_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_error_log/ble_error_log.h	/^} ble_error_log_data_t;$/
-ble_ess_evt_t	../../../software/apps/blees/ble_ess.h	/^} ble_ess_evt_t;$/
-ble_ess_evt_type_t	../../../software/apps/blees/ble_ess.h	/^} ble_ess_evt_type_t;$/
-ble_ess_init_t	../../../software/apps/blees/ble_ess.h	/^} ble_ess_init_t;$/
-ble_ess_t	../../../software/apps/blees/ble_ess.h	/^typedef struct ble_ess_s ble_ess_t;$/
-ble_evt_hdr_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_evt_hdr_t;$/
-ble_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_evt_t;$/
-ble_evt_tx_complete_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_evt_tx_complete_t;$/
-ble_evt_user_mem_release_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_evt_user_mem_release_t;$/
-ble_evt_user_mem_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_evt_user_mem_request_t;$/
-ble_gap_addr_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_addr_t;$/
-ble_gap_adv_ch_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_adv_ch_mask_t;$/
-ble_gap_adv_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_adv_params_t;$/
-ble_gap_conn_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_conn_params_t;$/
-ble_gap_conn_sec_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_conn_sec_mode_t;$/
-ble_gap_conn_sec_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_conn_sec_t;$/
-ble_gap_enable_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s120/headers/ble_gap.h	/^} ble_gap_enable_params_t;$/
-ble_gap_enc_info_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_enc_info_t;$/
-ble_gap_enc_key_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_enc_key_t;$/
-ble_gap_evt_adv_report_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_adv_report_t;$/
-ble_gap_evt_auth_key_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_auth_key_request_t;$/
-ble_gap_evt_auth_status_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_auth_status_t;$/
-ble_gap_evt_conn_param_update_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_conn_param_update_request_t;$/
-ble_gap_evt_conn_param_update_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_conn_param_update_t;$/
-ble_gap_evt_conn_sec_update_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_conn_sec_update_t;$/
-ble_gap_evt_connected_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_connected_t;$/
-ble_gap_evt_disconnected_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_disconnected_t;$/
-ble_gap_evt_passkey_display_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_passkey_display_t;$/
-ble_gap_evt_rssi_changed_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_rssi_changed_t;$/
-ble_gap_evt_scan_req_report_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_scan_req_report_t;$/
-ble_gap_evt_sec_info_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_sec_info_request_t;$/
-ble_gap_evt_sec_params_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_sec_params_request_t;$/
-ble_gap_evt_sec_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_sec_request_t;$/
-ble_gap_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_t;$/
-ble_gap_evt_timeout_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_evt_timeout_t;$/
-ble_gap_id_key_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_id_key_t;$/
-ble_gap_irk_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_irk_t;$/
-ble_gap_master_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_master_id_t;$/
-ble_gap_opt_ch_map_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_opt_ch_map_t;$/
-ble_gap_opt_compat_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_opt_compat_mode_t;$/
-ble_gap_opt_local_conn_latency_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_opt_local_conn_latency_t;$/
-ble_gap_opt_passkey_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_opt_passkey_t;$/
-ble_gap_opt_privacy_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_opt_privacy_t;$/
-ble_gap_opt_scan_req_report_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_opt_scan_req_report_t;$/
-ble_gap_opt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_opt_t;$/
-ble_gap_scan_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_scan_params_t;$/
-ble_gap_sec_kdist_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_sec_kdist_t;$/
-ble_gap_sec_keys_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_sec_keys_t;$/
-ble_gap_sec_keyset_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_sec_keyset_t;$/
-ble_gap_sec_levels_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_sec_levels_t;$/
-ble_gap_sec_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_sec_params_t;$/
-ble_gap_sign_info_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_sign_info_t;$/
-ble_gap_whitelist_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gap.h	/^} ble_gap_whitelist_t;$/
-ble_gatt_char_ext_props_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatt.h	/^} ble_gatt_char_ext_props_t;$/
-ble_gatt_char_props_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatt.h	/^} ble_gatt_char_props_t;$/
-ble_gattc_char_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_char_t;$/
-ble_gattc_desc_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_desc_t;$/
-ble_gattc_evt_char_disc_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_char_disc_rsp_t;$/
-ble_gattc_evt_char_val_by_uuid_read_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_char_val_by_uuid_read_rsp_t;$/
-ble_gattc_evt_char_vals_read_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_char_vals_read_rsp_t;$/
-ble_gattc_evt_desc_disc_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_desc_disc_rsp_t;$/
-ble_gattc_evt_hvx_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_hvx_t;$/
-ble_gattc_evt_prim_srvc_disc_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_prim_srvc_disc_rsp_t;$/
-ble_gattc_evt_read_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_read_rsp_t;$/
-ble_gattc_evt_rel_disc_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_rel_disc_rsp_t;$/
-ble_gattc_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_t;$/
-ble_gattc_evt_timeout_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_timeout_t;$/
-ble_gattc_evt_write_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_evt_write_rsp_t;$/
-ble_gattc_handle_range_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_handle_range_t;$/
-ble_gattc_handle_value_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_handle_value_t;$/
-ble_gattc_include_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_include_t;$/
-ble_gattc_service_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_service_t;$/
-ble_gattc_write_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gattc.h	/^} ble_gattc_write_params_t;$/
-ble_gatts_attr_context_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_attr_context_t;$/
-ble_gatts_attr_md_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_attr_md_t;$/
-ble_gatts_attr_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_attr_t;$/
-ble_gatts_char_handles_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_char_handles_t;$/
-ble_gatts_char_md_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_char_md_t;$/
-ble_gatts_char_pf_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_char_pf_t;$/
-ble_gatts_enable_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_enable_params_t;$/
-ble_gatts_evt_hvc_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_evt_hvc_t;$/
-ble_gatts_evt_read_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_evt_read_t;$/
-ble_gatts_evt_rw_authorize_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_evt_rw_authorize_request_t;$/
-ble_gatts_evt_sys_attr_missing_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_evt_sys_attr_missing_t;$/
-ble_gatts_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_evt_t;$/
-ble_gatts_evt_timeout_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_evt_timeout_t;$/
-ble_gatts_evt_write_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_evt_write_t;$/
-ble_gatts_hvx_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_hvx_params_t;$/
-ble_gatts_read_authorize_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_read_authorize_params_t;$/
-ble_gatts_rw_authorize_reply_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_rw_authorize_reply_params_t;$/
-ble_gatts_value_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_value_t;$/
-ble_gatts_write_authorize_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_gatts.h	/^} ble_gatts_write_authorize_params_t;$/
-ble_gls_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^} ble_gls_evt_t;$/
-ble_gls_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^} ble_gls_evt_type_t;$/
-ble_gls_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^} ble_gls_init_t;$/
-ble_gls_meas_context_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^} ble_gls_meas_context_t;$/
-ble_gls_meas_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^} ble_gls_meas_t;$/
-ble_gls_rec_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^} ble_gls_rec_t;$/
-ble_gls_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^struct ble_gls_s$/
-ble_gls_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^typedef struct ble_gls_s ble_gls_t;$/
-ble_hids_char_id_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_char_id_t;$/
-ble_hids_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_evt_t;$/
-ble_hids_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_evt_type_t;$/
-ble_hids_feature_rep_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_feature_rep_init_t;$/
-ble_hids_hid_information_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_hid_information_t;$/
-ble_hids_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_init_t;$/
-ble_hids_inp_rep_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_inp_rep_init_t;$/
-ble_hids_outp_rep_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_outp_rep_init_t;$/
-ble_hids_rep_char_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_rep_char_t;$/
-ble_hids_rep_map_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^} ble_hids_rep_map_init_t;$/
-ble_hids_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^struct ble_hids_s$/
-ble_hids_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hids/ble_hids.h	/^typedef struct ble_hids_s ble_hids_t;$/
-ble_hrm_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs_c/ble_hrs_c.h	/^} ble_hrm_t;$/
-ble_hrs_c_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs_c/ble_hrs_c.h	/^} ble_hrs_c_evt_t;$/
-ble_hrs_c_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs_c/ble_hrs_c.h	/^} ble_hrs_c_evt_type_t;$/
-ble_hrs_c_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs_c/ble_hrs_c.h	/^} ble_hrs_c_init_t;$/
-ble_hrs_c_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs_c/ble_hrs_c.h	/^struct ble_hrs_c_s$/
-ble_hrs_c_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs_c/ble_hrs_c.h	/^typedef struct ble_hrs_c_s ble_hrs_c_t;$/
-ble_hrs_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs/ble_hrs.h	/^} ble_hrs_evt_t;$/
-ble_hrs_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs/ble_hrs.h	/^} ble_hrs_evt_type_t;$/
-ble_hrs_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs/ble_hrs.h	/^} ble_hrs_init_t;$/
-ble_hrs_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs/ble_hrs.h	/^struct ble_hrs_s$/
-ble_hrs_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hrs/ble_hrs.h	/^typedef struct ble_hrs_s ble_hrs_t;$/
-ble_hts_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hts/ble_hts.h	/^} ble_hts_evt_t;$/
-ble_hts_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hts/ble_hts.h	/^} ble_hts_evt_type_t;$/
-ble_hts_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hts/ble_hts.h	/^} ble_hts_init_t;$/
-ble_hts_meas_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hts/ble_hts.h	/^} ble_hts_meas_t;$/
-ble_hts_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hts/ble_hts.h	/^struct ble_hts_s$/
-ble_hts_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hts/ble_hts.h	/^typedef struct ble_hts_s ble_hts_t;$/
-ble_ias_c_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias_c/ble_ias_c.h	/^} ble_ias_c_evt_t;$/
-ble_ias_c_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias_c/ble_ias_c.h	/^} ble_ias_c_evt_type_t;$/
-ble_ias_c_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias_c/ble_ias_c.h	/^} ble_ias_c_init_t;$/
-ble_ias_c_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias_c/ble_ias_c.h	/^struct ble_ias_c_s$/
-ble_ias_c_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias_c/ble_ias_c.h	/^typedef struct ble_ias_c_s ble_ias_c_t;$/
-ble_ias_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias/ble_ias.h	/^} ble_ias_evt_t;$/
-ble_ias_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias/ble_ias.h	/^} ble_ias_evt_type_t;$/
-ble_ias_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias/ble_ias.h	/^} ble_ias_init_t;$/
-ble_ias_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias/ble_ias.h	/^struct ble_ias_s$/
-ble_ias_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_ias/ble_ias.h	/^typedef struct ble_ias_s ble_ias_t;$/
-ble_l2cap_evt_rx_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_l2cap.h	/^} ble_l2cap_evt_rx_t;$/
-ble_l2cap_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_l2cap.h	/^} ble_l2cap_evt_t;$/
-ble_l2cap_header_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_l2cap.h	/^} ble_l2cap_header_t;$/
-ble_lls_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_lls/ble_lls.h	/^} ble_lls_evt_t;$/
-ble_lls_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_lls/ble_lls.h	/^} ble_lls_evt_type_t;$/
-ble_lls_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_lls/ble_lls.h	/^} ble_lls_init_t;$/
-ble_lls_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_lls/ble_lls.h	/^struct ble_lls_s$/
-ble_lls_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_lls/ble_lls.h	/^typedef struct ble_lls_s ble_lls_t;$/
-ble_nus_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_nus/ble_nus.h	/^} ble_nus_init_t;$/
-ble_nus_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_nus/ble_nus.h	/^struct ble_nus_s$/
-ble_nus_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_nus/ble_nus.h	/^typedef struct ble_nus_s ble_nus_t;$/
-ble_opt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_opt_t;$/
-ble_pkt_rcpt_notif_req_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_dfu/ble_dfu.h	/^} ble_pkt_rcpt_notif_req_t;$/
-ble_racp_value_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_racp/ble_racp.h	/^} ble_racp_value_t;$/
-ble_rsc_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs_c/ble_rscs_c.h	/^} ble_rsc_t;$/
-ble_rscs_c_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs_c/ble_rscs_c.h	/^} ble_rscs_c_evt_t;$/
-ble_rscs_c_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs_c/ble_rscs_c.h	/^} ble_rscs_c_evt_type_t;$/
-ble_rscs_c_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs_c/ble_rscs_c.h	/^} ble_rscs_c_init_t;$/
-ble_rscs_c_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs_c/ble_rscs_c.h	/^struct ble_rscs_c_s$/
-ble_rscs_c_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs_c/ble_rscs_c.h	/^typedef struct ble_rscs_c_s ble_rscs_c_t;$/
-ble_rscs_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs/ble_rscs.h	/^} ble_rscs_evt_t;$/
-ble_rscs_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs/ble_rscs.h	/^} ble_rscs_evt_type_t;$/
-ble_rscs_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs/ble_rscs.h	/^} ble_rscs_init_t;$/
-ble_rscs_meas_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs/ble_rscs.h	/^} ble_rscs_meas_t;$/
-ble_rscs_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs/ble_rscs.h	/^struct ble_rscs_s$/
-ble_rscs_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_rscs/ble_rscs.h	/^typedef struct ble_rscs_s ble_rscs_t;$/
-ble_sc_ctrlpt_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^} ble_sc_ctrlpt_evt_t;$/
-ble_sc_ctrlpt_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^} ble_sc_ctrlpt_evt_type_t;$/
-ble_sc_ctrlpt_resp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^}ble_sc_ctrlpt_resp_t;$/
-ble_sc_ctrlpt_rsp_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^}ble_sc_ctrlpt_rsp_t;$/
-ble_sc_ctrlpt_s	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^struct ble_sc_ctrlpt_s$/
-ble_sc_ctrlpt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^typedef struct ble_sc_ctrlpt_s ble_sc_ctrlpt_t;$/
-ble_sc_ctrlpt_val_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^}ble_sc_ctrlpt_val_t;$/
-ble_scpt_operator_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^} ble_scpt_operator_t;$/
-ble_scpt_procedure_status_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^}ble_scpt_procedure_status_t;$/
-ble_scpt_response_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cscs/ble_sc_ctrlpt.h	/^} ble_scpt_response_t;$/
-ble_sensor_location_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_sensor_location.h	/^}ble_sensor_location_t;$/
-ble_srv_cccd_security_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_srv_common.h	/^} ble_srv_cccd_security_mode_t;$/
-ble_srv_report_ref_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_srv_common.h	/^} ble_srv_report_ref_t;$/
-ble_srv_security_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_srv_common.h	/^} ble_srv_security_mode_t;$/
-ble_srv_utf8_str_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_srv_common.h	/^} ble_srv_utf8_str_t;$/
-ble_tps_init_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_tps/ble_tps.h	/^} ble_tps_init_t;$/
-ble_tps_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_tps/ble_tps.h	/^} ble_tps_t;$/
-ble_user_mem_block_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_user_mem_block_t;$/
-ble_uuid128_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_types.h	/^} ble_uuid128_t;$/
-ble_uuid_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble_types.h	/^} ble_uuid_t;$/
-ble_version_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/ble.h	/^} ble_version_t;$/
-bootloader_bank_code_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/bootloader_types.h	/^} bootloader_bank_code_t;$/
-bootloader_settings_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/bootloader_types.h	/^} bootloader_settings_t;$/
-button_action	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/button/app_button.h	/^typedef void (*app_button_handler_t)(uint8_t pin_n/
-cherry8x16_status_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/cherry8x16/cherry8x16.h	/^} cherry8x16_status_t;$/
-current_time_char_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^} current_time_char_t;$/
-data_len	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/pstorage/pstorage.h	/^                                  uint32_t        /
-data_transfer_t	../../../software/apps/data-transfer/ble_config.h	/^} data_transfer_t;$/
-day_date_time_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^} day_date_time_t;$/
-dfu_bank_func_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^} dfu_bank_func_t;$/
-dfu_ble_peer_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_ble_svc.h	/^} dfu_ble_peer_data_t;$/
-dfu_data_packet_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_types.h	/^} dfu_data_packet_t;$/
-dfu_device_info_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_init.h	/^} dfu_device_info_t;$/
-dfu_init_packet_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_init.h	/^} dfu_init_packet_t;$/
-dfu_start_packet_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_types.h	/^} dfu_start_packet_t;$/
-dfu_state_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^} dfu_state_t;$/
-dfu_update_packet_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_types.h	/^} dfu_update_packet_t;$/
-dfu_update_status	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_types.h	/^typedef void (*dfu_complete_handler_t)(dfu_update_/
-dfu_update_status_code_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_types.h	/^} dfu_update_status_code_t;$/
-dfu_update_status_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_types.h	/^} dfu_update_status_t;$/
-dm_application_context_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^typedef dm_context_t dm_application_context_t;$/
-dm_application_instance_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^typedef uint8_t dm_application_instance_t;$/
-dm_application_param_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_application_param_t;$/
-dm_connection_instance_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^typedef uint8_t dm_connection_instance_t;$/
-dm_context_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_context_t;$/
-dm_device_context_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^typedef dm_context_t dm_device_context_t;$/
-dm_device_instance_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^typedef uint8_t dm_device_instance_t;$/
-dm_enc_key_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_enc_key_t;$/
-dm_event_param_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_event_param_t;$/
-dm_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_event_t;$/
-dm_handle_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_handle_t;$/
-dm_id_key_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_id_key_t;$/
-dm_init_param_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_init_param_t;$/
-dm_sec_keys_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_sec_keys_t;$/
-dm_sec_keyset_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_sec_keyset_t;$/
-dm_security_status_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_security_status_t;$/
-dm_service_context_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_service_context_t;$/
-dm_service_instance_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^typedef uint8_t dm_service_instance_t;$/
-dm_sign_key_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^} dm_sign_key_t;$/
-dtm_cmd_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_dtm/ble_dtm.h	/^typedef uint32_t dtm_cmd_t;                       /
-dtm_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_dtm/ble_dtm.h	/^typedef uint32_t dtm_event_t;                     /
-dtm_freq_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_dtm/ble_dtm.h	/^typedef uint32_t dtm_freq_t;                      /
-dtm_pkt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_dtm/ble_dtm.h	/^typedef uint32_t dtm_pkt_type_t;                  /
-ess_char_data_t	../../../software/apps/blees/ble_ess.h	/^} ess_char_data_t;$/
-ess_char_trigger_init_data_t	../../../software/apps/blees/ble_ess.h	/^} ess_char_trigger_init_data_t;$/
-ess_meas_des_t	../../../software/apps/blees/ble_ess.h	/^\/\/typedef struct ess_meas_des_s ess_meas_des_t;$/
-ess_trig_set_desc_t	../../../software/apps/blees/ble_ess.h	/^typedef struct ess_trig_set_desc_s ess_trig_set_de/
-esym	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/ble_serialization.h	/^\/\/lint -esym(516,__INTADDR__) Symbol '__INTADDR_/
-event	../../../software/apps/blees/ble_config.h	/^\/\/time from initiating event(conn or notify star/
-event_pins_high_to_low	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/gpiote/app_gpiote.h	/^                                           uint32_/
-event_result	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^                                    ret_code_t    /
-event_size	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/scheduler/app_scheduler.h	/^typedef void (*app_sched_event_handler_t)(void * p/
-evt_id	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/common/softdevice_handler/softdevice_handler.h	/^typedef void (*sys_evt_handler_t) (uint32_t evt_id/
-exact_time_256_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_cts_c/ble_cts_c.h	/^} exact_time_256_t;$/
-gzp_cmd_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzp.h	/^} gzp_cmd_t;$/
-gzp_id_req_res_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzp.h	/^} gzp_id_req_res_t;$/
-gzp_key_select_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzp.h	/^} gzp_key_select_t;$/
-hci_dbg_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^} hci_dbg_evt_t;$/
-hci_dbg_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy_debug_comm.h	/^} hci_dbg_evt_type_t;$/
-hci_slip_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/hci/hci_slip.h	/^} hci_slip_evt_t;$/
-hci_slip_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/hci/hci_slip.h	/^} hci_slip_evt_type_t;$/
-hci_transport_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/hci/hci_transport.h	/^} hci_transport_evt_t;$/
-hci_transport_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/hci/hci_transport.h	/^} hci_transport_evt_type_t;$/
-hci_transport_tx_done_result_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/hci/hci_transport.h	/^} hci_transport_tx_done_result_t;$/
-ieee_float16_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_bps/ble_bps.h	/^} ieee_float16_t;$/
-ieee_float32_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_hts/ble_hts.h	/^} ieee_float32_t;$/
-image_size	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu_bank_internal.h	/^typedef void (*dfu_bank_prepare_t)(uint32_t image_/
-initButton	../../../software/apps/smartbike/ButtonControl.h	/^void initButton(ButtonType type, ButtonPosition po/
-initialize	../../../summon/blees-app/plugins/com.randdusing.bluetoothle/src/ios/BluetoothLePlugin.h	/^- (void)initialize:(CDVInvokedUrlCommand *)command/
-int_type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rtc/nrf_drv_rtc.h	/^typedef void (*nrf_drv_rtc_handler_t)(nrf_drv_rtc_/
-interrupt_config	../../../software/chips/lps331ap.h	/^} interrupt_config;$/
-length	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_nus/ble_nus.h	/^typedef void (*ble_nus_data_handler_t) (ble_nus_t /
-logLevel	../../../summon/blees-app/plugins/cordova-plugin-console/src/ios/CDVLogger.h	/^- (void)logLevel:(CDVInvokedUrlCommand*)command;$/
-lps331ap_data_rate	../../../software/chips/lps331ap.h	/^} lps331ap_data_rate; \/\/Measurement Resolution, /
-lps331ap_p_res	../../../software/chips/lps331ap.h	/^} lps331ap_p_res; 	\/\/Pressure Resolution$/
-lps331ap_t_res	../../../software/chips/lps331ap.h	/^} lps331ap_t_res; 	\/\/Temperature Resolution$/
-message	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s210/headers/ant_parameters.h	/^\/\/        XX    is the 1 byte size of the messag/
-motion_output_polarity_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/adns2080/adns2080.h	/^} motion_output_polarity_t;$/
-motion_output_sensitivity_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_ext/adns2080/adns2080.h	/^} motion_output_sensitivity_t;$/
-nibble_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_bds.h	/^typedef uint8_t nibble_t;$/
-nrf_adc_config_input_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_adc.h	/^} nrf_adc_config_input_t;$/
-nrf_adc_config_reference_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_adc.h	/^} nrf_adc_config_reference_t;$/
-nrf_adc_config_resolution_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_adc.h	/^} nrf_adc_config_resolution_t;$/
-nrf_adc_config_scaling_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_adc.h	/^} nrf_adc_config_scaling_t;$/
-nrf_adc_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_adc.h	/^} nrf_adc_config_t;$/
-nrf_adc_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_adc.h	/^} nrf_adc_event_t;$/
-nrf_adc_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_adc.h	/^} nrf_adc_task_t;$/
-nrf_app_irq_priority_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/nrf_soc_nosd/nrf_soc.h	/^typedef uint8_t nrf_app_irq_priority_t;$/
-nrf_clock_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_clock.h	/^} nrf_clock_event_t;                              /
-nrf_clock_hf_src_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_clock.h	/^} nrf_clock_hf_src_t;$/
-nrf_clock_int_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_clock.h	/^} nrf_clock_int_mask_t;$/
-nrf_clock_lf_src_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_clock.h	/^} nrf_clock_lf_src_t;$/
-nrf_clock_lfclksrc_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_sdm.h	/^typedef uint32_t nrf_clock_lfclksrc_t;$/
-nrf_clock_start_task_status_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_clock.h	/^} nrf_clock_start_task_status_t;$/
-nrf_clock_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_clock.h	/^} nrf_clock_task_t;                               /
-nrf_clock_xtalfreq_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_clock.h	/^} nrf_clock_xtalfreq_t;$/
-nrf_drv_clock_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/clock/nrf_drv_clock.h	/^} nrf_drv_clock_config_t;$/
-nrf_drv_clock_lf_cal_interval_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/clock/nrf_drv_clock.h	/^} nrf_drv_clock_lf_cal_interval_t;$/
-nrf_drv_gpiote_in_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^} nrf_drv_gpiote_in_config_t;$/
-nrf_drv_gpiote_out_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^} nrf_drv_gpiote_out_config_t;$/
-nrf_drv_gpiote_pin_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.h	/^typedef uint32_t nrf_drv_gpiote_pin_t;$/
-nrf_drv_lpcomp_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/lpcomp/nrf_drv_lpcomp.h	/^} nrf_drv_lpcomp_config_t;$/
-nrf_drv_pwr_ctrl_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/common/nrf_drv_common.h	/^} nrf_drv_pwr_ctrl_t;$/
-nrf_drv_qdec_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/qdec/nrf_drv_qdec.h	/^} nrf_drv_qdec_config_t;$/
-nrf_drv_qdec_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/qdec/nrf_drv_qdec.h	/^} nrf_drv_qdec_event_t;$/
-nrf_drv_qdec_report_data_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/qdec/nrf_drv_qdec.h	/^} nrf_drv_qdec_report_data_evt_t;$/
-nrf_drv_qdec_sample_data_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/qdec/nrf_drv_qdec.h	/^} nrf_drv_qdec_sample_data_evt_t;$/
-nrf_drv_rng_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rng/nrf_drv_rng.h	/^} nrf_drv_rng_config_t;$/
-nrf_drv_rtc_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rtc/nrf_drv_rtc.h	/^} nrf_drv_rtc_config_t;$/
-nrf_drv_rtc_int_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rtc/nrf_drv_rtc.h	/^} nrf_drv_rtc_int_type_t;$/
-nrf_drv_rtc_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/rtc/nrf_drv_rtc.h	/^} nrf_drv_rtc_t;$/
-nrf_drv_state_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/common/nrf_drv_common.h	/^} nrf_drv_state_t;$/
-nrf_drv_timer_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^} nrf_drv_timer_config_t;$/
-nrf_drv_timer_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^} nrf_drv_timer_t;$/
-nrf_drv_twi_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^} nrf_drv_twi_config_t;$/
-nrf_drv_twi_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^} nrf_drv_twi_evt_t;$/
-nrf_drv_twi_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^} nrf_drv_twi_evt_type_t;$/
-nrf_drv_twi_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^} nrf_drv_twi_t;$/
-nrf_drv_wdt_channel_id	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/wdt/nrf_drv_wdt.h	/^typedef nrf_wdt_rr_register_t nrf_drv_wdt_channel_/
-nrf_drv_wdt_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/wdt/nrf_drv_wdt.h	/^} nrf_drv_wdt_config_t;$/
-nrf_ecb_hal_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^} nrf_ecb_hal_data_t;$/
-nrf_error	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_advertising/ble_advertising.h	/^typedef void (*ble_advertising_error_handler_t) (u/
-nrf_esb_base_address_length_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/esb/nrf_esb.h	/^} nrf_esb_base_address_length_t;$/
-nrf_esb_crc_length_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/esb/nrf_esb.h	/^} nrf_esb_crc_length_t;$/
-nrf_esb_datarate_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/esb/nrf_esb.h	/^} nrf_esb_datarate_t;$/
-nrf_esb_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/esb/nrf_esb.h	/^} nrf_esb_mode_t;$/
-nrf_esb_output_power_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/esb/nrf_esb.h	/^} nrf_esb_output_power_t;$/
-nrf_esb_packet_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/esb/nrf_esb.h	/^} nrf_esb_packet_t ;$/
-nrf_esb_xosc_ctl_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/esb/nrf_esb.h	/^} nrf_esb_xosc_ctl_t;$/
-nrf_gpio_pin_dir_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpio.h	/^} nrf_gpio_pin_dir_t;$/
-nrf_gpio_pin_pull_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpio.h	/^} nrf_gpio_pin_pull_t;$/
-nrf_gpio_pin_sense_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpio.h	/^} nrf_gpio_pin_sense_t;$/
-nrf_gpio_port_dir_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpio.h	/^} nrf_gpio_port_dir_t;$/
-nrf_gpio_port_select_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpio.h	/^} nrf_gpio_port_select_t;$/
-nrf_gpiote_events_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpiote.h	/^} nrf_gpiote_events_t;$/
-nrf_gpiote_int_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpiote.h	/^} nrf_gpiote_int_t;$/
-nrf_gpiote_outinit_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpiote.h	/^} nrf_gpiote_outinit_t;$/
-nrf_gpiote_polarity_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpiote.h	/^} nrf_gpiote_polarity_t;$/
-nrf_gpiote_tasks_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_gpiote.h	/^} nrf_gpiote_tasks_t;$/
-nrf_gzll_datarate_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_datarate_t;$/
-nrf_gzll_device_channel_selection_policy_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_device_channel_selection_policy_t;$/
-nrf_gzll_device_tx_info_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_device_tx_info_t;$/
-nrf_gzll_error_code_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_error_code_t;$/
-nrf_gzll_host_rx_info_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_host_rx_info_t;$/
-nrf_gzll_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_mode_t;$/
-nrf_gzll_tx_power_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_tx_power_t;$/
-nrf_gzll_xosc_ctl_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/properitary_rf/gzll/nrf_gzll.h	/^} nrf_gzll_xosc_ctl_t;$/
-nrf_ic_info_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ic_info/nrf_ic_info.h	/^} nrf_ic_info_t;$/
-nrf_ic_revision_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ic_info/nrf_ic_info.h	/^} nrf_ic_revision_t;$/
-nrf_lpcomp_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_lpcomp.h	/^} nrf_lpcomp_config_t;$/
-nrf_lpcomp_detect_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_lpcomp.h	/^} nrf_lpcomp_detect_t;$/
-nrf_lpcomp_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_lpcomp.h	/^} nrf_lpcomp_event_t;                             /
-nrf_lpcomp_input_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_lpcomp.h	/^} nrf_lpcomp_input_t;$/
-nrf_lpcomp_ref_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_lpcomp.h	/^} nrf_lpcomp_ref_t;$/
-nrf_lpcomp_short_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_lpcomp.h	/^} nrf_lpcomp_short_mask_t;$/
-nrf_lpcomp_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_lpcomp.h	/^} nrf_lpcomp_task_t;                              /
-nrf_mutex_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^typedef volatile uint8_t nrf_mutex_t;$/
-nrf_power_dcdc_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^typedef uint32_t nrf_power_dcdc_mode_t;$/
-nrf_power_failure_threshold_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^typedef uint8_t nrf_power_failure_threshold_t;$/
-nrf_power_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^typedef uint8_t nrf_power_mode_t;$/
-nrf_ppi_channel_enable_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_ppi.h	/^} nrf_ppi_channel_enable_t;$/
-nrf_ppi_channel_group_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_ppi.h	/^} nrf_ppi_channel_group_t;$/
-nrf_ppi_channel_include_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_ppi.h	/^} nrf_ppi_channel_include_t;$/
-nrf_ppi_channel_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_ppi.h	/^} nrf_ppi_channel_t;$/
-nrf_ppi_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_ppi.h	/^} nrf_ppi_task_t;$/
-nrf_qdec_dbfen_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_dbfen_t;$/
-nrf_qdec_enable_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_enable_t;$/
-nrf_qdec_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_event_t;                               /
-nrf_qdec_int_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_int_mask_t;$/
-nrf_qdec_ledpol_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_ledpol_t;$/
-nrf_qdec_pio_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_pio_t;$/
-nrf_qdec_reportper_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_reportper_t;$/
-nrf_qdec_sampleper_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_sampleper_t;$/
-nrf_qdec_short_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_short_mask_t;$/
-nrf_qdec_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_qdec.h	/^} nrf_qdec_task_t;$/
-nrf_radio_notification_distance_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^typedef uint8_t nrf_radio_notification_distance_t;/
-nrf_radio_notification_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^typedef uint8_t nrf_radio_notification_type_t;$/
-nrf_radio_request_earliest_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^} nrf_radio_request_earliest_t;$/
-nrf_radio_request_normal_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^} nrf_radio_request_normal_t;$/
-nrf_radio_request_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^} nrf_radio_request_t;$/
-nrf_radio_signal_callback_return_param_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^} nrf_radio_signal_callback_return_param_t;$/
-nrf_rng_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rng.h	/^} nrf_rng_event_t;                                /
-nrf_rng_int_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rng.h	/^} nrf_rng_int_mask_t;$/
-nrf_rng_short_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rng.h	/^} nrf_rng_short_mask_t;$/
-nrf_rng_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rng.h	/^} nrf_rng_task_t;                                 /
-nrf_rtc_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rtc.h	/^} nrf_rtc_event_t;$/
-nrf_rtc_int_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rtc.h	/^} nrf_rtc_int_t;$/
-nrf_rtc_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_rtc.h	/^} nrf_rtc_task_t;$/
-nrf_sec_algo_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/experimental/nrf_sec.h	/^}nrf_sec_algo_t;$/
-nrf_sec_data_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/experimental/nrf_sec.h	/^} nrf_sec_data_t;$/
-nrf_sec_ecc_point_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/experimental/nrf_sec.h	/^} nrf_sec_ecc_point_t;$/
-nrf_sec_ecc_signature_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/experimental/nrf_sec.h	/^} nrf_sec_ecc_signature_t;$/
-nrf_sec_hash_func_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/experimental/nrf_sec.h	/^}nrf_sec_hash_func_t;$/
-nrf_swi_flags_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/swi/nrf_drv_swi.h	/^typedef uint16_t nrf_swi_flags_t;$/
-nrf_swi_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/swi/nrf_drv_swi.h	/^typedef uint32_t nrf_swi_t;         \/\/\/< @brief/
-nrf_timer_bit_width_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_bit_width_t;$/
-nrf_timer_cc_channel_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_cc_channel_t;$/
-nrf_timer_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_event_t;$/
-nrf_timer_frequency_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_frequency_t;$/
-nrf_timer_int_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_int_mask_t;$/
-nrf_timer_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_mode_t;$/
-nrf_timer_short_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_short_mask_t;$/
-nrf_timer_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_timer.h	/^} nrf_timer_task_t;$/
-nrf_twi_error_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_twi.h	/^} nrf_twi_error_t;$/
-nrf_twi_events_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_twi.h	/^} nrf_twi_events_t;$/
-nrf_twi_frequency_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_twi.h	/^} nrf_twi_frequency_t;$/
-nrf_twi_int_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_twi.h	/^} nrf_twi_int_mask_t;$/
-nrf_twi_shorts_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_twi.h	/^} nrf_twi_shorts_mask_t;$/
-nrf_twi_tasks_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_twi.h	/^} nrf_twi_tasks_t;$/
-nrf_wdt_behaviour_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_wdt.h	/^} nrf_wdt_behaviour_t;$/
-nrf_wdt_event_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_wdt.h	/^} nrf_wdt_event_t;$/
-nrf_wdt_int_mask_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_wdt.h	/^} nrf_wdt_int_mask_t;$/
-nrf_wdt_rr_register_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_wdt.h	/^} nrf_wdt_rr_register_t;$/
-nrf_wdt_task_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/hal/nrf_wdt.h	/^} nrf_wdt_task_t;$/
-p_ant_evt	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/common/softdevice_handler/ant_stack_handler_types.h	/^typedef void (*ant_evt_handler_t) (ant_evt_t * p_a/
-p_app_uart_event	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/uart/app_uart.h	/^typedef void (* app_uart_event_handler_t) (app_uar/
-p_ble_evt	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/common/softdevice_handler/ble_stack_handler_types.h	/^typedef void (*ble_evt_handler_t) (ble_evt_t * p_b/
-p_context	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/timer/nrf_drv_timer.h	/^typedef void (*nrf_timer_event_handler_t)(nrf_time/
-p_data	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/bootloader_dfu/dfu.h	/^typedef void (*dfu_callback_t)(uint32_t packet, ui/
-p_event	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/twi_master/nrf_drv_twi.h	/^typedef void (* nrf_drv_twi_evt_handler_t)(nrf_drv/
-p_evt	../../../software/apps/blees/ble_ess.h	/^typedef void (*ble_ess_evt_handler_t) (ble_ess_t */
-p_field	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/cond_field_serialization.h	/^                                            void */
-p_file_name	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_sdm.h	/^typedef void (*softdevice_assertion_handler_t)(uin/
-p_index	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/cond_field_serialization.h	/^                                            uint32/
-pin_transition_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/button/app_button.h	/^} pin_transition_t;$/
-property	../../../summon/blees-app/plugins/com.megster.cordova.ble/src/ios/BLECentralPlugin.h	/^@property (strong, nonatomic) NSMutableSet *periph/
-pstorage_block_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/pstorage/config/pstorage_platform.h	/^typedef uint32_t pstorage_block_t;$/
-pstorage_handle_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/pstorage/config/pstorage_platform.h	/^} pstorage_handle_t;$/
-pstorage_module_param_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/pstorage/pstorage.h	/^} pstorage_module_param_t;$/
-pstorage_size_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/pstorage/config/pstorage_platform.h	/^typedef uint16_t pstorage_size_t;      \/** Size o/
-radio_active	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_radio_notification/ble_radio_notification.h	/^typedef void (*ble_radio_notification_evt_handler_/
-regcertdatalist_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_bds.h	/^} regcertdatalist_t;$/
-result	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/hci/hci_transport.h	/^typedef void (*hci_transport_tx_done_handler_t)(hc/
-ret_code_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/sdk_errors.h	/^typedef uint32_t ret_code_t;$/
-sd_mbr_command_compare_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_mbr.h	/^} sd_mbr_command_compare_t;$/
-sd_mbr_command_copy_bl_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_mbr.h	/^} sd_mbr_command_copy_bl_t;$/
-sd_mbr_command_copy_sd_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_mbr.h	/^} sd_mbr_command_copy_sd_t;$/
-sd_mbr_command_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_mbr.h	/^} sd_mbr_command_t;$/
-sd_mbr_command_vector_table_base_set_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_mbr.h	/^} sd_mbr_command_vector_table_base_set_t;$/
-security_req_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/common/ble_srv_common.h	/^}security_req_t;$/
-sensorsim_cfg_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/sensorsim/sensorsim.h	/^} sensorsim_cfg_t;$/
-sensorsim_state_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/sensorsim/sensorsim.h	/^} sensorsim_state_t;$/
-ser_ble_gap_app_keyset_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/application/codecs/s110/serializers/app_ble_gap_sec_keys.h	/^} ser_ble_gap_app_keyset_t;$/
-ser_ble_gap_conn_keyset_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/connectivity/codecs/s110/serializers/conn_ble_gap_sec_keys.h	/^} ser_ble_gap_conn_keyset_t;$/
-ser_ble_user_mem_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/application/codecs/s110/serializers/app_ble_user_mem.h	/^} ser_ble_user_mem_t;$/
-ser_hal_transport_evt_phy_error_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_hal_transport.h	/^} ser_hal_transport_evt_phy_error_params_t;$/
-ser_hal_transport_evt_rx_pkt_received_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_hal_transport.h	/^} ser_hal_transport_evt_rx_pkt_received_params_t;/
-ser_hal_transport_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_hal_transport.h	/^} ser_hal_transport_evt_t;$/
-ser_hal_transport_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_hal_transport.h	/^} ser_hal_transport_evt_type_t;$/
-ser_hal_transport_phy_error_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_hal_transport.h	/^} ser_hal_transport_phy_error_type_t;$/
-ser_phy_evt_hw_error_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy.h	/^} ser_phy_evt_hw_error_params_t;$/
-ser_phy_evt_rx_buf_request_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy.h	/^} ser_phy_evt_rx_buf_request_params_t;$/
-ser_phy_evt_rx_pkt_received_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy.h	/^} ser_phy_evt_rx_pkt_received_params_t;$/
-ser_phy_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy.h	/^} ser_phy_evt_t;$/
-ser_phy_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy.h	/^} ser_phy_evt_type_t;$/
-ser_phy_hci_evt_hw_error_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy_hci.h	/^} ser_phy_hci_evt_hw_error_params_t;$/
-ser_phy_hci_pkt_params_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy_hci.h	/^} ser_phy_hci_pkt_params_t;$/
-ser_phy_hci_slip_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy_hci.h	/^} ser_phy_hci_slip_evt_t;$/
-ser_phy_hci_slip_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/ser_phy_hci.h	/^} ser_phy_hci_slip_evt_type_t;$/
-ser_pkt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/ble_serialization.h	/^} ser_pkt_type_t;$/
-service_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/device_manager/device_manager.h	/^typedef uint8_t service_type_t;$/
-sfloat_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/ble/ble_services/ble_gls/ble_gls.h	/^} sfloat_t;$/
-sha256_context_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/sha256/sha256.h	/^} sha256_context_t;$/
-si7021_meas_res_t	../../../software/chips/si7021.h	/^} si7021_meas_res_t; \/\/Measurement Resolution$/
-signal_type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/softdevice/s110/headers/nrf_soc.h	/^typedef nrf_radio_signal_callback_return_param_t */
-simple_ble_app_t	../../../software/nrf5x-base/lib/simple_ble.h	/^} simple_ble_app_t;$/
-simple_ble_config_t	../../../software/nrf5x-base/lib/simple_ble.h	/^} simple_ble_config_t;$/
-spi_master_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_master/spi_5W_master.h	/^ } spi_master_config_t;$/
-spi_master_evt	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_master/spi_5W_master.h	/^typedef void (*spi_master_event_handler_t) (spi_ma/
-spi_master_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_master/spi_5W_master.h	/^ } spi_master_evt_t;$/
-spi_master_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_master/spi_5W_master.h	/^} spi_master_evt_type_t;$/
-spi_master_hw_instance_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_master/spi_5W_master.h	/^ } spi_master_hw_instance_t;$/
-spi_master_raw_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^} spi_master_raw_evt_t;$/
-spi_master_raw_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_app.h	/^} spi_master_raw_evt_type_t;$/
-spi_master_state_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_master/spi_5W_master.h	/^ } spi_master_state_t;$/
-spi_slave_config_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_slave/spi_slave.h	/^} spi_slave_config_t;$/
-spi_slave_endian_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_slave/spi_slave.h	/^} spi_slave_endian_t;$/
-spi_slave_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_slave/spi_slave.h	/^} spi_slave_evt_t;$/
-spi_slave_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_slave/spi_slave.h	/^} spi_slave_evt_type_t;$/
-spi_slave_mode_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/spi_slave/spi_slave.h	/^} spi_slave_mode_t;$/
-spi_slave_raw_evt_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^} spi_slave_raw_evt_t;$/
-spi_slave_raw_evt_type_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/serialization/common/transport/ser_phy/config/ser_phy_debug_conn.h	/^} spi_slave_raw_evt_type_t;$/
-tsl2561_gain_mode_t	../../../software/chips/tsl2561.h	/^} tsl2561_gain_mode_t;$/
-tsl2561_integration_time_mode_t	../../../software/chips/tsl2561.h	/^} tsl2561_integration_time_mode_t;$/
-uint16_le_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^typedef uint8_t uint16_le_t[2];$/
-uint24_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_bds.h	/^typedef uint32_t uint24_t;$/
-uint32_le_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^typedef uint8_t uint32_le_t[4];$/
-uint32_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/pwm/app_pwm.h	/^typedef void (* app_pwm_callback_t)(uint32_t);$/
-uint40_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util_bds.h	/^typedef uint64_t uint40_t;$/
-uint8_array_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/util/app_util.h	/^} uint8_array_t;$/
-ulong_union_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/defines.h	/^} ulong_union_t;$/
-ushort_union_t	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/libraries/ant_fs/defines.h	/^} ushort_union_t;$/
-void	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/drivers_nrf/wdt/nrf_drv_wdt.h	/^typedef void (*nrf_wdt_event_handler_t)(void);$/
-xPSR_Type	../../../software/nrf5x-base/sdk/nrf51_sdk_9.0.0/components/toolchain/gcc/core_cm0.h	/^} xPSR_Type;$/
