@@ -1,9 +1,11 @@
 #include <stdbool.h>
+#include <assert.h>
 #include "AccelerometerControl.h"
 #include "AccelDataDriver.h"
 
 
 int16_t readData(AccelDataType type) {
+    assert (type < _NUM_ACCEL_DATA);
     if (type == DATA_X) {
         return readAxisX();
     } else if (type == DATA_Y) {
@@ -31,6 +33,7 @@ void populateAccelDataBank() {
 }
 
 void grabAccelData(AccelDataType type, uint16_t* out, uint16_t *ppos) {
+    assert(out != NULL);
     if (_AccelDataBank._accel_poll[type] &&
         _AccelDataBank._interal_count[type] == MAX_DATA_COUNT) {
         *out = _AccelDataBank._accel_data[type] >> DATA_BITSHIFT_DIVISOR;
