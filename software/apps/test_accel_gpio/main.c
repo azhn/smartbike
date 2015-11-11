@@ -150,15 +150,24 @@ static void timers_start(void) {
 
 #define BUTTON_PIN 21
 
-#define OUTPUT_PIN 22
+#define BUTTON2_PIN 22
 
 #define PIN1 8 
 #define PIN2 9
-#define PIN3 10
+#define ACCEL_PIN 10
 static volatile uint32_t i = 0;
 static bool accelDataReady = false;
-volatile int16_t sampled_accel_x = 0;
-#define ACCEL_THRESH 5
+//volatile int16_t sampled_accel_x = 0;
+static const int16_t sampled_accel_x = 0;
+volatile int16_t curr_x_total = 0;
+volatile uint16_t thresh_out_count = 0;
+volatile uint16_t thresh_in_count = 0;
+
+#define ACCEL_THRESH 150
+
+#define ACCEL_OUT_THRESH 200
+#define ACCEL_IN_THRESH 150
+#define ACCEL_TILT_THRESH 100
 // Interrupt handler
 /*void GPIOTE_IRQHandler(){
     //led_toggle(LED_0);
@@ -168,24 +177,23 @@ volatile int16_t sampled_accel_x = 0;
 }*/
 
 
-volatile bool b8, b9, b10, b21, b22;
-volatile bool checkForReturn;
+volatile bool b8, b9, b10, b21, b22, leftSignal, rightSignal;
+volatile bool checkForReturn, returning;
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     // if (pin == 8) {
     //     b8 = true;
     // } else if (pin == 9) {
     //     b9 = true;
-    // } else if (pin == 10) {
-    //     b10 = true;
-    if (pin == 21) { //button interrupt
+    if (pin == 10) { // accelerometer interrupt
+         accelDataReady = true;
+    }else if (pin == 21) { //button interrupt
         b21 = true;
     }
-    /* else if (pin == 22) { // accelerometer interrupt
+    else if (pin == 22) { 
          //b22 = true;
-        accelDataReady = true;
-    }
-    */
+        b22 = true;
+    }    
 }
 
 // checks if the accelerometer is within the threshold of the sampled value
@@ -213,8 +221,8 @@ int main(void) {
     volatile uint32_t time_cnt = 0;
     uint32_t i;
     i=0;
-    b8=false; b9=false; b10=false; b21=false; b22=false;
-    checkForReturn = false;
+    b8=false; b9=false; b10=false; b21=false; b22=false, leftSignal = false; rightSignal = false;
+    checkForReturn = false, returning = false;
     led_init(LED_0);
     led_init(LED_1);
     led_init(LED_2);
@@ -225,13 +233,13 @@ int main(void) {
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
     static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                        {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler}};
-                                        //{OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+                                        {BUTTON2_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
+                            
     //                                     {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
     //                                     {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-    //                                     {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+                                        {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
     // // It seems only 4 pins can be registered per channel
-    gpio_input_count = 2;
+    gpio_input_count = 3;
 
     /* SET OUTPUT WITH DRIVER */
     /* uint8_t output_pins[] = {PIN1,PIN2,PIN3};
@@ -259,11 +267,16 @@ int main(void) {
     //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
     NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
-//mled_on(LED_2);
-    accelDataReady = true;
+
+//accelDataReady = true;
     // reset accelerometer data ready interrupt
     readAxisX();
     while (true) {
+
+        /*******************************************************************
+        Working Accel turn light
+        ********************************************************************/
+        /*
         if (b21 == true) { //button was toggled
             
             led_on(LED_0);
@@ -291,6 +304,111 @@ int main(void) {
         }
         // reset the data ready interrupt by reading an axis reg
         readAxisX();
+        */
+        /*******************************************************************
+        ********************************************************************/
+
+        if (b21 == true) { //button was toggled
+            // need to sample the accelerometer value
+            //  1) add new sample to sample value
+            //sampled_accel_x = readAxisX();
+            //sampled_accel_x = 0;
+            
+            // turn on LED due to button press (signal light)
+            
+            // check for return to ~0
+            
+            
+            // turn off button called
+            b21 = false;
+            
+            if (checkForReturn && !leftSignal) {
+                led_off(LED_1);
+            }
+            leftSignal = true;
+            checkForReturn = true;
+            led_on(LED_0);
+            // for(time_cnt = 0; time_cnt < 1000000; time_cnt++){
+            //     //do nothing, jsut to delay
+            // }
+        }
+
+        if (b22 == true) { //button was toggled
+            // need to sample the accelerometer value
+            //  1) add new sample to sample value
+            //sampled_accel_x = readAxisX();
+            //sampled_accel_x = 0;
+            
+            // turn on LED due to button press (signal light)
+            
+            // check for return to ~0
+            
+            // turn off button called
+            b22 = false;
+            if (checkForReturn && leftSignal) {
+                led_off(LED_0);
+            }
+            leftSignal = false;
+            checkForReturn = true;
+
+            led_on(LED_1);
+
+            // for(time_cnt = 0; time_cnt < 1000000; time_cnt++){
+            //     //do nothing, jsut to delay
+            // }
+        }
+
+         if(checkForReturn && accelDataReady){
+            int16_t curr_x_val = readAxisX();
+            // add current sample to total
+            // if( leftSignal && (curr_x_val < 0)){
+            //     curr_x_total += curr_x_val;    
+            // } else if( !leftSignal && (curr_x_val > 0)){
+            //     curr_x_total += curr_x_val;
+            // }
+            
+        
+            // beginning of turn - check if tilt is outisde zero-thresh range
+            if(!returning && (abs( curr_x_val - sampled_accel_x ) > ACCEL_OUT_THRESH) ){
+                led_on(LED_2);
+                thresh_out_count++;
+                if(thresh_out_count > ACCEL_TILT_THRESH){
+                    returning = true;
+                    thresh_out_count = 0;
+                    led_off(LED_2);
+
+                }
+            }
+
+
+            //check for return into zero-thresh
+            if(returning && (abs( curr_x_val - sampled_accel_x ) <= ACCEL_IN_THRESH) ){
+                led_on(LED_1);
+                thresh_in_count++;
+                if( thresh_in_count > ACCEL_TILT_THRESH){
+                    returning = false;
+                    thresh_in_count = 0;
+                    checkForReturn = false;
+                    led_off(LED_0);
+                    led_off(LED_1);
+                }
+            }
+
+            // reset accelDataReady
+            accelDataReady = false;
+            
+        }
+        // reset the data ready interrupt by reading an axis reg
+        readAxisX();
+
+
+
+
+
+
+
+
+
             // while(check_accel_x() == false){
             //     led_toggle(LED_1);
             //     for(time_cnt = 0; time_cnt < 1000000; time_cnt++){
