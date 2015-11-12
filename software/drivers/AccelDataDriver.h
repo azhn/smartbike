@@ -36,19 +36,16 @@ int16_t readData(AccelDataType type);
 void populateAccelDataBank();
 
 // Will poll accelerometer and save necessary values for this data type
-void setPollAccelData(AccelDataType type) {
-    _AccelDataBank._accel_poll[type] = true;
-}
+void setPollAccelData(AccelDataType type);
+
 
 // Will disable polling of accelerometer for this data type
-void unsetPollAccelData(AccelDataType type) {
-    _AccelDataBank._accel_poll[type] = false;
-}
+void unsetPollAccelData(AccelDataType type);
 
 // Will only populate (out) if data is available. As an indicator for completion
 // one can pass the pointer to a counter (ppos), and it will be incremented only
 // upon a successful data grab.
-void grabAccelData(AccelDataType type, uint16_t* out, uint16_t *ppos);
+bool grabAccelData(AccelDataType type, int16_t* out, uint16_t *ppos);
 
 
 #endif // DATADRIVER_H_
