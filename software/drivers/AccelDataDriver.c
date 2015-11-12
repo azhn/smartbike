@@ -24,7 +24,7 @@ void populateAccelDataBank() {
             _AccelDataBank._internal_count[i]++;
             // greater than ensures that we don't throw out our n-sampled value
             if (_AccelDataBank._internal_count[i] > MAX_DATA_COUNT) {
-                _AccelDataBank._internal_count[i] = 0;
+                _AccelDataBank._internal_count[i] = 1;
 
                 _AccelDataBank._accel_data[i] = readData(i);
 
@@ -52,7 +52,7 @@ bool grabAccelData(AccelDataType type, int16_t* out, uint16_t *ppos) {
         _AccelDataBank._internal_count[type] == MAX_DATA_COUNT) {
         *out = _AccelDataBank._accel_data[type] >> DATA_BITSHIFT_DIVISOR;
         if (ppos != NULL) {
-            ppos++;
+            (*ppos)++;
         }
         return true;
     }
