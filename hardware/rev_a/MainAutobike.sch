@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.6.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -11295,6 +11295,10 @@ GND</text>
 <pinref part="U4" gate="G$1" pin="GND"/>
 <pinref part="GND16" gate="1" pin="GND"/>
 <wire x1="284.734" y1="130.302" x2="284.734" y2="125.222" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="GLED4" gate="G$1" pin="C"/>
+<wire x1="171.704" y1="68.834" x2="171.704" y2="73.914" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VCC(3.3V)" class="0">
