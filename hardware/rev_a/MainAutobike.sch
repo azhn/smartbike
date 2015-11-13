@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
+<<<<<<< HEAD
 <eagle version="6.4">
+=======
+<eagle version="7.3.0">
+>>>>>>> 86eb65576a3aeb170dd041fb34cb6f9651fbf034
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
