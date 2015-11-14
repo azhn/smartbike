@@ -249,32 +249,58 @@ int main(void) {
     //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
     NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
+    setPollAccelData(DATA_X);
 
     //accelDataReady = true;
     // reset accelerometer data ready interrupt
     readAxisX();
     while (true) {
-        if (b21 == true) { //button was toggled
+        if (b21 == true) { //button was toggled ,left turn
             b21 = false;
 
-            if (checkForReturn && !leftSignal) {
-                led_off(LED_1);
-            }
-            leftSignal = true;
-            checkForReturn = true;
-            led_on(LED_0);
-                    }
-
-        if (b22 == true) { //button was toggled
-            b22 = false;
+            // check for anything on & turn it off
             if (checkForReturn && leftSignal) {
+                checkForReturn = false;
                 led_off(LED_0);
+            } else if(checkForReturn && !leftSignal){ // right turn pressed
+                // turn off everything for right
+                led_off(LED_1);
+                led_on(LED_0);
+                leftSignal = true; // now processing left turn
+            } else { // new press with blank slate
+                leftSignal = true;
+                checkForReturn = true;
+                led_on(LED_0);
             }
-            leftSignal = false;
-            checkForReturn = true;
 
-            led_on(LED_1);
+            // reset counts
+            thresh_out_count    = 0;
+            thresh_in_count     = 0;
+            led_off(LED_2);
+        }
 
+        if (b22 == true) { //button was toggled, right turn
+            b22 = false;
+            
+            // check for anything on & turn it off
+            if (checkForReturn && !leftSignal) { // right turn toggle off
+                checkForReturn = false;
+                led_off(LED_1);
+            } else if(checkForReturn && leftSignal){ // left turn pressed
+                // turn off everything for left
+                led_off(LED_0);
+                led_on(LED_1);
+                leftSignal = false; // now processing right turn
+            } else { // new press with blank slate
+                leftSignal = false;
+                checkForReturn = true;
+                led_on(LED_1);
+            }
+
+            // reset counts
+            thresh_out_count    = 0;
+            thresh_in_count     = 0;
+            led_off(LED_2);
         }
 
         if(checkForReturn && accelDataReady){
@@ -283,8 +309,15 @@ int main(void) {
             if (grabAccelData(DATA_X, &curr_x_val, NULL)) {
                 // beginning of turn - check if tilt is outisde zero-thresh range
                 if(!returning && (abs( curr_x_val - sampled_accel_x ) > ACCEL_OUT_THRESH) ){
-                    led_on(LED_2);
-                    thresh_out_count++;
+                    if( 
+                    (leftSignal && (curr_x_val < sampled_accel_x) ) ||
+                    ( !leftSignal && (curr_x_val > sampled_accel_x) ) ){
+                        led_on(LED_2);
+                        thresh_out_count++;  
+                    }                     
+
+                    // led_on(LED_2);
+                    // thresh_out_count++;
                     if(thresh_out_count > ACCEL_TILT_THRESH){
                         returning = true;
                         thresh_out_count = 0;
@@ -298,6 +331,7 @@ int main(void) {
                 if(returning && (abs( curr_x_val - sampled_accel_x ) <= ACCEL_IN_THRESH) ){
                     led_on(LED_1);
                     thresh_in_count++;
+
                     if( thresh_in_count > ACCEL_TILT_THRESH){
                         returning = false;
                         thresh_in_count = 0;
@@ -313,7 +347,7 @@ int main(void) {
 
         }
         // reset the data ready interrupt by reading an axis reg
-        //readAxisX();
+        readAxisX();
     }
     }
 
