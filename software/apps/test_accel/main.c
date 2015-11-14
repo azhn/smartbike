@@ -15,6 +15,7 @@
 #include "smartbike.h"
 #include "led.h"
 #include "adxl362.h"
+#include "AccelerometerControl.h"
 #include "spi_driver.h"
 
 /*******************************************************************************
@@ -164,9 +165,10 @@ int main(void) {
     led_init(LED_0);
     led_init(LED_1);
     led_init(LED_2);
-    led_on(LED_0);
+    //led_on(LED_0);
 
-    adxl362_accelerometer_init(adxl362_NOISE_NORMAL, true, false, false);
+    //adxl362_accelerometer_init(adxl362_NOISE_NORMAL, true, false, false);
+    initializeAccelerometer();
     //uint8_t buf;
 
     //adxl362_read_dev_id(&buf);
@@ -176,7 +178,7 @@ int main(void) {
     //uint8_t buf[1] = {0xAA};
     //spi_init();
     //spi_write(buf);
-    led_on(LED_2);
+    //led_on(LED_2);
     // Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
@@ -186,6 +188,11 @@ int main(void) {
 
     while (1) {
         power_manage();
+        if (readAxisX()>0) {
+            led_on(LED_0);
+        } else {
+            led_off(LED_0);
+        }
     }
 }
 

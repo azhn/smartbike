@@ -149,12 +149,12 @@ static void timers_start(void) {
  *   MAIN LOOP
  ******************************************************************************/
 
-#define BUTTON_PIN 21
+#define ACCEL_PIN 21
 #define BUTTON2_PIN 22
 
 #define PIN1 8 
 #define PIN2 9
-#define ACCEL_PIN 10
+#define PIN3 10
 
 static bool accelDataReady = false;
 volatile int16_t curr_x_total = 0;
@@ -166,22 +166,15 @@ volatile uint16_t thresh_in_count = 0;
 #define ACCEL_OUT_THRESH 200
 #define ACCEL_IN_THRESH 150
 #define ACCEL_TILT_THRESH 100
-#define ACCEL_BRAKING_THRESH 150
-// Interrupt handler
-/*void GPIOTE_IRQHandler(){
-//led_toggle(LED_0);
-nrf_gpio_pin_toggle(LED_0);
-//nrf_gpio_pin_toggle(OUTPUT_PIN);
-NRF_GPIOTE->EVENTS_IN[0] = 0;
-}*/
+#define ACCEL_BRAKING_THRESH 75
 
 
 volatile bool b8, b9, b10, b21, b22;
-int16_t curr_x_val[64];
+int16_t curr_y_val[64];
 uint16_t counter;
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
-    if (pin == 10) { // accelerometer interrupt
+    if (pin == ACCEL_PIN) { // accelerometer interrupt
         accelDataReady = true;
     }   
 }
@@ -207,21 +200,36 @@ int main(void) {
     while (err_code) {
         led_on(LED_1);
     }
+
     gpio_input_enable_all();
+
+    uint8_t output_pin[1] = {BUTTON2_PIN};
+    gpio_output_init(output_pin, 1);
     NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
 
     setPollAccelData(DATA_Y);
-
+    setPollAccelData(DATA_Z);
     // main loop
+    //led_on(LED_2);
+    int16_t curr_z_val;
     while (true) {
 
         if(accelDataReady){
             populateAccelDataBank();
             accelDataReady = false;
+            gpio_output_toggle(BUTTON2_PIN);
         }
-        if (grabAccelData(DATA_Y, &curr_x_val[counter], &counter)) {
-            if (curr_x_val[counter-1] >= ACCEL_BRAKING_THRESH) {
+        if (grabAccelData(DATA_Z, &curr_z_val, NULL)) {
+            if (curr_z_val > 0) {
+                led_on(LED_1);
+            } else {
+                led_off(LED_1);
+            }
+            curr_z_val = 512 - curr_z_val;
+        }
+        if (grabAccelData(DATA_Y, &curr_y_val[counter], &counter)) {
+            if (curr_y_val[counter-1] >= ACCEL_BRAKING_THRESH) {
                 led_on(LED_0);
             } else {
                 led_off(LED_0);
@@ -231,6 +239,7 @@ int main(void) {
             }
         }
 
+        //readAxisX();
 
     }
 }
