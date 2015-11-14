@@ -369,8 +369,15 @@ int main(void) {
             
         
             // beginning of turn - check if tilt is outisde zero-thresh range
+            // if(!returning && (abs( curr_x_val - sampled_accel_x ) > ACCEL_OUT_THRESH) ){
             if(!returning && (abs( curr_x_val - sampled_accel_x ) > ACCEL_OUT_THRESH) ){
-                led_on(LED_2);
+                if( 
+                (leftSignal && (curr_x_val < sampled_accel_x) ) ||
+                ( !leftSignal && (curr_x_val > sampled_accel_x) ) ){
+                    led_on(LED_2);
+                    thresh_out_count++;  
+                } 
+
                 thresh_out_count++;
                 if(thresh_out_count > ACCEL_TILT_THRESH){
                     returning = true;
@@ -383,8 +390,13 @@ int main(void) {
 
             //check for return into zero-thresh
             if(returning && (abs( curr_x_val - sampled_accel_x ) <= ACCEL_IN_THRESH) ){
-                led_on(LED_1);
-                thresh_in_count++;
+                if( 
+                (leftSignal && (curr_x_val < sampled_accel_x) ) ||
+                ( !leftSignal && (curr_x_val > sampled_accel_x) ) ){ 
+                    led_on(LED_1);
+                    thresh_in_count++;
+                } 
+
                 if( thresh_in_count > ACCEL_TILT_THRESH){
                     returning = false;
                     thresh_in_count = 0;
