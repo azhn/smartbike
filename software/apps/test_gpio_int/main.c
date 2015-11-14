@@ -12,7 +12,9 @@
 #include "app_timer.h"
 #include "nrf.h"
 #include "nrf_gpio.h"
-
+#include "nrf_gpiote.h"
+#include "nrf_drv_gpiote.h"
+#include "nrf_drv_config.h"
 // Platform, Peripherals, Devices, Services
 #include "smartbike.h"
 #include "led.h"
@@ -143,12 +145,20 @@ static void timers_start(void) {
  *   MAIN LOOP
  ******************************************************************************/
 
+void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+	led_toggle(LED_1);
+}
+
 int main(void) {
     uint32_t err_code;
+nrf_drv_gpiote_in_config_t temp_t = {NRF_GPIOTE_POLARITY_HITOLO, NRF_GPIO_PIN_NOPULL, false, true};
+
 
     // Initialization
     led_init(LED_0);
     led_on(LED_0);
+    led_init(LED_1);
+    led_on(LED_1);
 
     // Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
@@ -156,7 +166,7 @@ int main(void) {
     //nrf_gpio_cfg_input(22, NRF_GPIO_PIN_NOPULL);
     //nrf_gpio_cfg_input(21, NRF_GPIO_PIN_NOPULL);
     nrf_gpio_cfg_sense_input(21, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
-
+    nrf_drv_gpiote_in_init(21, &temp_t, &pin_handler);
     NRF_GPIOTE->INTENSET = 0x8000000F;
     NVIC_EnableIRQ(GPIOTE_IRQn);
 
