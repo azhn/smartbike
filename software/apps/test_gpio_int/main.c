@@ -36,7 +36,7 @@
  ******************************************************************************/
 
 static app_timer_id_t test_timer;
-
+extern volatile uint32_t pin_test;
 
 /*******************************************************************************
  *   HANDLERS AND CALLBACKS
@@ -146,27 +146,48 @@ static void timers_start(void) {
  ******************************************************************************/
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
-	led_toggle(LED_1);
+	if(pin == 21){
+        led_toggle(LED_0);    
+    }
+    else if(pin == 22){
+        led_toggle(LED_1);    
+    }
 }
 
 int main(void) {
     uint32_t err_code;
-nrf_drv_gpiote_in_config_t temp_t = {NRF_GPIOTE_POLARITY_HITOLO, NRF_GPIO_PIN_NOPULL, false, true};
+nrf_drv_gpiote_in_config_t temp_t = {NRF_GPIOTE_POLARITY_HITOLO, NRF_GPIO_PIN_NOPULL, false, false};
 
 
     // Initialization
     led_init(LED_0);
-    led_on(LED_0);
+    //led_on(LED_0);
     led_init(LED_1);
-    led_on(LED_1);
+    led_init(LED_2);
+    //led_on(LED_1);
 
     // Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
     
     //nrf_gpio_cfg_input(22, NRF_GPIO_PIN_NOPULL);
     //nrf_gpio_cfg_input(21, NRF_GPIO_PIN_NOPULL);
-    nrf_gpio_cfg_sense_input(21, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
+    if (!nrf_drv_gpiote_is_init())
+    {
+        err_code = nrf_drv_gpiote_init();
+        if (err_code != NRF_SUCCESS)
+        {
+            return err_code;
+        }
+    }
     nrf_drv_gpiote_in_init(21, &temp_t, &pin_handler);
+    nrf_gpio_cfg_sense_input(21, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
+    
+
+    nrf_drv_gpiote_in_init(22, &temp_t, &pin_handler);    
+    nrf_gpio_cfg_sense_input(22, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
+
+    // nrf_drv_gpiote_in_init(0, &temp_t, &pin_handler);
+
     NRF_GPIOTE->INTENSET = 0x8000000F;
     NVIC_EnableIRQ(GPIOTE_IRQn);
 
@@ -176,6 +197,7 @@ nrf_drv_gpiote_in_config_t temp_t = {NRF_GPIOTE_POLARITY_HITOLO, NRF_GPIO_PIN_NO
 
     while (1) {
         power_manage();
+    
     }
 }
 
