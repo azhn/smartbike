@@ -8,9 +8,18 @@
 /***************************************************************************
                                   Types
 ***************************************************************************/
-typedef enum {OFF=0, BLINKING=1, ON=2} LightState;
+typedef enum LightState {
+    LIGHT_STATE_OFF=0,
+    LIGHT_STATE_BLINKING=1,
+    LIGHT_STATE_ON=2
+} LightState;
 
-typedef enum {BRAKE=0, LEFT_TURN=2, RIGHT_TURN=3, _LIGHT_TYPE_SIZE=4} LightType;
+typedef enum LightType {
+    BRAKE=0,
+    LEFT_TURN=1,
+    RIGHT_TURN=2,
+    _LIGHT_TYPE_SIZE=3
+} LightType;
 typedef uint32_t pwm_address_t;
 
 typedef struct {
@@ -22,6 +31,11 @@ typedef struct {
                                  Globals
 *****************************************************************************/
 /* index by light type, then position */
+static pwm_address_t _rear_light_address[_LIGHT_TYPE_SIZE] = {0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/};
+static pwm_address_t _led_light_address[LED_LIGHTS_SIZE] = {0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/,
+                                                            0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/,
+                                                            0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/,
+                                                            0/*INSERT ADDR*/};
 Light rear_lights[_LIGHT_TYPE_SIZE]; 
 Light led_lights[LED_LIGHTS_SIZE];
 
@@ -36,7 +50,7 @@ void initializeLights();
 *****************************************************************************/
 /* generic function to set any light state */
 void setRearLightState(LightType type, LightState state );
-void setLEDLightState(uint8_t pos);
+void setLEDLightState(LightType type, LightState state );
 
 /* generic function to get any light state */
 LightState getRearLightState( LightType type );
