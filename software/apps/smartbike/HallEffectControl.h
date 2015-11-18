@@ -11,10 +11,6 @@
 /* initialize the hall effect sensor */
 void initializeHallEffect( );
 
-
-
-
-
 /*****************************************************************************
                             Interrupt Handlers
 *****************************************************************************/
@@ -22,15 +18,12 @@ void initializeHallEffect( );
 /* We are getting digital readings based on threshold voltage values from    
  * hysteresis modules. Use these functions to emulate a quadrature decoder
  */
-void HallEffectHandler_h1();
-void HallEffectHandler_h2();
+void wheel_speed_handler();
+void pedalling_speed_hander();
 
 /*****************************************************************************
                                Retrieve Data
 *****************************************************************************/
-
-/* Using two hall effect sensors we can tell if we are back pedaling */
-bool getPedalingDirection();
 
 /* Effectively a quadrature-like count and time */
 DataPair getCount();
