@@ -28,6 +28,7 @@
 #include "nrf_drv_config.h"
 
 #define NUM_GEARS 6
+#define MM_PER_INT 1100UL
 
 /*******************************************************************************
  *   STATIC AND GLOBAL VARIABLES
