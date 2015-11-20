@@ -6,52 +6,10 @@
 
 #include "pwm.h"
 
-#define NUM_GEARS 7
-/****************************************************************************
-                               Types  
-*****************************************************************************/
-
-typedef enum {REAR=0, FRONT=1, _NUM_SERVOS=2} ServoPosition;
-typedef struct {
-    pwm_address_t _address;
-    pwm_t _pwm;
-} Servo;
-
-Servo _servo[_NUM_SERVOS];
-/****************************************************************************
-                                 Globals
-*****************************************************************************/
-const static pwm_address_t _servo_addresses[_NUM_SERVOS] = {0/*INSERT ADDR*/,1/*INSERT ADDR*/};
-
-static uint8_t _curr_gear;
+#define REAR_PWM 0
+#define FRONT_PWM 1
 
 
-const static uint16_t REAR_GEAR_UP[NUM_GEARS] = {310, 340, 340, 352, 365, 372, 372};
-const static uint16_t REAR_GEAR_DOWN[NUM_GEARS] = {304, 340, 315, 327, 340, 372, 372};
-//uint16_t REAR_GEAR_DOWN[NUM_GEARS] = {304, 315, 327, 343, 372, 342, 372};
-const static uint16_t FRONT_GEAR_UP[NUM_GEARS] = {400, 400, 0/*INSERT PWM*/, 0/*INSERT PWM*/, 0/*INSERT PWM*/, 0/*INSERT PWM*/, 0/*INSERT PWM*/};
-const static uint16_t FRONT_GEAR_DOWN[NUM_GEARS] = {400, 440, 0/*INSERT PWM*/, 0/*INSERT PWM*/, 0/*INSERT PWM*/, 0/*INSERT PWM*/, 0/*INSERT PWM*/};
-
-/****************************************************************************
-                           Initialization
-*****************************************************************************/
-
-void initializeGearControl();
-
-/*****************************************************************************
-                           Servo shifting
-*****************************************************************************/
-
-// Save and retrieve from FRAM
-
-void _save_gear_states();
-void _retrieve_gear_states();
-
-/*****************************************************************************
-                           Servo shifting
-*****************************************************************************/
-void shift_up(uint8_t next_gear);
-void shift_down(uint8_t next_gear);
-void updateGears(uint8_t next_gear);
+void update_servos(State* state);
 
 #endif // SERVOCONTROL_H_

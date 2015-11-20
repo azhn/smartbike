@@ -40,12 +40,34 @@
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
 #define BLINK_RATE  APP_TIMER_TICKS(500, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
 
+#define UP true
+#define DOWN false
+
 
 /*******************************************************************************
  *   STATIC AND GLOBAL VARIABLES
  ******************************************************************************/
 
 static app_timer_id_t test_timer;
+
+struct State
+{
+	//speed stuff
+	unsigned long last_milli = 0;
+	unsigned long curr_milli = 0;
+	unsigned long last_delta = 0;
+	unsigned long curr_delta = 0;
+
+	//shifting stuff
+	bool shift_dir = UP;
+	int target_gear_state = 0;
+	int curr_gear_state = 0;
+
+	//light stuff
+	bool strobe_dir = UP;
+}
+
+volatile struct State bike;
 
 
 /*******************************************************************************
@@ -176,18 +198,7 @@ static void timers_start(void) {
 /*******************************************************************************
 *   INTERRUPT HANDLER
 ******************************************************************************/
-static bool accelDataReady = false;
 
-/*void GPIOTE_IRQHandler(){
-    led_toggle(LED_1);
-    //nrf_gpio_pin_toggle(LED_1);
-    accelDataReady = true;
-    
-    //nrf_gpio_pin_toggle(OUTPUT_PIN);
-    //uint8_t data[1];
-    //spi_read_reg(0x0B, data, 1);
-    NRF_GPIOTE->EVENTS_IN[0] = 0;
-}*/
 
 /*******************************************************************************
  *   MAIN LOOP
@@ -197,19 +208,8 @@ int main(void) {
 
     // variables
     uint32_t err_code;
-
-    //initializeAccelerometer();
-    initializeAccelerometer();
-
-    // Initialization of LEDs (two methods)
-    led_init(LED_0);
-    led_init(LED_1);
-    led_init(LED_2);
-    //  OR
-    // nrf_gpio_cfg_output(LED_0);  //Configure LED 0 as output
-    // nrf_gpio_cfg_output(LED_1);  //Configure LED 1 as output
-
-    // Setup clock
+    
+	// Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
     // Setup and start timer
@@ -217,64 +217,6 @@ int main(void) {
     timers_start();
 
     // Setup GPIO interrupt stuff
-    //nrf_gpio_cfg_output(22);
-    nrf_gpio_cfg_output(OUTPUT_PIN);
-    nrf_gpio_cfg_input(BUTTON_PIN,NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
-    //Configure GPIOTE channel 0, to generate an event from button 0:
-    nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
-    nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
-    NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
-    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
-
-    /*********************************************************/
-    /*                  QUADRATURE TESTING                   */
-    /*********************************************************/
-    // int16_t counterVal;
-    // if( initializeQuadDecoder( 3, 4) ) {
-    //     // initialization succeeded
-    //     while(1) {
-    //         counterVal = readCurrentCounter();
-    //         if((counterVal > 512) || (counterVal < -512)) {
-    //             led_on(LED_0);
-    //             led_off(LED_1);
-    //         } else {
-    //             led_on(LED_1);
-    //             led_off(LED_0);
-    //         }
-    //     }
-    // }
-
-    /*********************************************************/
-    /*                  ACCELEROMETER TESTING                */
-    /*********************************************************/
-    //accelerometer readings - 12bit readings 
-    //      (-2048 to 2047 --> range of 12bit 2's compliment)
-    //      In +/- 2g range, we should reach close to 1g (or half) the 
-    //      counts in each direction (so around -1024 to 1023)
-    AccelerometerState accelState;
-    uint16_t num_samples_ready = 0;
-    uint8_t  fifo_sample[1];
-    uint8_t buf[1];
-
-    // reset the data ready interrupt
-    readAxisX();
-    while(1) {
-        if(accelDataReady){
-            led_toggle(LED_2);
-            if(readAxisX() > 0)
-            {
-                led_on(LED_0);
-            }
-            else
-            {
-                led_off(LED_0);
-            }
-            accelDataReady = false;
-        }
-        // reset the data ready interrupt by reading an axis reg
-        readAxisX();
-    }
-    led_on(LED_0);
 
     while (1) {
         //power_manage();
