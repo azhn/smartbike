@@ -26,6 +26,8 @@
 
 #define ADDR 0x40
 
+typedef uint16_t pwm_t;
+typedef uint8_t pwm_address_t;
 
 void pca9685_init(nrf_drv_twi_t * i2c_instance_param);
 void pca9685_reset(void);

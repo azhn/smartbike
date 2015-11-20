@@ -17,6 +17,8 @@
 #include "smartbike.h"
 #include "led.h"
 
+#include "ServoControl.h"
+
 #include "AccelerometerControl.h"
 //#include "EncoderControl.h"
 

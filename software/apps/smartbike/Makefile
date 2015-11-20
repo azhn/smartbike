@@ -21,6 +21,7 @@ APPLICATION_SRCS += spi_driver.c
 APPLICATION_SRCS += app_error.c
 #APPLICATION_SRCS += nrf_gpio.c
 APPLICATION_SRCS += AccelerometerControl.c
+APPLICATION_SRCS += pwm.c
 ifndef TARGET
 	TARGET = SMARTBIKE
 endif
