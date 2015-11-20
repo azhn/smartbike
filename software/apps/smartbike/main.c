@@ -18,6 +18,7 @@
 #include "led.h"
 
 #include "ServoControl.h"
+#include "LightControl.h"
 
 #include "AccelerometerControl.h"
 //#include "EncoderControl.h"

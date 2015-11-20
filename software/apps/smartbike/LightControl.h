@@ -24,8 +24,8 @@ typedef enum LightType {
 } LightType;
 
 typedef struct {
-    LightState _state;
     pwm_address_t _address;
+    LightState _state;
 } Light;
 
 /****************************************************************************
@@ -37,10 +37,10 @@ const static pwm_address_t _led_light_address[LED_LIGHTS_SIZE] = {0/*INSERT ADDR
                                                             0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/,
                                                             0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/,
                                                             0/*INSERT ADDR*/};
-const static pwm_t light_state_pwm[_NUM_LIGHT_STATE] = {0/*INSERT PWM*/,0/*INSERT PWM*/,0/*INSERT PWM*/};
+const static pwm_t _light_state_pwm[_NUM_LIGHT_STATE] = {0/*INSERT PWM*/,0/*INSERT PWM*/,0/*INSERT PWM*/};
 
-Light rear_lights[_LIGHT_TYPE_SIZE]; 
-Light led_lights[LED_LIGHTS_SIZE];
+Light _rear_lights[_LIGHT_TYPE_SIZE]; 
+Light _led_lights[LED_LIGHTS_SIZE];
 
 /*****************************************************************************
                               Initialization
@@ -53,7 +53,7 @@ void initializeLights();
 *****************************************************************************/
 /* generic function to set any light state */
 void setRearLightState(LightType type, LightState state );
-void setLEDLightState(LightType type, LightState state );
+void setLEDLightState(uint8_t type, LightState state );
 
 /* generic function to get any light state */
 LightState getRearLightState( LightType type );

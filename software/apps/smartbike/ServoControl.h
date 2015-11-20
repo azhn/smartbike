@@ -36,7 +36,7 @@ const static uint16_t FRONT_GEAR_DOWN[NUM_GEARS] = {400, 440, 0/*INSERT PWM*/, 0
                            Initialization
 *****************************************************************************/
 
-void initializeServos();
+void initializeGearControl();
 
 /*****************************************************************************
                            Servo shifting
@@ -44,8 +44,8 @@ void initializeServos();
 
 // Save and retrieve from FRAM
 
-void _save_servo_states();
-void _retrieve_servo_states();
+void _save_gear_states();
+void _retrieve_gear_states();
 
 /*****************************************************************************
                            Servo shifting

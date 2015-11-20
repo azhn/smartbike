@@ -3,14 +3,17 @@
 #include <stdint.h>
 
 #include "pwm.h"
+#include "LightControl.h"
 #include "ServoControl.h"
 
-void initializeServos() {
+void initializeGearControl() {
     int i;
     for (i=0; i<_NUM_SERVOS; ++i) {
         _servo[i]._pwm = _servo_addresses[i];
     }
-    _retrieve_servo_states();
+    _retrieve_gear_states();
+
+    setLEDLightState(_curr_gear, LIGHT_STATE_ON);
 }
 
 void shift_up(uint8_t next_gear) {
@@ -38,12 +41,16 @@ void updateGears(uint8_t next_gear)
     {
         shift_down(next_gear);
     }
-    _curr_gear = next_gear;
 
-    _save_servo_states();
+    // Turn off prev LED gear state
+    setLEDLightState(_curr_gear, LIGHT_STATE_OFF);
+    _curr_gear = next_gear;
+    setLEDLightState(_curr_gear, LIGHT_STATE_ON);
+
+    _save_gear_states();
 }
 
-void _save_servo_states() {
+void _save_gear_states() {
     /* TODO:
      * 1) Serialize pwm for front and rear servos
      * 2) Serialize _curr_gear
@@ -51,7 +58,7 @@ void _save_servo_states() {
      */
 }
 
-void _retrieve_servo_states() {
+void _retrieve_gear_states() {
     /* TODO:
      * 1) Deserialize pwm for front and rear servos
      * 2) Deserialize _curr_gear
