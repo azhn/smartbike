@@ -19,55 +19,25 @@
 
 #include "ServoControl.h"
 #include "LightControl.h"
+#include "BikeState.h"
 
-#include "AccelerometerControl.h"
-//#include "EncoderControl.h"
 
 /*******************************************************************************
  *   DEFINES
  ******************************************************************************/
 #include "nrf_drv_config.h"
 
-#define GPIOTE_CHANNEL_0 0
-#define GPIOTE_CHANNEL_1 1
-
-#define BUTTON_PIN 21
-#define OUTPUT_PIN 22
-
-// # defines from Blink app
-#define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
-#define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
-#define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
-#define BLINK_RATE  APP_TIMER_TICKS(500, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
-
-#define UP true
-#define DOWN false
-
+#define NUM_GEARS 6
 
 /*******************************************************************************
  *   STATIC AND GLOBAL VARIABLES
  ******************************************************************************/
 
-static app_timer_id_t test_timer;
+//our bike
+State* bike;
 
-struct State
-{
-	//speed stuff
-	unsigned long last_milli = 0;
-	unsigned long curr_milli = 0;
-	unsigned long last_delta = 0;
-	unsigned long curr_delta = 0;
-
-	//shifting stuff
-	bool shift_dir = UP;
-	int target_gear_state = 0;
-	int curr_gear_state = 0;
-
-	//light stuff
-	bool strobe_dir = UP;
-}
-
-volatile struct State bike;
+//i2c instance 
+nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
 
 
 /*******************************************************************************
@@ -136,28 +106,6 @@ static uint16_t num_ready = 0;
 // Timer fired handler
 static void timer_handler (void* p_context) {
     
-    // adxl362_num_FIFO_samples_ready(&num_ready);
-    // while(num_ready <= 0) {
-    //     adxl362_num_FIFO_samples_ready(&num_ready);
-    // }
-    // uint8_t buf[1];
-
-    // adxl362_read_FIFO(buf, 1);
-
-
-
-    // uint8_t buf[1];
-    // spi_read_reg(0x0B, buf, 1);
-    // if(((buf[0]& 0x80) == 1)){
-    //     led_toggle(LED_0);
-    // }
-    //     if(  ((buf[0]& 0x40) == 1) && ((buf[0]& 0x01) == 1) ){
-    //         led_on(LED_1);
-    //     } else if (((buf[0]& 0x40) == 1) && ((buf[0]& 0x01) == 0) ) {
-    //         led_on(LED_2);
-    //     }
-
-    //led_toggle(22);
     led_toggle(LED_0);
 }
 
@@ -166,16 +114,6 @@ static void timer_handler (void* p_context) {
  *   INIT FUNCTIONS
  ******************************************************************************/
 
-static void timers_init(void) {
-    uint32_t err_code;
-
-    APP_TIMER_INIT(BLINK_TIMER_PRESCALER, BLINK_TIMER_MAX_TIMERS,
-            BLINK_TIMER_OP_QUEUE_SIZE, false);
-
-    err_code = app_timer_create(&test_timer, APP_TIMER_MODE_REPEATED,
-            timer_handler);
-    APP_ERROR_CHECK(err_code);
-}
 
 
 /*******************************************************************************
@@ -189,10 +127,18 @@ static void power_manage (void) {
     APP_ERROR_CHECK(err_code);
 }
 
-// Start the timers
-static void timers_start(void) {
-    uint32_t err_code = app_timer_start(test_timer, BLINK_RATE, NULL);
-    APP_ERROR_CHECK(err_code);
+
+//setup i2c
+static void i2c_init(void)
+{
+    nrf_drv_twi_config_t twi_config;
+
+    twi_config.sda = I2C_SDA_PIN;
+    twi_config.scl = I2C_SCL_PIN;
+    twi_config.frequency = NRF_TWI_FREQ_400K;
+    twi_config.interrupt_priority = 2;
+
+    nrf_drv_twi_init(&twi_instance, &twi_config, NULL);
 }
 
 /*******************************************************************************
@@ -204,22 +150,25 @@ static void timers_start(void) {
  *   MAIN LOOP
  ******************************************************************************/
 
-int main(void) {
-
-    // variables
-    uint32_t err_code;
-    
+int main(void) { 
 	// Setup clock
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
-    // Setup and start timer
-    timers_init();
-    timers_start();
+	
+	//create our state
+	bike = create_state();
 
-    // Setup GPIO interrupt stuff
+	//init i2c
+	i2c_init();	
+	
+	//Setup and init PWM
+	
+
 
     while (1) {
         //power_manage();
     }
+
+	destroy_state(bike);
 }
 
