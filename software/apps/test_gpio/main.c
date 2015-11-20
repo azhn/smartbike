@@ -164,16 +164,35 @@ static volatile uint32_t i = 0;
 
 volatile bool b8, b9, b10, b21, b22;
 
-void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
-    if (pin == 8) {
+void port_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    if (pin == PIN1) {
         b8 = true;
-    } else if (pin == 9) {
+    }/* else if (pin == 9) {
         b9 = true;
     } else if (pin == 10) {
         b10 = true;
-    } else if (pin == 21) {
+    } */
+    else if (pin == BUTTON_PIN) {
         b21 = true;
-    } 
+    }
+    /*else if (pin == 22) {
+        b22 = true;
+    }*/
+}
+
+void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    /*if (pin == 8) {
+        b8 = true;
+    } else */if (pin == PIN2) {
+        b9 = true;
+    } else if (pin == PIN3) {
+        b10 = true;
+    }
+    /*else if (pin == 21) {
+        b21 = true;
+    } else if (pin == 22) {
+     //   b22 = true;
+    }*/
 }
 
 int main(void) {
@@ -189,11 +208,11 @@ int main(void) {
 
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
-    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
-                                  {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_OUT},
-                                  {PIN1, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_PORT_IN},
-                                  {PIN2, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_PORT_IN},
-                                  {PIN3, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_PORT_IN}};
+    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_handler, PIN_PORT_IN},
+                                  {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_handler, PIN_OUT},
+                                  {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_handler, PIN_PORT_IN},
+                                  {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
+                                  {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN}};
     // It seems only 4 pins can be registered per channel
     gpio_input_count = 5;
 
@@ -211,6 +230,11 @@ int main(void) {
             b21 = false;
             led_toggle(LED_0);
             gpio_output_toggle(OUTPUT_PIN);
+                   }
+        if (b22 == true) {
+            b22 = false;
+            led_toggle(LED_1);
+            gpio_output_toggle(OUTPUT_PIN);
         }
         if (b8 == true) {
             b8 = false;
@@ -219,8 +243,8 @@ int main(void) {
         }
         if (b9 == true) {
             b9 = false;
-            for (i=0;i<100000;++i) {
-                if (i%10000 == 0) {
+            for (i=0;i<2000;++i) {
+                if (i%50 == 0) {
                     led_toggle(LED_0); 
                     gpio_output_toggle(OUTPUT_PIN);
                 }
@@ -228,9 +252,9 @@ int main(void) {
             led_off(LED_0); 
         }
         if (b10 == true) {
-            b9 = false;
-            for (i=0;i<100000;++i) {
-                if (i%10000 == 0) {
+            b10 = false;
+            for (i=0;i<2000;++i) {
+                if (i%50 == 0) {
                     led_toggle(LED_1); 
                     gpio_output_toggle(OUTPUT_PIN);
                 }
