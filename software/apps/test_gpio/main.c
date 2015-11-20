@@ -173,9 +173,7 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         b10 = true;
     } else if (pin == 21) {
         b21 = true;
-    } else if (pin == 22) {
-        b22 = true;
-    }
+    } 
 }
 
 int main(void) {
@@ -188,77 +186,53 @@ int main(void) {
     led_init(LED_0);
     led_init(LED_1);
     led_init(LED_2);
-    for (i=0;i<1000;++i) {
-        if (i%100 == 0) {
-            led_toggle(LED_0); 
-        }
-    }
-    led_off(LED_0);
 
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
-    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-                                        {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-                                        {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-                                        {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-                                        {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
+                                  {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_OUT},
+                                  {PIN1, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_PORT_IN},
+                                  {PIN2, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_PORT_IN},
+                                  {PIN3, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &pin_handler, PIN_PORT_IN}};
     // It seems only 4 pins can be registered per channel
-    gpio_input_count = 4;
+    gpio_input_count = 5;
 
-    /* SET OUTPUT WITH DRIVER */
-    /* uint8_t output_pins[] = {PIN1,PIN2,PIN3};
-     * gpio_output_init(output_pins, 3);
-     */
-
-    /* SET OUTPUT OLD WAY */
-    /* nrf_gpio_cfg_output(OUTPUT_PIN);
-     */
-
-    
     /* SET INPUT WITH DRIVER */
-    err_code = gpio_input_init(cfgs, gpio_input_count);
-    if (err_code) {
+    err_code = gpio_init(cfgs, gpio_input_count);
+    while (err_code) {
         led_on(LED_1);
     }
     gpio_input_enable_all();
 
-    /* SET INPUT OLD WAY */
-    /* nrf_gpio_cfg_input(BUTTON_PIN, NRF_GPIO_PIN_NOPULL); //Configure pin 21 0 as input
-     * nrf_gpiote_event_configure(GPIOTE_CHANNEL_0, BUTTON_PIN, NRF_GPIOTE_POLARITY_LOTOHI); 
-     * nrf_drv_gpiote_in_event_enable(BUTTON_PIN, true);
-     */ 
-
-    //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
-    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
+    //NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
     while (true) {
         if (b21 == true) {
             b21 = false;
             led_toggle(LED_0);
+            gpio_output_toggle(OUTPUT_PIN);
         }
-        if (b22 == true) {
-            b22 = false;
-            led_toggle(LED_1);
-        }
-
         if (b8 == true) {
             b8 = false;
             led_toggle(LED_2);
+            gpio_output_toggle(OUTPUT_PIN);
         }
         if (b9 == true) {
             b9 = false;
-            for (i=0;i<1000;++i) {
-                if (i%100 == 0) {
+            for (i=0;i<100000;++i) {
+                if (i%10000 == 0) {
                     led_toggle(LED_0); 
+                    gpio_output_toggle(OUTPUT_PIN);
                 }
             }
             led_off(LED_0); 
         }
         if (b10 == true) {
             b9 = false;
-            for (i=0;i<1000;++i) {
-                if (i%100 == 0) {
+            for (i=0;i<100000;++i) {
+                if (i%10000 == 0) {
                     led_toggle(LED_1); 
+                    gpio_output_toggle(OUTPUT_PIN);
                 }
             }
             led_off(LED_1); 

@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -14,15 +15,20 @@
 
 #include "gpio_driver.h"
 
-static gpio_input_cfg_t *             _gpio_input_cfgs = NULL;
-static uint8_t                        _gpio_input_count; /**< Number of configured buttons. */
+static gpio_cfg_t *             _gpio_cfgs = NULL;
+static uint8_t                        _gpio_count; /**< Number of configured buttons. */
 
 
-static uint32_t _pin_state;
-static uint32_t _pin_transition;
 
-uint32_t gpio_input_init(gpio_input_cfg_t *gpio_cfgs,
-                         uint8_t gpio_input_count) {
+void _pin_direction_reset() {
+    int i;
+    for (i=0; i<NUM_GPIO_PINS; ++i) {
+        _pin_direction[i] = PIN_UNDEFINED;
+    }
+}
+uint32_t gpio_init(gpio_cfg_t *gpio_cfgs,
+                   uint8_t gpio_count) {
+    assert(gpio_count < NUM_GPIO_PINS);
     uint32_t err_code;
 
     // TODO: WE MIGHT OR MIGHT NOT NEED THIS!! probably do tho
@@ -33,74 +39,80 @@ uint32_t gpio_input_init(gpio_input_cfg_t *gpio_cfgs,
         {
             return err_code;
         }
+        _pin_direction_reset();
     }
 
     // Save configuration.
-    _gpio_input_cfgs = gpio_cfgs;
-    _gpio_input_count = gpio_input_count;
+    _gpio_cfgs = gpio_cfgs;
+    _gpio_count = gpio_count;
+    
+    while (gpio_count--) {
+        assert(_pin_direction[gpio_count] == PIN_UNDEFINED);
 
-    _pin_state      = 0;
-    _pin_transition = 0;
+        gpio_cfg_t* curr_input = &_gpio_cfgs[gpio_count];
+        assert(curr_input->pin_direction != PIN_UNDEFINED);
+        assert(curr_input->pin_no < NUM_GPIO_PINS);
 
-    while (gpio_input_count--) {
-        gpio_input_cfg_t* curr_input = &_gpio_input_cfgs[gpio_input_count];
+        if (curr_input->pin_direction == PIN_OUT) {
+            nrf_gpio_cfg_output(curr_input->pin_no);
+        } else { // (PIN_GPIOTE_IN || PIN_PORT_IN)
+            nrf_drv_gpiote_in_config_t p_config =
+                {curr_input->polarity, curr_input->pull_cfg,
+                 false, (curr_input->pin_direction == PIN_GPIOTE_IN) ? true : false};
 
-        /*nrf_gpio_cfg_input(curr_input->pin_no, curr_input->pull_cfg);
+            err_code = nrf_drv_gpiote_in_init(curr_input->pin_no, 
+                                              &p_config,
+                                              curr_input->gpio_handler);
 
-        
-        nrf_gpiote_event_configure(GPIOTE_CHANNEL_0,
-                                   curr_input->pin_no,
-                                   curr_input->polarity); */
-
-        //Next line takes care of above 2 in nrf_drv_gpiote.c :330
-       
-        // set the last arg to true to have high accuracy
-        //      (Needed so pin gpiote registration finds channels)
-        nrf_drv_gpiote_in_config_t p_config =
-            {curr_input->polarity, curr_input->pull_cfg, false,true};
-
-        err_code = nrf_drv_gpiote_in_init(curr_input->pin_no, 
-                                          &p_config,
-                                          curr_input->gpio_handler);
+            if (curr_input->pin_direction == PIN_PORT_IN) {
+                nrf_gpio_cfg_sense_input(curr_input->pin_no, curr_input->pull_cfg,
+                                         curr_input->polarity);
+            }
+        }
 
         if (err_code != NRF_SUCCESS)
         {
             return err_code;
         }
 
-    }
+        _pin_direction[curr_input->pin_no] = curr_input->pin_direction;
 
-    //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
+    }
 
     return NRF_SUCCESS;
 }
 
 void gpio_input_enable_all(void) {
     int8_t i;
-    for (i=0; i<_gpio_input_count; ++i) {
-        nrf_drv_gpiote_in_event_enable(_gpio_input_cfgs[i].pin_no, true);
+    for (i=0; i<_gpio_count; ++i) {
+        uint8_t pin_no = _gpio_cfgs[i].pin_no;
+        if (_pin_direction[pin_no] == PIN_GPIOTE_IN ||
+            _pin_direction[pin_no] == PIN_PORT_IN) {
+
+            nrf_drv_gpiote_in_event_enable(pin_no, true);
+        }
     }
 }
 
 void gpio_input_disable_all(void) {
     uint8_t i;
-    for (i=0; i<_gpio_input_count; ++i) {
-        nrf_drv_gpiote_in_event_disable(_gpio_input_cfgs[i].pin_no);
-    }
-}
+    for (i=0; i<_gpio_count; ++i) {
+        uint8_t pin_no = _gpio_cfgs[i].pin_no;
+        if (_pin_direction[pin_no] == PIN_GPIOTE_IN ||
+            _pin_direction[pin_no] == PIN_PORT_IN) {
 
-void gpio_output_init(uint8_t* pin_no, uint8_t gpio_output_count) {
-    int8_t i;
-    for (i=0; i<gpio_output_count; ++i) {
-         nrf_gpio_cfg_output(pin_no[i]);
+            nrf_drv_gpiote_in_event_disable(pin_no);
+        }
     }
 }
 
 void gpio_output_set(uint8_t pin_no, uint8_t value) {
+    assert(pin_no < NUM_GPIO_PINS && _pin_direction[pin_no] == PIN_OUT);
     nrf_gpio_pin_write(pin_no, value);
 }
 
 void gpio_output_toggle(uint8_t pin_no) {
+    assert(pin_no < NUM_GPIO_PINS && _pin_direction[pin_no] == PIN_OUT);
     nrf_gpio_pin_toggle(pin_no);
 }
 
