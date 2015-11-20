@@ -162,13 +162,16 @@ int main(void) {
 	i2c_init();	
 	
 	//Setup and init PWM
-	
-
+	pca9685_init(&twi_instance);
+	pca9685_setPWMFreq(52.0f);
+	update_servos(bike);
 
     while (1) {
         //power_manage();
     }
 
 	destroy_state(bike);
+
+	return 0;
 }
 
