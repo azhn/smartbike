@@ -4,12 +4,7 @@
 #include <stdbool.h>
 #include "common.h"
 
-/*****************************************************************************
-                              Initialization
-*****************************************************************************/
-
-/* initialize the hall effect sensor */
-void initializeHallEffect( );
+#define MM_PER_INT 997
 
 /*****************************************************************************
                             Interrupt Handlers
@@ -18,14 +13,13 @@ void initializeHallEffect( );
 /* We are getting digital readings based on threshold voltage values from    
  * hysteresis modules. Use these functions to emulate a quadrature decoder
  */
-void wheel_speed_handler();
-void pedalling_speed_hander();
+void wheel_speed_handler(uint32_t* out);
+void pedalling_speed_hander(uint32_t* out);
 
-/*****************************************************************************
-                               Retrieve Data
-*****************************************************************************/
+// bike speed in mm/ms = m/s. We can try to design to scale to prefix_m/s to increase granualarity
+uint32_t get_bike_speed(const uint32_t *prev_count, const uint32_t *curr_count);
 
-/* Effectively a quadrature-like count and time */
-DataPair getCount();
+// pedalling speed in radians
+float get_pedalling_speed(const uint32_t *prev_count, const uint32_t *curr_count);
 
 #endif // HALLEFFECTCONTROL_H_
