@@ -237,20 +237,20 @@ int main(void) {
 
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
-    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                        {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler}};
+    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
+                                        {OUTPUT_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN}};
 
     // It seems only 4 pins can be registered per channel
     gpio_input_count = 2;
 
 
     /* SET INPUT WITH DRIVER */
-    err_code = gpio_input_init(cfgs, gpio_input_count);
+    err_code = gpio_init(cfgs, gpio_input_count);
     if (err_code) {
         led_on(LED_1);
     }
     gpio_input_enable_all();
-    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
+    //NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
 
     // Setup clock

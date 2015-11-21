@@ -149,6 +149,11 @@ static void timers_start(void) {
  *   MAIN LOOP
  ******************************************************************************/
 
+/************* STATE MACHINE *************/
+// state = *(Side, R/L) *(Stable/Thresh) *(Tilt, No Tilt)
+enum TS_state {RESET, RSN, RTT, RST, RTN,
+		LSN, LTT, LST, LTN};
+
 #define BUTTON_PIN 21
 
 #define BUTTON2_PIN 22
@@ -181,6 +186,11 @@ NRF_GPIOTE->EVENTS_IN[0] = 0;
 volatile bool b8, b9, b10, b21, b22, leftSignal, rightSignal;
 volatile bool checkForReturn, returning;
 
+struct LightAction {
+    LightState action; 
+    LightType pos;
+};
+
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     // if (pin == 8) {
     //     b8 = true;
@@ -198,21 +208,226 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
 }
 
 // checks if the accelerometer is within the threshold of the sampled value
-bool check_accel_x(){
-    // while(1) {
-    led_on(LED_2);
-    if(accelDataReady){
-
-        if(abs(readAxisX() - sampled_accel_x) <= ACCEL_THRESH){
-            led_off(LED_0);
-        }
-        accelDataReady = false;
+//ASSUME THAT RIGHT TILT IS POSITIVE AND LEFT IS NEGATIVE
+bool check_passed_thresh(int16_t x_val, bool IO_thresh, bool LR_tilt){
+    int16_t thresh = (LH_thresh ? ACCEL_OUT_THRESH : ACCEL_IN_THRESH);
+    if(LR_tilt) { //Right tilt
+        return ( x_val - sampled_accel_x >= thresh );
+    } else { //Left tilt
+        return ( x_val - sampled_accel_x <= thresh * -1 );
     }
-    // reset the data ready interrupt by reading an axis reg
-    readAxisX();
+}
 
-    led_off(LED_2);
-    // }
+LightAction* turn_signal_check(bool LB, 
+                       bool RB, 
+                       bool newAccelData, 
+                       int16_t accel_x_val){
+
+    static TS_state ts_state = RESET;
+
+    //Check if any state transitions will happen
+    if( ts_state == RESET ) {
+        if( !(RB || LB) ) {
+            return NULL;
+        }
+    } else {
+        if( !(RB || LB || newAccelData) ) {
+            return NULL;
+        }
+    }
+    
+    return turn_signal_update(LB, RB, newAccelData, accel_x_val);
+}
+
+#define TS_RIGHT true
+#define TS_LEFT false
+#define TS_OUT true
+#define TS_IN false
+LightAction* turn_signal_update(bool LB, 
+                       bool RB, 
+                       bool newAccelData, 
+                       int16_t accel_x_val){
+    static int16_t count = 0;
+
+    //Transition State
+    switch(ts_state) {
+        case RESET: 
+        {
+            count = 0;
+            if (LB) {
+                ts_state = LSN;
+            }
+            else if (RB) {
+                ts_state = RSN;
+            }
+            break;
+        }
+        case RSN:
+        {
+            count = 0;
+            if(LB) {
+                ts_state = LSN;
+            } 
+            else if(RB) {
+                ts_state = RESET;        
+            }
+            else if( newAccelVal && 
+                     check_passed_thresh(accel_x_val, TS_OUT, TS_RIGHT)  ){
+                ts_state = RTT;
+            }
+            break;
+        }
+        case RTT:
+        {
+            if(LB) {
+                ts_state = LSN;
+            } 
+            else if (RB) {
+                ts_state = RESET;
+            }
+            else if (newAccelVal) {
+                if( check_passed_thresh(accel_x_val, TS_OUT, TS_RIGHT) ){
+                    count++;
+                } else {
+                    ts_state = RSN;
+                }
+            }
+            
+            if (count > ACCEL_TILT_THRESH) {
+                ts_state = RST;
+            }
+            break;
+        }
+        case RST:
+        {
+            count = 0;
+            if(LB) {
+                ts_state = LSN;
+            } 
+            else if(RB) {
+                ts_state = RESET;        
+            }
+            else if(newAccelVal &&
+                    !check_passed_thresh(accel_x_val, TS_IN, TS_RIGHT) ){
+                ts_state = RTN;
+            }
+            break;
+        }
+        case RTN:
+        {
+            if(LB) {
+                ts_state = LSN;
+            } 
+            else if (RB) {
+                ts_state = RESET;
+            }
+            else if (newAccelVal) {
+                if( !check_passed_thresh(accel_x_val, TS_IN, TS_RIGHT) ){
+                    count++;
+                } else {
+                    ts_state = RST;
+                }
+            }
+            
+            if (count > ACCEL_TILT_THRESH) {
+                ts_state = RESET;
+            }
+            break;
+        }
+        case LSN:
+        {
+            count = 0;
+            if(RB) {
+                ts_state = RSN;
+            } 
+            else if (LB) {
+                ts_state = RESET;
+            }
+            else if(newAccelVal &&
+                    check_passed_thresh(accel_x_val, TS_OUT, TS_LEFT) ){
+                ts_state = LTT;
+            }
+            break;
+        }
+        case LTT:
+        {
+            if(RB) {
+                ts_state = RSN;
+            } 
+            else if (LB) {
+                ts_state = RESET;
+            }
+            else if (newAccelVal) {
+                if( check_passed_thresh(accel_x_val, TS_OUT, TS_LEFT) ){
+                    count++;
+                } else {
+                    ts_state = LSN;
+                }
+            }
+
+            if (count > ACCEL_TILT_THRESH) {
+                ts_state = LST;
+            }
+            break;
+        }
+        case LST:
+        {
+            count = 0;
+            if(RB) {
+                ts_state = RSN;
+            } 
+            else if (LB) {
+                ts_state = RESET;
+            }
+            else if(newAccelVal &&
+                    !check_passed_thresh(accel_x_val, TS_IN, TS_LEFT) ){
+                ts_state = LTN;
+            }
+
+            break;
+        }
+        case LTN:
+        {
+            if(RB) {
+                ts_state = RSN;
+            } 
+            else if (LB) {
+                ts_state = RESET;
+            }
+            else if (newAccelVal) {
+                if( !check_passed_thresh(accel_x_val, TS_IN, TS_LEFT) ){
+                    count++;
+                } else {
+                    ts_state = LST;
+                }
+            }
+            
+            if (count > ACCEL_TILT_THRESH) {
+                ts_state = RESET;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
+
+    //OUTPUT
+
+    switch(ts_state) {
+        case RESET: 
+            return  
+        case RSN:
+        case RTT:
+        case RST:
+        case RTN:
+        case LSN:
+        case LTT:
+        case LST:
+        case LTN:
+        default:
+            break;
+    }
 }
 
 int main(void) {
@@ -233,21 +448,21 @@ int main(void) {
 
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
-    static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                     {BUTTON2_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
-                                     {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
+                                     {BUTTON2_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
+                                     {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler, PIN_GPIOTE_IN}};
     // // It seems only 4 pins can be registered per channel
     gpio_input_count = 3;
 
     /* SET INPUT WITH DRIVER */
-    err_code = gpio_input_init(cfgs, gpio_input_count);
+    err_code = gpio_init(cfgs, gpio_input_count);
     if (err_code) {
         led_on(LED_1);
     }
     gpio_input_enable_all();
 
     //NRF_GPIOTE->INTENSET = GPIOTE_INTENSET_IN0_Enabled; //Set GPIOTE interrupt register on channel 0
-    NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
+    //NVIC_EnableIRQ(GPIOTE_IRQn); //Enable interrupts
 
     setPollAccelData(DATA_X);
 
@@ -255,6 +470,33 @@ int main(void) {
     // reset accelerometer data ready interrupt
     readAxisX();
     while (true) {
+
+        //Get New Values
+        int16_t curr_x_val = 0;
+
+        if(accelDataReady) {
+          populateAccelDataBank();
+          accelDataReady = false;
+        }
+        bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
+
+        bool RB = false, LB = false;
+
+        if(b21 == true) {
+          //Effectively latch value of b21
+          LB = true;
+          b21 = false;
+        }
+
+        if(b22 == true) {
+          //Effectively latch the value of b22
+          RB = true;
+          b22 = false;
+        }
+
+
+
+//////////////////////////////////////////////////
         if (b21 == true) { //button was toggled ,left turn
             b21 = false;
 

@@ -4,39 +4,19 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-/****************************************************************************
-                               Types  
-*****************************************************************************/
+#include "pwm.h"
+#include "BikeState.h"
 
-typedef enum {BACK=0, FRONT=1, _NUM_SERVOS=2} ServoPosition;
+#define REAR_PWM 0
+#define FRONT_PWM 1
 
-typedef struct {
-    ServoPosition _pos;
-    int _curr_angle;
-    int _max_angle;
-    int _min_angle;
-} Servo;
-
-Servo* servos[_NUM_SERVOS];
-
-/****************************************************************************
-                           Initialization
-*****************************************************************************/
-
-/* NOTE: need to remember to initialize I2C to PWM driver and
-         set the correct pins.
-*/
-/* initialize the specified servo */
-void initializeServo(ServoPosition pos);
+const uint16_t REAR_GEAR_UP[6] = {310, 340, 340, 352, 365, 372};
+const uint16_t REAR_GEAR_DOWN[6] = {308, 340, 315, 327, 340, 372};
+const uint16_t FRONT_GEAR_UP[6] = {400, 400, 313, 313, 313, 313};
+const uint16_t FRONT_GEAR_DOWN[6] = {400, 440, 313, 313, 313, 313};
 
 
 
-
-/*****************************************************************************
-                           Servo Read/Write
-*****************************************************************************/
-
-/* rotate to the specified angle */
-void rotateServo(ServoPosition pos, int angle);
+void update_servos(State* state);
 
 #endif // SERVOCONTROL_H_
