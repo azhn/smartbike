@@ -306,10 +306,10 @@ int main(void) {
     gpio_cfg_t cfgs[] = {
         {HALL_EFFECT_WHEEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
         {HALL_EFFECT_PEDAL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
     };
 
     uint8_t gpio_cfg_count;
