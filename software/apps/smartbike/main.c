@@ -227,6 +227,7 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         // led_toggle(LED_1);
         // led_toggle(LED_2);
         // b8 = true;
+		wheel_interrupt_handler(bike);
         setPinStatus(PIN_08, true);
     /*********************************************************/
     /*   Wheel Hall Effect Interrupt                         */

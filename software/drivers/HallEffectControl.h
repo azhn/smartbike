@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "common.h"
+#include "BikeState.h"
 
 #define MM_PER_INT 997
 
@@ -10,14 +11,17 @@
                             Interrupt Handlers
 *****************************************************************************/
 
-/* We are getting digital readings based on threshold voltage values from    
- * hysteresis modules. Use these functions to emulate a quadrature decoder
- */
-void wheel_speed_handler(uint32_t* out);
-void pedalling_speed_hander(uint32_t* out);
+//stores milliseconds
+//sets wheel flag true
+void wheel_interrupt_handler(State* bike);
 
-// bike speed in mm/ms = m/s. We can try to design to scale to prefix_m/s to increase granualarity
-uint32_t get_bike_speed(const uint32_t *prev_count, const uint32_t *curr_count);
+//sets pedaling flag true
+void pedalling_speed_hander(State* bike);
+
+//call this when flags[wheel_flag] is true
+//updates target state and updates 
+//deltas for use with braking logic
+void update_target_state(State* bike);
 
 // pedalling speed in radians
 float get_pedalling_speed(const uint32_t *prev_count, const uint32_t *curr_count);

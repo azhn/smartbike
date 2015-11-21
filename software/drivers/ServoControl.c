@@ -3,6 +3,10 @@
 
 void update_servos(State* state)
 {
+	if(state->target_gear == state->curr_gear)
+	{
+		return;
+	}
 
 	if(state->target_gear > state->curr_gear)
 	{

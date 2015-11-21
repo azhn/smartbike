@@ -2,6 +2,7 @@
 
 struct State* create_state()
 {
+	int i = 0;
     State* state = malloc(sizeof(struct State));
     if(state == NULL)
     {   
@@ -16,6 +17,11 @@ struct State* create_state()
     state->target_gear = 0;
     state->curr_gear = 0;
     state->strobe_dir = UP; 
+
+	for(i = 0; i < NUM_FLAGS; ++i)
+	{
+		state->flags[i] = false;
+	}
 
     return state;
 }
