@@ -47,4 +47,6 @@ int16_t readAxisZ( );
 /* update all data */
 void updateAccelerometerState( );
 
+uint8_t readAccelStatus( );
+
 #endif // ACCELEROMETERCONTROL_H_

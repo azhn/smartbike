@@ -24,6 +24,16 @@ typedef struct {
 #define POWER_CTL 0x2D
 #define WAKEUP_MODE_EN 0x08
 
+#define XDATA_L 0x0E
+#define XDATA_H 0x0F
+#define YDATA_L 0x10
+#define YDATA_H 0x11
+#define ZDATA_L 0x12
+#define ZDATA_H 0x13
+
+#define XDATA 0x08
+#define YDATA 0x09
+#define ZDATA 0x0A
 
 
 /*****************************************************************************
@@ -138,7 +148,7 @@ int16_t readAxisX( ) {
   uint8_t x_data[2];
 
   // read the data
-  adxl362_sample_accel_word_x( x_data );
+  spi_read_reg(XDATA_L, x_data, 2);
 
   // return the data
   //   NOTE: second 8-bit value read should be MSB
@@ -153,7 +163,7 @@ int16_t readAxisY( ) {
   uint8_t y_data[2];
 
   // read the data
-  adxl362_sample_accel_word_y( y_data );
+  spi_read_reg(YDATA_L, y_data, 2);
 
   // return the data
   //  NOTE: second 8-bit value read should be MSB
@@ -168,7 +178,7 @@ int16_t readAxisZ( ) {
   uint8_t z_data[2];
 
   // read the data
-  adxl362_sample_accel_word_z( z_data );
+  spi_read_reg(ZDATA_L, z_data, 2);
 
   // return the data
   //  NOTE: second 8-bit value read should be MSB
@@ -187,5 +197,13 @@ void updateAccelerometerState( AccelerometerState * state ) {
   // update the timestamp
   //state->timestamp = 
   //	This has to be updated using an internal timer...(?)
+}
+
+/* read accelerometer state */
+uint8_t readAccelStatus( ){
+  uint8_t data[1];
+  spi_read_reg(0x0B, data, 1);
+
+  return data[0];
 }
 
