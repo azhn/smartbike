@@ -28,14 +28,11 @@
 // #include "simple_adv.h"
 #include "ble_config.h"
 
-<<<<<<< HEAD
 #include "AccelerometerControl.h"
-=======
 #include "ServoControl.h"
 #include "LightControl.h"
 #include "BikeState.h"
 
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
 
 /*******************************************************************************
  *   DEFINES
@@ -45,7 +42,6 @@
 // Maximum size is 17 characters
 #define PHYSWEB_URL     "goo.gl/XMRl3M"
 
-<<<<<<< HEAD
 #define GPIOTE_CHANNEL_0 0
 #define GPIOTE_CHANNEL_1 1
 
@@ -62,27 +58,22 @@
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
 #define BLINK_RATE  APP_TIMER_TICKS(1000, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
 
-=======
 #define NUM_GEARS 6
 #define MM_PER_INT 1100UL
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
 
 /*******************************************************************************
  *   CONSTANTS
  ******************************************************************************/
-<<<<<<< HEAD
 const ble_uuid128_t smartbike_uuid128 = {
     {0x04, 0x08, 0x13, 0x8b, 0x13, 0x02, 0x4e, 0x75,
      0x8c, 0xca, 0xc7, 0x5f, 0x70, 0xdf, 0xf8, 0x9f}
 };
-=======
 
 //our bike
 State* bike;
 
 //i2c instance 
 nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
 
 
 /*******************************************************************************
@@ -127,18 +118,12 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 }
 
 static void timer_handler (void* p_context) {
-<<<<<<< HEAD
-    //led_toggle(LED_0);
-=======
-    
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
     led_toggle(LED_0);
     int16_t xval = readAxisX();
     data[0] = (uint8_t)xval;
     data[1] = (uint8_t)(xval >> 8);
 }
 
-<<<<<<< HEAD
 static void timers_init(void) {
     uint32_t err_code;
 
@@ -149,13 +134,11 @@ static void timers_init(void) {
             timer_handler);
     APP_ERROR_CHECK(err_code);
 }
-=======
 
 /*******************************************************************************
  *   INIT FUNCTIONS
  ******************************************************************************/
 
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
 
 // Start the timers
 static void timers_start(void) {
@@ -212,14 +195,12 @@ void ble_error(uint32_t error_code) {
     led_on(LED_1);
 }
 
-<<<<<<< HEAD
 void ble_evt_connected(ble_evt_t* p_ble_evt) {
     led_on(LED_0);
 }
 
 void ble_evt_disconnected(ble_evt_t* p_ble_evt) {
     led_off(LED_0);
-=======
 
 //setup i2c
 static void i2c_init(void)
@@ -232,14 +213,11 @@ static void i2c_init(void)
     twi_config.interrupt_priority = 2;
 
     nrf_drv_twi_init(&twi_instance, &twi_config, NULL);
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
 }
 
 /*******************************************************************************
 *   INTERRUPT HANDLER
 ******************************************************************************/
-<<<<<<< HEAD
-// static bool accelDataReady = false; --> NOT DOING THIS ANYMORE
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     /*********************************************************/
@@ -280,19 +258,18 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         setPinStatus(PIN_22, true);
     }
 }
-=======
-
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
 
 /*******************************************************************************
  *   MAIN FUNCTION
  ******************************************************************************/
-<<<<<<< HEAD
 int main(void) {
     /*********************************************************/
     /*               Local Variables/Data                    */
     /*********************************************************/
-    nrf_drv_gpiote_in_config_t temp_t = {NRF_GPIOTE_POLARITY_HITOLO, NRF_GPIO_PIN_NOPULL, false, false};
+	//create our state
+	bike = create_state();
+    
+	nrf_drv_gpiote_in_config_t temp_t = {NRF_GPIOTE_POLARITY_HITOLO, NRF_GPIO_PIN_NOPULL, false, false};
 
     uint8_t temp_data0 = 0x43;
     uint8_t temp_data1 = 0x44;
@@ -352,6 +329,13 @@ int main(void) {
     /*********************************************************/
     /*                    Initialize Servos                  */
     /*********************************************************/
+	//init i2c
+	i2c_init();	
+	
+	//Setup and init PWM
+	pca9685_init(&twi_instance);
+	pca9685_setPWMFreq(52.0f);
+	update_servos(bike);
 
     /*********************************************************/
     /*                 Initialize GPIO                       */
@@ -370,24 +354,6 @@ int main(void) {
 
     nrf_drv_gpiote_in_init(22, &temp_t, &pin_handler);    
     nrf_gpio_cfg_sense_input(22, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
-=======
-
-int main(void) { 
-	// Setup clock
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
-
-	
-	//create our state
-	bike = create_state();
-
-	//init i2c
-	i2c_init();	
-	
-	//Setup and init PWM
-	pca9685_init(&twi_instance);
-	pca9685_setPWMFreq(52.0f);
-	update_servos(bike);
->>>>>>> 86a0ea50747cc9a53f8c4adb487e3d18110bbf1a
 
     nrf_drv_gpiote_in_init(8, &temp_t, &pin_handler);
     nrf_gpio_cfg_sense_input(8, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
