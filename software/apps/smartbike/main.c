@@ -28,10 +28,13 @@
 // #include "simple_adv.h"
 #include "ble_config.h"
 
+// Drivers
+#include "gpio_driver.h"
 #include "AccelerometerControl.h"
 #include "ServoControl.h"
 #include "LightControl.h"
 #include "BikeState.h"
+#include "HallEffectControl.h"
 
 
 /*******************************************************************************
@@ -52,14 +55,21 @@
 #define PIN_21 21
 #define PIN_22 22
 
+#define HALL_EFFECT_WHEEL_PIN 7  // GPIOTE
+#define HALL_EFFECT_PEDAL_PIN 6  // PORT
+#define BUTTON_SHIFT_UP_PIN 5    // PORT
+#define BUTTON_SHIFT_DOWN_PIN 4  // PORT
+#define BUTTON_LEFT_TURN_PIN 3   // PORT
+#define BUTTON_RIGHT_TURN_PIN 10 // PORT
+
+
+
 // # defines from Blink app
 #define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
 #define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
 #define BLINK_RATE  APP_TIMER_TICKS(1000, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
 
-#define NUM_GEARS 6
-#define MM_PER_INT 1100UL
 
 /*******************************************************************************
  *   CONSTANTS
@@ -201,9 +211,10 @@ void ble_evt_connected(ble_evt_t* p_ble_evt) {
 
 void ble_evt_disconnected(ble_evt_t* p_ble_evt) {
     led_off(LED_0);
+}
 
 //setup i2c
-static void i2c_init(void)
+void i2c_init(void)
 {
     nrf_drv_twi_config_t twi_config;
 
@@ -218,45 +229,52 @@ static void i2c_init(void)
 /*******************************************************************************
 *   INTERRUPT HANDLER
 ******************************************************************************/
-
-void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
-    /*********************************************************/
-    /*   Pedalling Hall Effect Interrupt                     */
-    /*********************************************************/
-    if (pin == PIN_08) {
-        // led_toggle(LED_1);
-        // led_toggle(LED_2);
-        // b8 = true;
-		wheel_interrupt_handler(bike);
-        setPinStatus(PIN_08, true);
+void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     /*********************************************************/
     /*   Wheel Hall Effect Interrupt                         */
     /*********************************************************/
-    } else if (pin == PIN_09) { 
-        // led_toggle(LED_0);
+    if (pin == HALL_EFFECT_WHEEL_PIN) { 
+		wheel_interrupt_handler(bike);
+        setPinStatus(HALL_EFFECT_WHEEL_PIN, true);
+    }
+}
+
+void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    /*********************************************************/
+    /*   PEDALLING HALL EFFECT INTERRUPT                     */
+    /*********************************************************/
+    if (pin == HALL_EFFECT_PEDAL_PIN) {
         // led_toggle(LED_1);
-        setPinStatus(PIN_09, true);
-    /*********************************************************/
-    /*   Accelerometer Interrupt                             */
-    /*********************************************************/
-    } else if (pin == PIN_10) {
         // led_toggle(LED_2);
-        setPinStatus(PIN_10, true);
+        // b8 = true;
+        setPinStatus(HALL_EFFECT_PEDAL_PIN, true);
     /*********************************************************/
-    /*   Left Button Interrupt                               */
+    /*   SHIFT UP BUTTON INTERRUPT                           */
     /*********************************************************/
-    }else if (pin == PIN_21) {
+    } else if (pin == BUTTON_SHIFT_UP_PIN) {
+        // led_toggle(LED_2);
+        setPinStatus(BUTTON_SHIFT_UP_PIN, true);
+    /*********************************************************/
+    /*   SHIFT DOWN BUTTON INTERRUPT                         */
+    /*********************************************************/
+    } else if (pin == BUTTON_SHIFT_DOWN_PIN) {
         // led_toggle(LED_0);   
         // b21 = true;
-        setPinStatus(PIN_21, true);
-    }
+        setPinStatus(BUTTON_SHIFT_DOWN_PIN, true);
     /*********************************************************/
-    /*   Right Button Interrupt                              */
+    /*   LEFT TURN BUTTON INTERRUPT                          */
     /*********************************************************/
-    else if (pin == PIN_22) {
+    } else if (pin == BUTTON_LEFT_TURN_PIN) {
         // led_toggle(LED_1); 
         // b22 = true;
-        setPinStatus(PIN_22, true);
+        setPinStatus(BUTTON_LEFT_TURN_PIN, true);
+    /*********************************************************/
+    /*   RIGHT TURN BUTTON INTERRUPT                         */
+    /*********************************************************/
+    } else if (pin == BUTTON_RIGHT_TURN_PIN) {
+        // led_toggle(LED_1); 
+        // b22 = true;
+        setPinStatus(BUTTON_RIGHT_TURN_PIN, true);
     }
 }
 
@@ -267,10 +285,10 @@ int main(void) {
     /*********************************************************/
     /*               Local Variables/Data                    */
     /*********************************************************/
-	//create our state
-	bike = create_state();
-    
-	nrf_drv_gpiote_in_config_t temp_t = {NRF_GPIOTE_POLARITY_HITOLO, NRF_GPIO_PIN_NOPULL, false, false};
+    uint32_t err_code;
+
+    //create our state
+    bike = create_state();
 
     uint8_t temp_data0 = 0x43;
     uint8_t temp_data1 = 0x44;
@@ -280,7 +298,27 @@ int main(void) {
     data[2] = '\n';
 
     bool button08 = false, button09 = false, button10 = false, 
-        button21 = false, button22 = false;
+         button21 = false, button22 = false;
+    /*********************************************************/
+    /*                 Initialize GPIO                       */
+    /*********************************************************/
+    gpio_cfg_t cfgs[] = {
+        {HALL_EFFECT_WHEEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
+        {HALL_EFFECT_PEDAL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+    };
+
+    uint8_t gpio_cfg_count;
+    gpio_cfg_count = 6;
+
+    err_code = gpio_init(cfgs, gpio_cfg_count);
+    APP_ERROR_CHECK(err_code);
+ 
+    gpio_input_enable_all();
+
 
     /*********************************************************/
     /*                  Initialize Lights                    */
@@ -337,38 +375,6 @@ int main(void) {
 	pca9685_init(&twi_instance);
 	pca9685_setPWMFreq(52.0f);
 	update_servos(bike);
-
-    /*********************************************************/
-    /*                 Initialize GPIO                       */
-    /*********************************************************/
-    if (!nrf_drv_gpiote_is_init())
-    {
-        err_code = nrf_drv_gpiote_init();
-        if (err_code != NRF_SUCCESS)
-        {
-            return err_code;
-        }
-    }
-    nrf_drv_gpiote_in_init(21, &temp_t, &pin_handler);
-    nrf_gpio_cfg_sense_input(21, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
-    
-
-    nrf_drv_gpiote_in_init(22, &temp_t, &pin_handler);    
-    nrf_gpio_cfg_sense_input(22, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
-
-    nrf_drv_gpiote_in_init(8, &temp_t, &pin_handler);
-    nrf_gpio_cfg_sense_input(8, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
-
-    nrf_drv_gpiote_in_init(9, &temp_t, &pin_handler);
-    nrf_gpio_cfg_sense_input(9, NRF_GPIO_PIN_NOPULL, NRF_GPIO_PIN_SENSE_LOW);
-
-    nrf_drv_gpiote_in_init(10, &temp_t, &pin_handler);
-    nrf_gpio_cfg_sense_input(10, NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
-
-    // nrf_drv_gpiote_in_init(0, &temp_t, &pin_handler);
-    NRF_GPIOTE->INTENSET = 0x8000000F;
-    NVIC_EnableIRQ(GPIOTE_IRQn);
-
 
     /*********************************************************/
     /*                     Main Loop                         */
