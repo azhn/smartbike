@@ -1,8 +1,9 @@
+#include "LightControl.h"
 #include "BikeState.h"
 
 struct State* create_state()
 {
-	int i = 0;
+    int i = 0;
     State* state = malloc(sizeof(struct State));
     if(state == NULL)
     {   
@@ -16,12 +17,12 @@ struct State* create_state()
     state->shift_dir = UP; 
     state->target_gear = 0;
     state->curr_gear = 0;
-    state->strobe_dir = UP; 
+    state->blinking_light_output = LIGHT_STATE_BLINKING_OFF; 
 
-	for(i = 0; i < NUM_FLAGS; ++i)
-	{
-		state->flags[i] = false;
-	}
+    for(i = 0; i < NUM_FLAGS; ++i)
+    {
+        state->flags[i] = false;
+    }
 
     return state;
 }
@@ -33,4 +34,3 @@ void destroy_state(State* state)
         free(state);
     }   
 }
-
