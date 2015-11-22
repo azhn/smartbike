@@ -16,7 +16,7 @@
 void wheel_interrupt_handler(State* bike);
 
 //sets pedaling flag true
-void pedalling_speed_hander(State* bike);
+void pedalling_interrupt_handler(State* bike);
 
 //call this when flags[wheel_flag] is true
 //updates target state and updates 

@@ -6,7 +6,7 @@ void wheel_interrupt_handler(State* bike) {
 	bike->flags[wheel_flag] = true;
 }
 
-void pedalling_speed_hander(State* bike) {
+void pedalling_interrupt_handler(State* bike) {
     bike->flags[pedal_flag] = true;
 }
 

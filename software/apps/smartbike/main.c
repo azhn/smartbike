@@ -99,14 +99,6 @@ unsigned char data[3];
 // GPIO
 uint32_t pin_status = 0x0000;
 
-// HALL EFFECT (wheel)
-uint32_t curr_wheel_int_time = 0;
-uint32_t prev_wheel_int_time = 0;
-
-// HALL EFFECT (pedal)
-uint32_t curr_pedal_int_time = 0;
-uint32_t prev_pedal_int_time = 0;
-
 
 /*******************************************************************************
  *   FUNCTION DECLARATIONS
@@ -174,6 +166,19 @@ static bool getPinStatusClear(uint8_t pin_num){
     return ret;
 }
 
+//setup i2c
+void i2c_init(void)
+{
+    nrf_drv_twi_config_t twi_config;
+
+    twi_config.sda = I2C_SDA_PIN;
+    twi_config.scl = I2C_SCL_PIN;
+    twi_config.frequency = NRF_TWI_FREQ_400K;
+    twi_config.interrupt_priority = 2;
+
+    nrf_drv_twi_init(&twi_instance, &twi_config, NULL);
+}
+
 /*******************************************************************************
 // Intervals for advertising and connections
  ******************************************************************************/
@@ -213,19 +218,6 @@ void ble_evt_disconnected(ble_evt_t* p_ble_evt) {
     led_off(LED_0);
 }
 
-//setup i2c
-void i2c_init(void)
-{
-    nrf_drv_twi_config_t twi_config;
-
-    twi_config.sda = I2C_SDA_PIN;
-    twi_config.scl = I2C_SCL_PIN;
-    twi_config.frequency = NRF_TWI_FREQ_400K;
-    twi_config.interrupt_priority = 2;
-
-    nrf_drv_twi_init(&twi_instance, &twi_config, NULL);
-}
-
 /*******************************************************************************
 *   INTERRUPT HANDLER
 ******************************************************************************/
@@ -244,10 +236,8 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
     /*   PEDALLING HALL EFFECT INTERRUPT                     */
     /*********************************************************/
     if (pin == HALL_EFFECT_PEDAL_PIN) {
-        // led_toggle(LED_1);
-        // led_toggle(LED_2);
-        // b8 = true;
-        setPinStatus(HALL_EFFECT_PEDAL_PIN, true);
+        pedalling_interrupt_handler(bike);
+		setPinStatus(HALL_EFFECT_PEDAL_PIN, true);
     /*********************************************************/
     /*   SHIFT UP BUTTON INTERRUPT                           */
     /*********************************************************/
@@ -396,20 +386,6 @@ int main(void) {
         /*****************************************************/
         // Get the latest accelerometer data & store locally
         
-        /*****************************************************/
-        /*     Hall Effect Pedalling Update                  */
-        /*****************************************************/
-        // Only change gears if pedalling forward at a
-        //    decent speed
-
-        /*****************************************************/
-        /*     Hall Effect Wheel Speed Update                */
-        /*****************************************************/
-        // Compare new hall effect interrupt with preivous
-        //    to calculate (wheel) speed
-
-
-
 
         /* PROCESS DATA */
         /*****************************************************/
@@ -423,6 +399,15 @@ int main(void) {
         // Determine what gear we should shift to based on
         //  wheel speed and accelerometer tilt (slope)
 
+        /*****************************************************/
+        /*     Calculate Velocity                            */
+        /*****************************************************/
+        //velocity and acceleration are updated, target gear set
+		if(bike->flags[wheel_flag])
+		{
+			update_target_state(bike);
+		}
+
 
         
         /* CONTROL HARDWARE */
@@ -434,7 +419,10 @@ int main(void) {
         /*****************************************************/
         /*     Shifting Control                              */
         /*****************************************************/
-        // shift to the correct gear
+        if(bike->flags[pedal_flag])
+		{
+			update_servos(bike);
+		}
 
         /*****************************************************/
         /*     Manage power (do we need this?)               */

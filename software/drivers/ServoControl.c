@@ -32,4 +32,5 @@ void update_servos(State* state)
     	pca9685_setPWM(FRONT_PWM, 0, FRONT_GEAR_DOWN[state->target_gear]);
   	}
   	state->curr_gear = state->target_gear;
+	state->flags[pedal_flag] = false;
 }
