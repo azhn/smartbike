@@ -22,9 +22,12 @@ APPLICATION_SRCS += adxl362.c
 APPLICATION_SRCS += spi_driver.c
 APPLICATION_SRCS += app_error.c
 #APPLICATION_SRCS += nrf_gpio.c
-APPLICATION_SRCS += AccelerometerControl.c
 APPLICATION_SRCS += gpio_driver.c
 APPLICATION_SRCS += pwm.c
+APPLICATION_SRCS += BikeState.c
+APPLICATION_SRCS += HallEffectControl.c
+APPLICATION_SRCS += ServoControl.c
+
 ifndef TARGET
 	TARGET = SMARTBIKE
 endif
