@@ -27,6 +27,7 @@ APPLICATION_SRCS += pwm.c
 APPLICATION_SRCS += BikeState.c
 APPLICATION_SRCS += HallEffectControl.c
 APPLICATION_SRCS += ServoControl.c
+APPLICATION_SRCS += BikeTimers.c
 
 ifndef TARGET
 	TARGET = SMARTBIKE
