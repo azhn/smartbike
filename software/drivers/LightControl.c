@@ -16,16 +16,24 @@ void initializeLights() {
 
     for(i=0; i<LED_LIGHTS_SIZE; ++i) {
         _led_lights[i]._state = LIGHT_STATE_OFF;
-        _led_lights[i]._address = _led_light_address[i];
+        _led_lights[i]._address = i;
         pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF]);
     }
 }
 
 
 void setRearLightState(LightType type, LightState state ) {
-    _rear_lights[type]._state = state; 
     /* SET PWM */
-    pca9685_setPWM(_rear_lights[type]._address, 0, _light_state_pwm[state]);
+    if (state == LIGHT_STATE_BLINKING) {
+        state = LIGHT_STATE_BLINKING_ON;
+    }
+    _rear_lights[type]._state = state; 
+
+    if (state >= LIGHT_STATE_OFF || state < _NUM_LIGHT_STATE) {
+        pca9685_setPWM(_rear_lights[type]._address, 0, _light_state_pwm[state]);
+    } else {
+        assert(false);
+    }
 }
 
 void setLEDLightState(uint8_t pos, LightState state ) {
