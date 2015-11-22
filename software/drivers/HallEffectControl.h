@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "common.h"
 #include "BikeState.h"
+#include "BikeTimers.h"
 
 #define MM_PER_INT 997
 

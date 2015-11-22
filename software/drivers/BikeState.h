@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 
 #define UP true
@@ -26,10 +27,10 @@ enum FLAGS
 typedef struct State
 {
     //speed stuff
-    unsigned long last_milli;
-    unsigned long curr_milli;
-    unsigned long last_delta;
-    unsigned long curr_delta;
+    uint32_t last_milli;
+    uint32_t curr_milli;
+    uint32_t last_delta;
+    uint32_t curr_delta;
 
     //shifting stuff
     bool shift_dir; 

@@ -3,8 +3,12 @@
 
 #include <stdint.h>
 
+#include "nrf.h"
+#include "nordic_common.h"
+#include "softdevice_handler.h"
 #include "app_timer.h"
 #include "nrf51_bitfields.h"
+#include "nrf_drv_config.h"
 
 /******************************************************************************
  *  DEFINES
@@ -13,7 +17,7 @@
 #define BIKE_TIMER_PRESCALER        32  // Value of RTC1 PRESCALER Register
 #define BIKE_TIMER_MAX_TIMERS       4   // Maximum number of simultaneous timers
 #define BIKE_TIMER_OP_QUEUE_SIZE    4   // Size of timer operation queues
-
+#define MAX_RATE APP_TIMER_TICKS(1, BIKE_TIMER_PRESCALER) //not sure of this
 
 /******************************************************************************
  *  STATIC VARIABLES
@@ -26,10 +30,10 @@ static app_timer_id_t millis_counter_timer;
  * FUNCTIONS
  *****************************************************************************/
 
-static void timers_init(void);
-static void timers_start(void);
+void timers_init(void);
+void timers_start(void);
 
-static void millis_counter_handler(void* p_context);
+void millis_counter_handler(void* p_context);
 uint32_t get_millis();
 
 #endif /*BIKE_TIMERS_H*/

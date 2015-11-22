@@ -2,7 +2,7 @@
 
 void wheel_interrupt_handler(State* bike) {
     bike->last_milli = bike->curr_milli;
-	bike->curr_milli = 0;//get_millis();
+	bike->curr_milli = get_millis();
 	bike->flags[wheel_flag] = true;
 }
 

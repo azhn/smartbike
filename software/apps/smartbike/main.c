@@ -35,6 +35,7 @@
 #include "LightControl.h"
 #include "BikeState.h"
 #include "HallEffectControl.h"
+#include "BikeTimers.h"
 
 
 /*******************************************************************************
@@ -126,6 +127,7 @@ static void timer_handler (void* p_context) {
     data[1] = (uint8_t)(xval >> 8);
 }
 
+/*
 static void timers_init(void) {
     uint32_t err_code;
 
@@ -135,18 +137,18 @@ static void timers_init(void) {
     err_code = app_timer_create(&test_timer, APP_TIMER_MODE_REPEATED,
             timer_handler);
     APP_ERROR_CHECK(err_code);
-}
+}*/
 
 /*******************************************************************************
  *   INIT FUNCTIONS
  ******************************************************************************/
 
-
+/*
 // Start the timers
 static void timers_start(void) {
     uint32_t err_code = app_timer_start(test_timer, BLINK_RATE, NULL);
     APP_ERROR_CHECK(err_code);
-}
+}*/
 
 static void setPinStatus(uint8_t pin_num, bool value){
     if(value) { // set value to 1
