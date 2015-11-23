@@ -46,6 +46,7 @@ typedef struct State
     bool flags[_NUM_FLAGS];
 }State;
 
+bool test_milli_count_flag;
 
 struct State* create_state();
 
