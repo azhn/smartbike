@@ -56,12 +56,12 @@
 #define PIN_21 21
 #define PIN_22 22
 
-#define HALL_EFFECT_WHEEL_PIN 7  // GPIOTE
-#define HALL_EFFECT_PEDAL_PIN 6  // PORT
-#define BUTTON_SHIFT_UP_PIN 5    // PORT
-#define BUTTON_SHIFT_DOWN_PIN 4  // PORT
-#define BUTTON_LEFT_TURN_PIN 3   // PORT
-#define BUTTON_RIGHT_TURN_PIN 10 // PORT
+#define HALL_EFFECT_WHEEL_PIN 6  // GPIOTE
+#define HALL_EFFECT_PEDAL_PIN 5  // PORT
+#define BUTTON_SHIFT_UP_PIN 4    // PORT
+#define BUTTON_SHIFT_DOWN_PIN 3  // PORT
+#define BUTTON_LEFT_TURN_PIN 10   // PORT
+#define BUTTON_RIGHT_TURN_PIN 8 // PORT
 
 
 
@@ -121,7 +121,7 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 }
 
 static void timer_handler (void* p_context) {
-    led_toggle(LED_0);
+    //led_toggle(LED_0);
     int16_t xval = readAxisX();
     data[0] = (uint8_t)xval;
     data[1] = (uint8_t)(xval >> 8);
@@ -224,12 +224,24 @@ void ble_evt_disconnected(ble_evt_t* p_ble_evt) {
 *   INTERRUPT HANDLER
 ******************************************************************************/
 void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    static uint32_t milli = 0;
     /*********************************************************/
     /*   Wheel Hall Effect Interrupt                         */
     /*********************************************************/
     if (pin == HALL_EFFECT_WHEEL_PIN) { 
-		wheel_interrupt_handler(bike);
+        if (bike == NULL) return;
+
+        wheel_interrupt_handler(bike);
+        //led_toggle(LED_1);
+        /*if (test_milli_count_flag) {
+            led_toggle(LED_0);
+        }*/
+        if (bike->curr_milli > bike->last_milli && milli < bike->curr_milli) {
+            led_toggle(LED_2);
+        }
+        milli = bike->curr_milli;
         setPinStatus(HALL_EFFECT_WHEEL_PIN, true);
+        //led_toggle(LED_2);
     }
 }
 
@@ -295,16 +307,16 @@ int main(void) {
     /*                 Initialize GPIO                       */
     /*********************************************************/
     gpio_cfg_t cfgs[] = {
-        {HALL_EFFECT_WHEEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
-        {HALL_EFFECT_PEDAL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+        {HALL_EFFECT_WHEEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
+        {HALL_EFFECT_PEDAL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN}
     };
 
     uint8_t gpio_cfg_count;
-    gpio_cfg_count = 6;
+    gpio_cfg_count = 4;
 
     err_code = gpio_init(cfgs, gpio_cfg_count);
     APP_ERROR_CHECK(err_code);
@@ -345,7 +357,7 @@ int main(void) {
     //simple_adv_only_name();
     simple_adv_service(&smartbike_uuid);
     // Initialization complete
-    led_off(LED_2);
+    //led_on(LED_2);
 
 
     /*********************************************************/
@@ -366,6 +378,7 @@ int main(void) {
 	//Setup and init PWM
 	pca9685_init(&twi_instance);
 	pca9685_setPWMFreq(52.0f);
+	//pca9685_setPWM(0,0,2000);
 	update_servos(bike);
 
     /*********************************************************/
@@ -405,8 +418,11 @@ int main(void) {
         /*     Calculate Velocity                            */
         /*****************************************************/
         //velocity and acceleration are updated, target gear set
+        
+
 		if(bike->flags[wheel_flag])
 		{
+                        led_toggle(LED_0);
 			update_target_state(bike);
 		}
 
