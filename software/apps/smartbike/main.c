@@ -65,13 +65,6 @@
 
 
 
-// # defines from Blink app
-#define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
-#define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
-#define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
-#define BLINK_RATE  APP_TIMER_TICKS(1000, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
-
-
 /*******************************************************************************
  *   CONSTANTS
  ******************************************************************************/
@@ -94,8 +87,6 @@ nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
 ble_uuid_t smartbike_uuid;
 simple_ble_app_t* simple_ble_app;
 static ble_app_t app;
-unsigned char names[] = "ALAN";
-unsigned char data[3];
 
 // GPIO
 uint32_t pin_status = 0x0000;
@@ -104,7 +95,6 @@ uint32_t pin_status = 0x0000;
 /*******************************************************************************
  *   FUNCTION DECLARATIONS
  ******************************************************************************/
-static app_timer_id_t test_timer;
 
 
 /*******************************************************************************
@@ -120,35 +110,12 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
     // on_sys_evt(sys_evt);
 }
 
-static void timer_handler (void* p_context) {
-    //led_toggle(LED_0);
-    int16_t xval = readAxisX();
-    data[0] = (uint8_t)xval;
-    data[1] = (uint8_t)(xval >> 8);
-}
 
-/*
-static void timers_init(void) {
-    uint32_t err_code;
-
-    APP_TIMER_INIT(BLINK_TIMER_PRESCALER, BLINK_TIMER_MAX_TIMERS,
-            BLINK_TIMER_OP_QUEUE_SIZE, false);
-
-    err_code = app_timer_create(&test_timer, APP_TIMER_MODE_REPEATED,
-            timer_handler);
-    APP_ERROR_CHECK(err_code);
-}*/
 
 /*******************************************************************************
  *   INIT FUNCTIONS
  ******************************************************************************/
 
-/*
-// Start the timers
-static void timers_start(void) {
-    uint32_t err_code = app_timer_start(test_timer, BLINK_RATE, NULL);
-    APP_ERROR_CHECK(err_code);
-}*/
 
 static void setPinStatus(uint8_t pin_num, bool value){
     if(value) { // set value to 1
@@ -294,12 +261,6 @@ int main(void) {
     //create our state
     bike = create_state();
 
-    uint8_t temp_data0 = 0x43;
-    uint8_t temp_data1 = 0x44;
-
-    data[0] = (unsigned char)temp_data0;
-    data[1] = (unsigned char)temp_data1;
-    data[2] = '\n';
 
     bool button08 = false, button09 = false, button10 = false, 
          button21 = false, button22 = false;
