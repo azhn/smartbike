@@ -17,8 +17,7 @@
 #define BIKE_TIMER_PRESCALER        32  // Value of RTC1 PRESCALER Register
 #define BIKE_TIMER_MAX_TIMERS       4   // Maximum number of simultaneous timers
 #define BIKE_TIMER_OP_QUEUE_SIZE    4   // Size of timer operation queues
-#define MAX_RATE APP_TIMER_TICKS(1, BIKE_TIMER_PRESCALER) //not sure of this
-
+#define MAX_TIMER_TICKS             16777216 // Max ticks before overflow; required for app_timer API
 /******************************************************************************
  *  STATIC VARIABLES
  *****************************************************************************/
