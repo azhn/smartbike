@@ -4,27 +4,28 @@
 
 #include "BikeTimers.h"
 
-static void timers_init(void) {
+void timers_init(void) {
     uint32_t err_code;
     
     APP_TIMER_INIT(BIKE_TIMER_PRESCALER, BIKE_TIMER_MAX_TIMERS, 
             BIKE_TIMER_OP_QUEUE_SIZE, false);
     
     // ADD YOUR TIMERS HERE
-    err_code = app_timer_create(&test_timer, APP_TIMER_MODE_REPEATED,
-            millis_counter_timer);
+    err_code = app_timer_create(&millis_counter_timer, 
+								APP_TIMER_MODE_REPEATED,
+            					millis_counter_handler);
     APP_ERROR_CHECK(err_code);
 }
 
 
-static void timers_start(void) {
+void timers_start(void) {
     // ADD YOUR TIMERS HERE
-    uint32_t err_code = app_timer_start(millis_counter_timer, MAX_RATE, NULL);
+    uint32_t err_code = app_timer_start(millis_counter_timer, BIKE_TIMER_MAX_TICKS, NULL);
     APP_ERROR_CHECK(err_code);
 }
 
 
-static void millis_counter_handler(void* p_context) {
+void millis_counter_handler(void* p_context) {
     // do nothing, just a place holder b/c of the stupid APP TIMER API
 }
 

@@ -35,6 +35,7 @@
 #include "LightControl.h"
 #include "BikeState.h"
 #include "HallEffectControl.h"
+#include "BikeTimers.h"
 
 
 /*******************************************************************************
@@ -55,20 +56,13 @@
 #define PIN_21 21
 #define PIN_22 22
 
-#define HALL_EFFECT_WHEEL_PIN 7  // GPIOTE
-#define HALL_EFFECT_PEDAL_PIN 6  // PORT
-#define BUTTON_SHIFT_UP_PIN 5    // PORT
-#define BUTTON_SHIFT_DOWN_PIN 4  // PORT
-#define BUTTON_LEFT_TURN_PIN 3   // PORT
-#define BUTTON_RIGHT_TURN_PIN 10 // PORT
+#define HALL_EFFECT_WHEEL_PIN 6  // GPIOTE
+#define HALL_EFFECT_PEDAL_PIN 5  // PORT
+#define BUTTON_SHIFT_UP_PIN 4    // PORT
+#define BUTTON_SHIFT_DOWN_PIN 3  // PORT
+#define BUTTON_LEFT_TURN_PIN 10   // PORT
+#define BUTTON_RIGHT_TURN_PIN 8 // PORT
 
-
-
-// # defines from Blink app
-#define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
-#define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
-#define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
-#define BLINK_RATE  APP_TIMER_TICKS(1000, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
 
 
 /*******************************************************************************
@@ -93,8 +87,6 @@ nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
 ble_uuid_t smartbike_uuid;
 simple_ble_app_t* simple_ble_app;
 static ble_app_t app;
-unsigned char names[] = "ALAN";
-unsigned char data[3];
 
 // GPIO
 uint32_t pin_status = 0x0000;
@@ -103,7 +95,6 @@ uint32_t pin_status = 0x0000;
 /*******************************************************************************
  *   FUNCTION DECLARATIONS
  ******************************************************************************/
-static app_timer_id_t test_timer;
 
 
 /*******************************************************************************
@@ -119,34 +110,12 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
     // on_sys_evt(sys_evt);
 }
 
-static void timer_handler (void* p_context) {
-    led_toggle(LED_0);
-    int16_t xval = readAxisX();
-    data[0] = (uint8_t)xval;
-    data[1] = (uint8_t)(xval >> 8);
-}
 
-static void timers_init(void) {
-    uint32_t err_code;
-
-    APP_TIMER_INIT(BLINK_TIMER_PRESCALER, BLINK_TIMER_MAX_TIMERS,
-            BLINK_TIMER_OP_QUEUE_SIZE, false);
-
-    err_code = app_timer_create(&test_timer, APP_TIMER_MODE_REPEATED,
-            timer_handler);
-    APP_ERROR_CHECK(err_code);
-}
 
 /*******************************************************************************
  *   INIT FUNCTIONS
  ******************************************************************************/
 
-
-// Start the timers
-static void timers_start(void) {
-    uint32_t err_code = app_timer_start(test_timer, BLINK_RATE, NULL);
-    APP_ERROR_CHECK(err_code);
-}
 
 static void setPinStatus(uint8_t pin_num, bool value){
     if(value) { // set value to 1
@@ -222,12 +191,24 @@ void ble_evt_disconnected(ble_evt_t* p_ble_evt) {
 *   INTERRUPT HANDLER
 ******************************************************************************/
 void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    static uint32_t milli = 0;
     /*********************************************************/
     /*   Wheel Hall Effect Interrupt                         */
     /*********************************************************/
     if (pin == HALL_EFFECT_WHEEL_PIN) { 
-		wheel_interrupt_handler(bike);
+        if (bike == NULL) return;
+
+        wheel_interrupt_handler(bike);
+        //led_toggle(LED_1);
+        /*if (test_milli_count_flag) {
+            led_toggle(LED_0);
+        }*/
+        if (bike->curr_milli > bike->last_milli && milli < bike->curr_milli) {
+            led_toggle(LED_2);
+        }
+        milli = bike->curr_milli;
         setPinStatus(HALL_EFFECT_WHEEL_PIN, true);
+        //led_toggle(LED_2);
     }
 }
 
@@ -280,12 +261,6 @@ int main(void) {
     //create our state
     bike = create_state();
 
-    uint8_t temp_data0 = 0x43;
-    uint8_t temp_data1 = 0x44;
-
-    data[0] = (unsigned char)temp_data0;
-    data[1] = (unsigned char)temp_data1;
-    data[2] = '\n';
 
     bool button08 = false, button09 = false, button10 = false, 
          button21 = false, button22 = false;
@@ -293,16 +268,16 @@ int main(void) {
     /*                 Initialize GPIO                       */
     /*********************************************************/
     gpio_cfg_t cfgs[] = {
-        {HALL_EFFECT_WHEEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
-        {HALL_EFFECT_PEDAL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+        {HALL_EFFECT_WHEEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
+        {HALL_EFFECT_PEDAL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN}
     };
 
     uint8_t gpio_cfg_count;
-    gpio_cfg_count = 6;
+    gpio_cfg_count = 4;
 
     err_code = gpio_init(cfgs, gpio_cfg_count);
     APP_ERROR_CHECK(err_code);
@@ -343,7 +318,7 @@ int main(void) {
     //simple_adv_only_name();
     simple_adv_service(&smartbike_uuid);
     // Initialization complete
-    led_off(LED_2);
+    //led_on(LED_2);
 
 
     /*********************************************************/
@@ -364,6 +339,7 @@ int main(void) {
 	//Setup and init PWM
 	pca9685_init(&twi_instance);
 	pca9685_setPWMFreq(52.0f);
+	//pca9685_setPWM(0,0,2000);
 	update_servos(bike);
 
     /*********************************************************/
@@ -403,8 +379,11 @@ int main(void) {
         /*     Calculate Velocity                            */
         /*****************************************************/
         //velocity and acceleration are updated, target gear set
+        
+
 		if(bike->flags[wheel_flag])
 		{
+                        led_toggle(LED_0);
 			update_target_state(bike);
 		}
 
