@@ -20,7 +20,7 @@
 //#define MAX_RATE APP_TIMER_TICKS(1, BIKE_TIMER_PRESCALER) //not sure of this
 #define BIKE_TIMER_MAX_TICKS        16777216
 
-/******************************************************************************
+/*
  *  STATIC VARIABLES
  *****************************************************************************/
 
