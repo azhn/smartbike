@@ -3,15 +3,15 @@
 
 static nrf_drv_twi_t * i2c_instance;
 
-void pca9685_init(nrf_drv_twi_t * i2c_instance_param) {
+void pca9685_init(nrf_drv_twi_t * i2c_instance_param, uint8_t ADDR) {
 	i2c_instance = i2c_instance_param;
 
-	pca9685_reset();	
+	pca9685_reset(ADDR);	
 	
 }
 
 
-void pca9685_reset(void) {
+void pca9685_reset(uint8_t ADDR) {
 	uint8_t data[2] = {PCA9685_MODE1, 0x0};
 
 	nrf_drv_twi_enable(i2c_instance);
@@ -26,7 +26,7 @@ void pca9685_reset(void) {
 }
 
 
-void pca9685_setPWMFreq(float freq) {
+void pca9685_setPWMFreq(float freq, uint8_t ADDR) {
   	float prescaleval = 25000000;
 	uint8_t prescale = 0;
 	uint8_t oldmode = 0;
@@ -40,22 +40,22 @@ void pca9685_setPWMFreq(float freq) {
   
   	prescale = (uint8_t)(prescaleval + 0.5);
   
-  	oldmode = pca9685_readByte(PCA9685_MODE1);
+  	oldmode = pca9685_readByte(PCA9685_MODE1, ADDR);
   	newmode = (oldmode&0x7F) | 0x10; // sleep
-  	pca9685_writeByte(PCA9685_MODE1, newmode); // go to sleep
-  	pca9685_writeByte(PCA9685_PRESCALE, prescale); // set the prescaler
-  	pca9685_writeByte(PCA9685_MODE1, oldmode);
+  	pca9685_writeByte(PCA9685_MODE1, newmode, ADDR); // go to sleep
+  	pca9685_writeByte(PCA9685_PRESCALE, prescale, ADDR); // set the prescaler
+  	pca9685_writeByte(PCA9685_MODE1, oldmode, ADDR);
   	
 	//nrf_delay_us(5);
 	for(; i < 50000; i++) {}
 
-	pca9685_writeByte(PCA9685_MODE1, oldmode | 0xa1);  
+	pca9685_writeByte(PCA9685_MODE1, oldmode | 0xa1, ADDR);  
                                           
 }
 
 
 
-void pca9685_setPWM(uint8_t num, uint16_t on, uint16_t off) {
+void pca9685_setPWM(uint8_t num, uint16_t on, uint16_t off, uint8_t ADDR) {
 	uint8_t data[5] = {(LED0_ON_L + 4 * num),
 						((uint8_t)on),
 						((uint8_t)(on >> 8)),
@@ -80,7 +80,7 @@ void pca9685_setPWM(uint8_t num, uint16_t on, uint16_t off) {
 // Sets pin without having to deal with on/off tick placement and properly handles
 // a zero value as completely off.  Optional invert parameter supports inverting
 // the pulse for sinking to ground.  Val should be a value from 0 to 4095 inclusive.
-void pca9685_setPin(uint8_t num, uint16_t val, uint8_t invert)
+void pca9685_setPin(uint8_t num, uint16_t val, uint8_t invert, uint8_t ADDR)
 {
   // Clamp value between 0 and 4095 inclusive.
   //val = min(val, 4095);
@@ -90,33 +90,33 @@ void pca9685_setPin(uint8_t num, uint16_t val, uint8_t invert)
   if (invert) {
     if (val == 0) {
       // Special value for signal fully on.
-      pca9685_setPWM(num, 4096, 0);
+      pca9685_setPWM(num, 4096, 0, ADDR);
     }
     else if (val == 4095) {
       // Special value for signal fully off.
-      pca9685_setPWM(num, 0, 4096);
+      pca9685_setPWM(num, 0, 4096, ADDR);
     }
     else {
-      pca9685_setPWM(num, 0, 4095-val);
+      pca9685_setPWM(num, 0, 4095-val, ADDR);
     }
   }
   else {
     if (val == 4095) {
       // Special value for signal fully on.
-      pca9685_setPWM(num, 4096, 0);
+      pca9685_setPWM(num, 4096, 0, ADDR);
     }
     else if (val == 0) {
       // Special value for signal fully off.
-      pca9685_setPWM(num, 0, 4096);
+      pca9685_setPWM(num, 0, 4096, ADDR);
     }
     else {
-      pca9685_setPWM(num, 0, val);
+      pca9685_setPWM(num, 0, val, ADDR);
     }
   }
 }
 
 
-uint8_t pca9685_readByte(uint8_t reg) {
+uint8_t pca9685_readByte(uint8_t reg, uint8_t ADDR) {
   	ret_code_t ret;
 	uint8_t reg_addr[1] = {reg};
 	uint8_t value[1];
@@ -154,7 +154,7 @@ uint8_t pca9685_readByte(uint8_t reg) {
   
 }
 
-void pca9685_writeByte(uint8_t reg, uint8_t in_data) {
+void pca9685_writeByte(uint8_t reg, uint8_t in_data, uint8_t ADDR) {
 	uint8_t data[2] = {reg, in_data};
 
 	nrf_drv_twi_enable(i2c_instance);

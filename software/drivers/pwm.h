@@ -24,17 +24,17 @@
 #define ALLLED_OFF_L 0xFC
 #define ALLLED_OFF_H 0xFD
 
-#define ADDR 0x40
+//#define ADDR 0x40
 
 typedef uint16_t pwm_t;
 typedef uint8_t pwm_address_t;
 
-void pca9685_init(nrf_drv_twi_t * i2c_instance_param);
-void pca9685_reset(void);
-void pca9685_setPWMFreq(float freq);
-void pca9685_setPWM(uint8_t num, uint16_t on, uint16_t off);
-void pca9685_setPin(uint8_t num, uint16_t val, uint8_t invert);
-void pca9685_writeByte(uint8_t reg, uint8_t in_data);
-uint8_t pca9685_readByte(uint8_t reg);
+void pca9685_init(nrf_drv_twi_t * i2c_instance_param, uint8_t ADDR);
+void pca9685_reset(uint8_t ADDR);
+void pca9685_setPWMFreq(float freq, uint8_t ADDR);
+void pca9685_setPWM(uint8_t num, uint16_t on, uint16_t off, uint8_t ADDR);
+void pca9685_setPin(uint8_t num, uint16_t val, uint8_t invert, uint8_t ADDR);
+void pca9685_writeByte(uint8_t reg, uint8_t in_data, uint8_t ADDR);
+uint8_t pca9685_readByte(uint8_t reg, uint8_t ADDR);
 
 #endif
