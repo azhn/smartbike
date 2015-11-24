@@ -6,7 +6,7 @@
 typedef struct LightAction {
     LightType pos;
     LightState state;
-} LightAction
+} LightAction;
 
 void performLightAction(const State* state, const LightAction* light_action, uint8_t count);
 enum LedType {
@@ -21,7 +21,7 @@ enum LedType {
     LED_G7,
     LED_G8,
     _NUM_LEDS
-}
+};
 
 // Takes the state of the rear turn lights, and correctly drives the led indicators
 static void set_led_turn(const LightState* left_state, const LightState* right_state);
