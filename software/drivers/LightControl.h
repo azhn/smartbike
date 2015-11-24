@@ -5,13 +5,13 @@
 #include <stdint.h>
 
 #include "pwm.h"
-#define LED_LIGHTS_SIZE 10
 /***************************************************************************
                                   Types
 ***************************************************************************/
 typedef enum LightState {
     LIGHT_STATE_OFF=0,
     LIGHT_STATE_ON,
+    LIGHT_STATE_DIM_ON,
     LIGHT_STATE_BLINKING,
     LIGHT_STATE_BLINKING_OFF,
     LIGHT_STATE_BLINKING_ON,
@@ -22,8 +22,22 @@ typedef enum LightType {
     CENTER_LIGHT=0, // RUNNING
     LEFT_TURN,
     RIGHT_TURN,
-    _LIGHT_TYPE_SIZE
+    _NUM_LIGHT_TYPE
 } LightType;
+
+enum LedType {
+    LED_LEFT_INDICATOR = 0,
+    LED_RIGHT_INDICATOR,
+    LED_G1,
+    LED_G2,
+    LED_G3,
+    LED_G4,
+    LED_G5,
+    LED_G6,
+    LED_G7,
+    LED_G8,
+    _NUM_LEDS
+}
 
 typedef struct {
     pwm_address_t _address;
@@ -35,11 +49,18 @@ typedef struct {
                                  Globals
 *****************************************************************************/
 /* index by light type, then position */
-const static pwm_address_t _rear_light_address[_LIGHT_TYPE_SIZE] = {0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/};
+const static pwm_address_t _rear_light_address[_NUM_LIGHT_TYPE] = {0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/};
 
-const static pwm_t _light_state_pwm[_NUM_LIGHT_STATE] = {0/*INSERT PWM*/,4095/*INSERT PWM*/,0/*INSERT PWM*/,0/*INSERT PWM*/,4095/*INSERT PWM*/};
+const static pwm_t _light_state_pwm[_NUM_LIGHT_STATE] = {
+    0,      //LIGHT_STATE_OFF=0,
+    4095,   //LIGHT_STATE_ON,
+    2048,   //LIGHT_STATE_DIM_ON,
+    0,      //LIGHT_STATE_BLINKING,
+    0,      //LIGHT_STATE_BLINKING_OFF,
+    4095    //LIGHT_STATE_BLINKING_ON,
+};
 
-Light _rear_lights[_LIGHT_TYPE_SIZE]; 
+Light _rear_lights[_NUM_LIGHT_TYPE]; 
 Light _led_lights[LED_LIGHTS_SIZE];
 
 /*****************************************************************************
