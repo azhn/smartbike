@@ -55,5 +55,9 @@ extern uint8_t MAC_ADDR[6];
 #define ADXL362_IRQ1_PIN 6
 #define ADXL362_IRQ2_PIN 5
 
+// PWM (pca9685)
+#define PWM0_ADDR   0x40
+#define PWM1_ADDR   0x41
+
 #endif /*BLEES_H*/
 
