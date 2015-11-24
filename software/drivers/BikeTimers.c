@@ -20,7 +20,7 @@ void timers_init(void) {
 
 void timers_start(void) {
     // ADD YOUR TIMERS HERE
-    uint32_t err_code = app_timer_start(millis_counter_timer, MAX_RATE, NULL);
+    uint32_t err_code = app_timer_start(millis_counter_timer, BIKE_TIMER_MAX_TICKS, NULL);
     APP_ERROR_CHECK(err_code);
 }
 

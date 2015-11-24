@@ -12,6 +12,7 @@
 #include "softdevice_handler.h"
 #include "app_timer.h"
 //#include "nrf_timer.h"
+#include "BikeTimers.h"
 
 // Platform, Peripherals, Devices, Services
 #include "smartbike.h"
@@ -22,18 +23,18 @@
  *   DEFINES
  ******************************************************************************/
 #include "nrf_drv_config.h"
-
+/*
 #define BLINK_TIMER_PRESCALER       32  // Value of RTC1 PRESCALER register
 #define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
 #define BLINK_RATE  APP_TIMER_TICKS(500, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
-
+*/
 
 /*******************************************************************************
  *   STATIC AND GLOBAL VARIABLES
  ******************************************************************************/
 
-static app_timer_id_t test_timer;
+//static app_timer_id_t test_timer;
 
 
 /*******************************************************************************
@@ -109,7 +110,7 @@ static void timer_handler (void* p_context) {
  *   INIT FUNCTIONS
  ******************************************************************************/
 
-static void timers_init(void) {
+/*static void timers_init(void) {
     uint32_t err_code;
 
     APP_TIMER_INIT(BLINK_TIMER_PRESCALER, BLINK_TIMER_MAX_TIMERS,
@@ -119,7 +120,7 @@ static void timers_init(void) {
             timer_handler);
     APP_ERROR_CHECK(err_code);
 }
-
+*/
 
 /*******************************************************************************
  *   HELPER FUNCTIONS
@@ -133,10 +134,10 @@ static void power_manage (void) {
 }
 
 // Start the timers
-static void timers_start(void) {
+/*static void timers_start(void) {
     uint32_t err_code = app_timer_start(test_timer, BLINK_RATE, NULL);
     APP_ERROR_CHECK(err_code);
-}
+}*/
 
 
 /*******************************************************************************
@@ -169,7 +170,8 @@ int main(void) {
         for (int i = 0; i < 20; i++) {
             /*NRF_TIMER1->TASKS_CAPTURE[0] = 1;
             counter = NRF_TIMER1->CC[0];*/
-            counter = NRF_RTC1->COUNTER;
+            //counter = NRF_RTC1->COUNTER;
+            counter = get_millis();
         }    
 
     	power_manage();
