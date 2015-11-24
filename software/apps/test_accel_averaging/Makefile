@@ -22,6 +22,8 @@ APPLICATION_SRCS += adxl362.c
 APPLICATION_SRCS += gpio_driver.c
 APPLICATION_SRCS += AccelerometerControl.c
 APPLICATION_SRCS += AccelDataDriver.c
+APPLICATION_SRCS += AccelTurnControl.c
+APPLICATION_SRCS += LightControl.c
 
 ifndef TARGET
 	TARGET = SMARTBIKE

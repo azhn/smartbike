@@ -21,7 +21,8 @@
 #include "gpio_driver.h"
 #include "AccelerometerControl.h"
 #include "AccelDataDriver.h"
-
+#include "AccelTurnControl.h"
+#include "LightControl.h"
 
 /*******************************************************************************
  *   DEFINES
@@ -150,9 +151,18 @@ static void timers_start(void) {
  ******************************************************************************/
 
 /************* STATE MACHINE *************/
-// state = *(Side, R/L) *(Stable/Thresh) *(Tilt, No Tilt)
-enum TS_state {RESET, RSN, RTT, RST, RTN,
-		LSN, LTT, LST, LTN};
+// // state = *(Side, R/L) *(Stable/Thresh) *(Tilt, No Tilt)
+// enum TS_state {
+//     RESET,  // 
+//     RSN,    // Right - Stable - No Tilt
+//     RTT,    // Right - Thresh - Tilt
+//     RST,    // Right - Stable - Tilt
+//     RTN,    // Right - Thresh - No Tilt
+// 	LSN,    // Left  - Stable - No Tilt
+//     LTT,    // Left  - Thresh - Tilt
+//     LST,    // Left  - Stable - Tilt
+//     LTN     // Left  - Tilt   - No Tilt
+// };
 
 #define BUTTON_PIN 21
 
@@ -164,10 +174,10 @@ enum TS_state {RESET, RSN, RTT, RST, RTN,
 static volatile uint32_t i = 0;
 static bool accelDataReady = false;
 //volatile int16_t sampled_accel_x = 0;
-static const int16_t sampled_accel_x = 0;
+// static const int16_t sampled_accel_x = 0;
 volatile int16_t curr_x_total = 0;
-volatile uint16_t thresh_out_count = 0;
-volatile uint16_t thresh_in_count = 0;
+// volatile uint16_t thresh_out_count = 0;
+// volatile uint16_t thresh_in_count = 0;
 
 #define ACCEL_THRESH 150
 
@@ -186,10 +196,10 @@ NRF_GPIOTE->EVENTS_IN[0] = 0;
 volatile bool b8, b9, b10, b21, b22, leftSignal, rightSignal;
 volatile bool checkForReturn, returning;
 
-struct LightAction {
-    LightState action; 
-    LightType pos;
-};
+// struct LightAction {
+//     LightState action; 
+//     LightType pos;
+// };
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     // if (pin == 8) {
@@ -209,228 +219,230 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
 
 // checks if the accelerometer is within the threshold of the sampled value
 //ASSUME THAT RIGHT TILT IS POSITIVE AND LEFT IS NEGATIVE
-bool check_passed_thresh(int16_t x_val, bool IO_thresh, bool LR_tilt){
-    int16_t thresh = (LH_thresh ? ACCEL_OUT_THRESH : ACCEL_IN_THRESH);
-    if(LR_tilt) { //Right tilt
-        return ( x_val - sampled_accel_x >= thresh );
-    } else { //Left tilt
-        return ( x_val - sampled_accel_x <= thresh * -1 );
-    }
-}
+// bool check_passed_thresh(int16_t x_val, bool IO_thresh, bool LR_tilt){
+//     int16_t thresh = (LH_thresh ? ACCEL_OUT_THRESH : ACCEL_IN_THRESH);
+//     if(LR_tilt) { //Right tilt
+//         return ( x_val - sampled_accel_x >= thresh );
+//     } else { //Left tilt
+//         return ( x_val - sampled_accel_x <= thresh * -1 );
+//     }
+// }
 
-LightAction* turn_signal_check(bool LB, 
-                       bool RB, 
-                       bool newAccelData, 
-                       int16_t accel_x_val){
+// LightAction* turn_signal_check(bool LB, 
+//                        bool RB, 
+//                        bool newAccelData, 
+//                        int16_t accel_x_val){
 
-    static TS_state ts_state = RESET;
+//     static TS_state ts_state = RESET;
 
-    //Check if any state transitions will happen
-    if( ts_state == RESET ) {
-        if( !(RB || LB) ) {
-            return NULL;
-        }
-    } else {
-        if( !(RB || LB || newAccelData) ) {
-            return NULL;
-        }
-    }
+//     //Check if any state transitions will happen
+//     if( ts_state == RESET ) {
+//         if( !(RB || LB) ) {
+//             return NULL;
+//         }
+//     } else {
+//         if( !(RB || LB || newAccelData) ) {
+//             return NULL;
+//         }
+//     }
     
-    return turn_signal_update(LB, RB, newAccelData, accel_x_val);
-}
+//     return turn_signal_update(LB, RB, newAccelData, accel_x_val);
+// }
 
-#define TS_RIGHT true
-#define TS_LEFT false
-#define TS_OUT true
-#define TS_IN false
-LightAction* turn_signal_update(bool LB, 
-                       bool RB, 
-                       bool newAccelData, 
-                       int16_t accel_x_val){
-    static int16_t count = 0;
+// #define TS_RIGHT true
+// #define TS_LEFT false
+// #define TS_OUT true
+// #define TS_IN false
+// LightAction* turn_signal_update(bool LB, 
+//                        bool RB, 
+//                        bool newAccelData, 
+//                        int16_t accel_x_val){
+//     static int16_t count = 0;
 
-    //Transition State
-    switch(ts_state) {
-        case RESET: 
-        {
-            count = 0;
-            if (LB) {
-                ts_state = LSN;
-            }
-            else if (RB) {
-                ts_state = RSN;
-            }
-            break;
-        }
-        case RSN:
-        {
-            count = 0;
-            if(LB) {
-                ts_state = LSN;
-            } 
-            else if(RB) {
-                ts_state = RESET;        
-            }
-            else if( newAccelVal && 
-                     check_passed_thresh(accel_x_val, TS_OUT, TS_RIGHT)  ){
-                ts_state = RTT;
-            }
-            break;
-        }
-        case RTT:
-        {
-            if(LB) {
-                ts_state = LSN;
-            } 
-            else if (RB) {
-                ts_state = RESET;
-            }
-            else if (newAccelVal) {
-                if( check_passed_thresh(accel_x_val, TS_OUT, TS_RIGHT) ){
-                    count++;
-                } else {
-                    ts_state = RSN;
-                }
-            }
+//     //Transition State
+//     switch(ts_state) {
+//         case RESET: 
+//         {
+//             count = 0;
+//             if (LB) {
+//                 ts_state = LSN;
+//             }
+//             else if (RB) {
+//                 ts_state = RSN;
+//             }
+//             break;
+//         }
+//         case RSN:
+//         {
+//             count = 0;
+//             if(LB) {
+//                 ts_state = LSN;
+//             } 
+//             else if(RB) {
+//                 ts_state = RESET;        
+//             }
+//             else if( newAccelVal && 
+//                      check_passed_thresh(accel_x_val, TS_OUT, TS_RIGHT)  ){
+//                 ts_state = RTT;
+//             }
+//             break;
+//         }
+//         case RTT:
+//         {
+//             if(LB) {
+//                 ts_state = LSN;
+//             } 
+//             else if (RB) {
+//                 ts_state = RESET;
+//             }
+//             else if (newAccelVal) {
+//                 if( check_passed_thresh(accel_x_val, TS_OUT, TS_RIGHT) ){
+//                     count++;
+//                 } else {
+//                     ts_state = RSN;
+//                 }
+//             }
             
-            if (count > ACCEL_TILT_THRESH) {
-                ts_state = RST;
-            }
-            break;
-        }
-        case RST:
-        {
-            count = 0;
-            if(LB) {
-                ts_state = LSN;
-            } 
-            else if(RB) {
-                ts_state = RESET;        
-            }
-            else if(newAccelVal &&
-                    !check_passed_thresh(accel_x_val, TS_IN, TS_RIGHT) ){
-                ts_state = RTN;
-            }
-            break;
-        }
-        case RTN:
-        {
-            if(LB) {
-                ts_state = LSN;
-            } 
-            else if (RB) {
-                ts_state = RESET;
-            }
-            else if (newAccelVal) {
-                if( !check_passed_thresh(accel_x_val, TS_IN, TS_RIGHT) ){
-                    count++;
-                } else {
-                    ts_state = RST;
-                }
-            }
+//             if (count > ACCEL_TILT_THRESH) {
+//                 ts_state = RST;
+//             }
+//             break;
+//         }
+//         case RST:
+//         {
+//             count = 0;
+//             if(LB) {
+//                 ts_state = LSN;
+//             } 
+//             else if(RB) {
+//                 ts_state = RESET;        
+//             }
+//             else if(newAccelVal &&
+//                     !check_passed_thresh(accel_x_val, TS_IN, TS_RIGHT) ){
+//                 ts_state = RTN;
+//             }
+//             break;
+//         }
+//         case RTN:
+//         {
+//             if(LB) {
+//                 ts_state = LSN;
+//             } 
+//             else if (RB) {
+//                 ts_state = RESET;
+//             }
+//             else if (newAccelVal) {
+//                 if( !check_passed_thresh(accel_x_val, TS_IN, TS_RIGHT) ){
+//                     count++;
+//                 } else {
+//                     ts_state = RST;
+//                 }
+//             }
             
-            if (count > ACCEL_TILT_THRESH) {
-                ts_state = RESET;
-            }
-            break;
-        }
-        case LSN:
-        {
-            count = 0;
-            if(RB) {
-                ts_state = RSN;
-            } 
-            else if (LB) {
-                ts_state = RESET;
-            }
-            else if(newAccelVal &&
-                    check_passed_thresh(accel_x_val, TS_OUT, TS_LEFT) ){
-                ts_state = LTT;
-            }
-            break;
-        }
-        case LTT:
-        {
-            if(RB) {
-                ts_state = RSN;
-            } 
-            else if (LB) {
-                ts_state = RESET;
-            }
-            else if (newAccelVal) {
-                if( check_passed_thresh(accel_x_val, TS_OUT, TS_LEFT) ){
-                    count++;
-                } else {
-                    ts_state = LSN;
-                }
-            }
+//             if (count > ACCEL_TILT_THRESH) {
+//                 ts_state = RESET;
+//             }
+//             break;
+//         }
+//         case LSN:
+//         {
+//             count = 0;
+//             if(RB) {
+//                 ts_state = RSN;
+//             } 
+//             else if (LB) {
+//                 ts_state = RESET;
+//             }
+//             else if(newAccelVal &&
+//                     check_passed_thresh(accel_x_val, TS_OUT, TS_LEFT) ){
+//                 ts_state = LTT;
+//             }
+//             break;
+//         }
+//         case LTT:
+//         {
+//             if(RB) {
+//                 ts_state = RSN;
+//             } 
+//             else if (LB) {
+//                 ts_state = RESET;
+//             }
+//             else if (newAccelVal) {
+//                 if( check_passed_thresh(accel_x_val, TS_OUT, TS_LEFT) ){
+//                     count++;
+//                 } else {
+//                     ts_state = LSN;
+//                 }
+//             }
 
-            if (count > ACCEL_TILT_THRESH) {
-                ts_state = LST;
-            }
-            break;
-        }
-        case LST:
-        {
-            count = 0;
-            if(RB) {
-                ts_state = RSN;
-            } 
-            else if (LB) {
-                ts_state = RESET;
-            }
-            else if(newAccelVal &&
-                    !check_passed_thresh(accel_x_val, TS_IN, TS_LEFT) ){
-                ts_state = LTN;
-            }
+//             if (count > ACCEL_TILT_THRESH) {
+//                 ts_state = LST;
+//             }
+//             break;
+//         }
+//         case LST:
+//         {
+//             count = 0;
+//             if(RB) {
+//                 ts_state = RSN;
+//             } 
+//             else if (LB) {
+//                 ts_state = RESET;
+//             }
+//             else if(newAccelVal &&
+//                     !check_passed_thresh(accel_x_val, TS_IN, TS_LEFT) ){
+//                 ts_state = LTN;
+//             }
 
-            break;
-        }
-        case LTN:
-        {
-            if(RB) {
-                ts_state = RSN;
-            } 
-            else if (LB) {
-                ts_state = RESET;
-            }
-            else if (newAccelVal) {
-                if( !check_passed_thresh(accel_x_val, TS_IN, TS_LEFT) ){
-                    count++;
-                } else {
-                    ts_state = LST;
-                }
-            }
+//             break;
+//         }
+//         case LTN:
+//         {
+//             if(RB) {
+//                 ts_state = RSN;
+//             } 
+//             else if (LB) {
+//                 ts_state = RESET;
+//             }
+//             else if (newAccelVal) {
+//                 if( !check_passed_thresh(accel_x_val, TS_IN, TS_LEFT) ){
+//                     count++;
+//                 } else {
+//                     ts_state = LST;
+//                 }
+//             }
             
-            if (count > ACCEL_TILT_THRESH) {
-                ts_state = RESET;
-            }
-            break;
-        }
-        default:
-            break;
-    }
+//             if (count > ACCEL_TILT_THRESH) {
+//                 ts_state = RESET;
+//             }
+//             break;
+//         }
+//         default:
+//             break;
+//     }
 
 
-    //OUTPUT
+//     //OUTPUT
 
-    switch(ts_state) {
-        case RESET: 
-            return  
-        case RSN:
-        case RTT:
-        case RST:
-        case RTN:
-        case LSN:
-        case LTT:
-        case LST:
-        case LTN:
-        default:
-            break;
-    }
-}
+//     switch(ts_state) {
+//         case RESET: 
+//             return  
+//         case RSN:
+//         case RTT:
+//         case RST:
+//         case RTN:
+//         case LSN:
+//         case LTT:
+//         case LST:
+//         case LTN:
+//         default:
+//             break;
+//     }
+// }
 
 int main(void) {
+    LightAction * light_act;
+
     uint32_t err_code;
     uint8_t gpio_input_count;
     // // Initialization
@@ -480,117 +492,120 @@ int main(void) {
         }
         bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
 
-        bool RB = false, LB = false;
+        // bool RB = false, LB = false;
 
+        btn_state_change(b21, b22);
         if(b21 == true) {
           //Effectively latch value of b21
-          LB = true;
+          // LB = true;
           b21 = false;
+          
         }
 
         if(b22 == true) {
           //Effectively latch the value of b22
-          RB = true;
+          // RB = true;
           b22 = false;
         }
 
-
+        light_act = do_state_action( curr_x_val );
+    readAxisX();
+    }
 
 //////////////////////////////////////////////////
-        if (b21 == true) { //button was toggled ,left turn
-            b21 = false;
+        // if (b21 == true) { //button was toggled ,left turn
+        //     b21 = false;
 
-            // check for anything on & turn it off
-            if (checkForReturn && leftSignal) {
-                checkForReturn = false;
-                led_off(LED_0);
-            } else if(checkForReturn && !leftSignal){ // right turn pressed
-                // turn off everything for right
-                led_off(LED_1);
-                led_on(LED_0);
-                leftSignal = true; // now processing left turn
-            } else { // new press with blank slate
-                leftSignal = true;
-                checkForReturn = true;
-                led_on(LED_0);
-            }
+        //     // check for anything on & turn it off
+        //     if (checkForReturn && leftSignal) {
+        //         checkForReturn = false;
+        //         led_off(LED_0);
+        //     } else if(checkForReturn && !leftSignal){ // right turn pressed
+        //         // turn off everything for right
+        //         led_off(LED_1);
+        //         led_on(LED_0);
+        //         leftSignal = true; // now processing left turn
+        //     } else { // new press with blank slate
+        //         leftSignal = true;
+        //         checkForReturn = true;
+        //         led_on(LED_0);
+        //     }
 
-            // reset counts
-            thresh_out_count    = 0;
-            thresh_in_count     = 0;
-            led_off(LED_2);
-        }
+        //     // reset counts
+        //     thresh_out_count    = 0;
+        //     thresh_in_count     = 0;
+        //     led_off(LED_2);
+        // }
 
-        if (b22 == true) { //button was toggled, right turn
-            b22 = false;
+        // if (b22 == true) { //button was toggled, right turn
+        //     b22 = false;
             
-            // check for anything on & turn it off
-            if (checkForReturn && !leftSignal) { // right turn toggle off
-                checkForReturn = false;
-                led_off(LED_1);
-            } else if(checkForReturn && leftSignal){ // left turn pressed
-                // turn off everything for left
-                led_off(LED_0);
-                led_on(LED_1);
-                leftSignal = false; // now processing right turn
-            } else { // new press with blank slate
-                leftSignal = false;
-                checkForReturn = true;
-                led_on(LED_1);
-            }
+        //     // check for anything on & turn it off
+        //     if (checkForReturn && !leftSignal) { // right turn toggle off
+        //         checkForReturn = false;
+        //         led_off(LED_1);
+        //     } else if(checkForReturn && leftSignal){ // left turn pressed
+        //         // turn off everything for left
+        //         led_off(LED_0);
+        //         led_on(LED_1);
+        //         leftSignal = false; // now processing right turn
+        //     } else { // new press with blank slate
+        //         leftSignal = false;
+        //         checkForReturn = true;
+        //         led_on(LED_1);
+        //     }
 
-            // reset counts
-            thresh_out_count    = 0;
-            thresh_in_count     = 0;
-            led_off(LED_2);
-        }
+        //     // reset counts
+        //     thresh_out_count    = 0;
+        //     thresh_in_count     = 0;
+        //     led_off(LED_2);
+        // }
 
-        if(checkForReturn && accelDataReady){
-            populateAccelDataBank();
-            int16_t curr_x_val;
-            if (grabAccelData(DATA_X, &curr_x_val, NULL)) {
-                // beginning of turn - check if tilt is outisde zero-thresh range
-                if(!returning && (abs( curr_x_val - sampled_accel_x ) > ACCEL_OUT_THRESH) ){
-                    if( 
-                    (leftSignal && (curr_x_val < sampled_accel_x) ) ||
-                    ( !leftSignal && (curr_x_val > sampled_accel_x) ) ){
-                        led_on(LED_2);
-                        thresh_out_count++;  
-                    }                     
+        // if(checkForReturn && accelDataReady){
+        //     populateAccelDataBank();
+        //     int16_t curr_x_val;
+        //     if (grabAccelData(DATA_X, &curr_x_val, NULL)) {
+        //         // beginning of turn - check if tilt is outisde zero-thresh range
+        //         if(!returning && (abs( curr_x_val - sampled_accel_x ) > ACCEL_OUT_THRESH) ){
+        //             if( 
+        //             (leftSignal && (curr_x_val < sampled_accel_x) ) ||
+        //             ( !leftSignal && (curr_x_val > sampled_accel_x) ) ){
+        //                 led_on(LED_2);
+        //                 thresh_out_count++;  
+        //             }                     
 
-                    // led_on(LED_2);
-                    // thresh_out_count++;
-                    if(thresh_out_count > ACCEL_TILT_THRESH){
-                        returning = true;
-                        thresh_out_count = 0;
-                        led_off(LED_2);
+        //             // led_on(LED_2);
+        //             // thresh_out_count++;
+        //             if(thresh_out_count > ACCEL_TILT_THRESH){
+        //                 returning = true;
+        //                 thresh_out_count = 0;
+        //                 led_off(LED_2);
 
-                    }
-                }
+        //             }
+        //         }
 
 
-                //check for return into zero-thresh
-                if(returning && (abs( curr_x_val - sampled_accel_x ) <= ACCEL_IN_THRESH) ){
-                    led_on(LED_1);
-                    thresh_in_count++;
+        //         //check for return into zero-thresh
+        //         if(returning && (abs( curr_x_val - sampled_accel_x ) <= ACCEL_IN_THRESH) ){
+        //             led_on(LED_1);
+        //             thresh_in_count++;
 
-                    if( thresh_in_count > ACCEL_TILT_THRESH){
-                        returning = false;
-                        thresh_in_count = 0;
-                        checkForReturn = false;
-                        led_off(LED_0);
-                        led_off(LED_1);
-                    }
-                }
-            }
+        //             if( thresh_in_count > ACCEL_TILT_THRESH){
+        //                 returning = false;
+        //                 thresh_in_count = 0;
+        //                 checkForReturn = false;
+        //                 led_off(LED_0);
+        //                 led_off(LED_1);
+        //             }
+        //         }
+        //     }
 
-            // reset accelDataReady
-            accelDataReady = false;
+        //     // reset accelDataReady
+        //     accelDataReady = false;
 
-        }
+        // }
         // reset the data ready interrupt by reading an axis reg
-        readAxisX();
-    }
-    }
-
+    //     readAxisX();
+    // }
+}
 
