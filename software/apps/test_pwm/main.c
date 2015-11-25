@@ -29,7 +29,7 @@
 #define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
 #define BLINK_RATE  APP_TIMER_TICKS(500, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
-
+#define PWM0_ADDR                   0x40
 
 /*******************************************************************************
  *   STATIC AND GLOBAL VARIABLES
@@ -180,10 +180,10 @@ int main(void) {
     timers_init();
     timers_start();
 
-    pca9685_init(&twi_instance);
-    pca9685_setPWMFreq(50);
+    pca9685_init(&twi_instance, PWM0_ADDR);
+    pca9685_setPWMFreq(50, PWM0_ADDR);
     //pca9685_setPWM(0x01, 0x0199, 0x04CC);
-    pca9685_setPin(1, 200, 0);
+    pca9685_setPin(1, 200, 0, PWM0_ADDR);
     while (1) {
         power_manage();
     }
