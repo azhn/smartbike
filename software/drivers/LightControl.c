@@ -11,13 +11,13 @@ void initializeLights() {
     for(i=0; i<_NUM_LIGHT_TYPE; ++i) {
         _rear_lights[i]._state = LIGHT_STATE_OFF;
         _rear_lights[i]._address = _rear_light_address[i];
-        pca9685_setPWM(_rear_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF]);
+        pca9685_setPWM(_rear_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], PWM1_ADDR);
     }
 
     for(i=0; i<_NUM_LEDS; ++i) {
         _led_lights[i]._state = LIGHT_STATE_OFF;
         _led_lights[i]._address = i;
-        pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF]);
+        pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], PWM1_ADDR);
     }
 }
 
@@ -34,7 +34,7 @@ void setRearLightState(LightType type, LightState state ) {
     
     _rear_lights[type]._state = state; 
 
-    pca9685_setPWM(_rear_lights[type]._address, 0, _light_state_pwm[state]);
+    pca9685_setPWM(_rear_lights[type]._address, 0, _light_state_pwm[state], PWM1_ADDR);
 }
 
 void setLEDLightState(uint8_t pos, LightState state ) {
@@ -47,7 +47,7 @@ void setLEDLightState(uint8_t pos, LightState state ) {
     }
     _led_lights[pos]._state = state; 
     /* SET PWM */
-    pca9685_setPWM(_led_lights[pos]._address, 0, _light_state_pwm[state]);
+    pca9685_setPWM(_led_lights[pos]._address, 0, _light_state_pwm[state], PWM1_ADDR);
 }
 
 LightState getRearLightState( LightType type ) {
@@ -74,12 +74,12 @@ void turnOffAllLights( ) {
     int i;
     for(i=0; i<_NUM_LIGHT_TYPE; ++i) {
         _rear_lights[i]._state = LIGHT_STATE_OFF;
-        pca9685_setPWM(_rear_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF]);
+        pca9685_setPWM(_rear_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], PWM1_ADDR);
     }
     for(i=0; i<_NUM_LEDS; ++i) {
         _led_lights[i]._state = LIGHT_STATE_OFF;
         /* SET PWM */
-        pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF]);
+        pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], PWM1_ADDR);
     }
 }
 
