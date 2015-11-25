@@ -3,10 +3,10 @@
 
 #include "BikeState.h"
 
-typedef struct LightAction {
+/*typedef struct LightAction {
     LightType pos;
     LightState state;
-} LightAction;
+} LightAction;*/
 
 typedef enum LightAction {
     LIGHT_ACTION_NONE = 0,
