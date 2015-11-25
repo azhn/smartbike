@@ -7,7 +7,7 @@
 #include <math.h>
 
 #include "spi_driver.h"
-#include "LightControl.h"
+//#include "LightControl.h"
 #include "LightAction.h"
 
 
@@ -33,7 +33,7 @@ typedef enum{
 } TS_STATE;
 
 // [0] - left, [1] - right light
-LightAction light_output[2];
+LightAction light_output;
 
 static TS_STATE BTN_STATES[_NUM_STATES][NUM_TURN_BUTTONS] =
 {
@@ -75,6 +75,6 @@ void set_light_output();
 void btn_state_change( bool left_btn_pressed, bool right_btn_pressed );
 
 // Perform threshold checking based on current state
-LightAction * do_state_action( int16_t accel_x_val );
+LightAction do_state_action( int16_t accel_x_val );
 
 #endif // ACCELTURNCONTROL_H_
