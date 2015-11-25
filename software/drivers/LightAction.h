@@ -17,28 +17,27 @@ typedef enum LightAction {
     LIGHT_ACTION_LEFT_TURN_BRAKE = 4,
     LIGHT_ACTION_RIGHT_TURN_BRAKE = 5,
     _NUM_LIGHT_ACTION = 6
-} LightAction
+} LightAction;
  
-enum LedType {
-    LED_LEFT_INDICATOR = 0,
-    LED_RIGHT_INDICATOR,
-    LED_G1,
-    LED_G2,
-    LED_G3,
-    LED_G4,
-    LED_G5,
-    LED_G6,
-    LED_G7,
-    LED_G8,
-    _NUM_LEDS
-};
+// enum LedType {
+//     LED_LEFT_INDICATOR = 0,
+//     LED_RIGHT_INDICATOR,
+//     LED_G1,
+//     LED_G2,
+//     LED_G3,
+//     LED_G4,
+//     LED_G5,
+//     LED_G6,
+//     LED_G7,
+//     LED_G8,
+//     _NUM_LEDS
+// };
 
 const static LightState _light_action_to_states[_NUM_LIGHT_ACTION][_NUM_LIGHT_TYPE] = {
-{
     // CENTER                   LEFT                    RIGHT
-    {LIGHT_STATE_ON_DIM,        LIGHT_STATE_OFF,        LIGHT_STATE_OFF},      // LIGHT_ACTION_NONE 
-    {LIGHT_STATE_ON_DIM,        LIGHT_STATE_BLINKING,   LIGHT_STATE_OFF},      // LIGHT_ACTION_LEFT_TURN,
-    {LIGHT_STATE_ON_DIM,        LIGHT_STATE_OFF,        LIGHT_STATE_BLINKING}, // LIGHT_ACTION_RIGHT_TURN,
+    {LIGHT_STATE_DIM_ON,        LIGHT_STATE_OFF,        LIGHT_STATE_OFF},      // LIGHT_ACTION_NONE 
+    {LIGHT_STATE_DIM_ON,        LIGHT_STATE_BLINKING,   LIGHT_STATE_OFF},      // LIGHT_ACTION_LEFT_TURN,
+    {LIGHT_STATE_DIM_ON,        LIGHT_STATE_OFF,        LIGHT_STATE_BLINKING}, // LIGHT_ACTION_RIGHT_TURN,
     {LIGHT_STATE_ON,            LIGHT_STATE_ON,         LIGHT_STATE_ON},       // LIGHT_ACTION_BRAKE
     {LIGHT_STATE_ON,            LIGHT_STATE_BLINKING,   LIGHT_STATE_ON},       // LIGHT_ACTION_LEFT_TURN_BRAKE,
     {LIGHT_STATE_ON,            LIGHT_STATE_OFF,        LIGHT_STATE_BLINKING}  // LIGHT_ACTION_RIGHT_TURN_BRAKE,

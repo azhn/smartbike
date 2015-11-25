@@ -23,7 +23,7 @@ void initializeLights() {
 
 
 void setRearLightState(LightType type, LightState state ) {
-    assert (state < _NUM_LIGHT_STATE)
+    assert (state < _NUM_LIGHT_STATE);
     /* SET PWM */
     if (state == LIGHT_STATE_BLINKING) {
         state = LIGHT_STATE_BLINKING_ON;
@@ -53,7 +53,7 @@ void setLEDLightState(uint8_t pos, LightState state ) {
 LightState getRearLightState( LightType type ) {
     assert (type < _NUM_LIGHT_TYPE);
     LightState ret;
-    ret = _rear_lights[type].state
+    ret = _rear_lights[type]._state;
     if (ret == LIGHT_STATE_BLINKING_ON || ret == LIGHT_STATE_BLINKING_OFF) {
         ret = LIGHT_STATE_BLINKING;
     }
@@ -63,7 +63,7 @@ LightState getRearLightState( LightType type ) {
 LightState getLEDLightState( uint8_t pos ) {
     assert(pos < _NUM_LEDS);
     LightState ret;
-    ret = _led_lights[pos].state
+    ret = _led_lights[pos]._state;
     if (ret == LIGHT_STATE_BLINKING_ON || ret == LIGHT_STATE_BLINKING_OFF) {
         ret = LIGHT_STATE_BLINKING;
     }
