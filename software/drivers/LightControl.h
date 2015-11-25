@@ -37,9 +37,9 @@ enum LedType {
     LED_G7,
     LED_G8,
     _NUM_LEDS
-}
+} LedType;
 
-typedef struct {
+typedef struct Light {
     pwm_address_t _address;
     LightState _state;
 } Light;
@@ -61,7 +61,7 @@ const static pwm_t _light_state_pwm[_NUM_LIGHT_STATE] = {
 };
 
 Light _rear_lights[_NUM_LIGHT_TYPE]; 
-Light _led_lights[LED_LIGHTS_SIZE];
+Light _led_lights[_NUM_LEDS];
 
 /*****************************************************************************
                               Initialization
