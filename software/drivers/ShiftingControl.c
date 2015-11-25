@@ -36,8 +36,8 @@ void initializeShiftMapping( GearSpeedMapping * cfg,
   _frontPWM = frontPWM;
 
   // initialize PWM
-  pca9685_init(&twi_instance);
-  pca9685_setPWMFreq(50);
+  pca9685_init(&twi_instance, PWM0_ADDR);
+  pca9685_setPWMFreq(50, PWM0_ADDR);
 
   // intialize servos to previous
   //pca9685_setPin(1, _rearPWM[0], 0);

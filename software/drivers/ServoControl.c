@@ -71,8 +71,8 @@ void update_servos(State* state)
                 over_shoot = true;
                 timer = get_millis();
             } else if (get_millis() - timer > 500) {*/
-                pca9685_setPWM(REAR_PWM, 0, REAR_GEAR_UP[state->target_gear]);
-                pca9685_setPWM(FRONT_PWM, 0, FRONT_GEAR_UP[state->target_gear]);
+                pca9685_setPWM(REAR_PWM, 0, REAR_GEAR_UP[state->target_gear], PWM0_ADDR);
+                pca9685_setPWM(FRONT_PWM, 0, FRONT_GEAR_UP[state->target_gear], PWM0_ADDR);
 /*                over_shoot = false;
             }*/
         }
@@ -85,8 +85,8 @@ void update_servos(State* state)
                 over_shoot = true;
                 timer = get_millis();
             } else if (get_millis() - timer > 500) {*/
-                pca9685_setPWM(REAR_PWM, 0, REAR_GEAR_DOWN[state->target_gear]);
-                pca9685_setPWM(FRONT_PWM, 0, FRONT_GEAR_DOWN[state->target_gear]);
+                pca9685_setPWM(REAR_PWM, 0, REAR_GEAR_DOWN[state->target_gear], PWM0_ADDR);
+                pca9685_setPWM(FRONT_PWM, 0, FRONT_GEAR_DOWN[state->target_gear], PWM0_ADDR);
 /*                over_shoot = false;
             }*/
         }
