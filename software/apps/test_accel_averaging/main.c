@@ -22,7 +22,7 @@
 #include "AccelerometerControl.h"
 #include "AccelDataDriver.h"
 #include "AccelTurnControl.h"
-#include "LightControl.h"
+// #include "LightControl.h"
 
 /*******************************************************************************
  *   DEFINES
@@ -42,7 +42,8 @@
  ******************************************************************************/
 
 static app_timer_id_t test_timer;
-
+LightAction light_act;
+int16_t curr_x_val = 0;
 
 /*******************************************************************************
  *   HANDLERS AND CALLBACKS
@@ -206,14 +207,26 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     //     b8 = true;
     // } else if (pin == 9) {
     //     b9 = true;
-    if (pin == 10) { // accelerometer interrupt
-        accelDataReady = true;
-    }else if (pin == 21) { //button interrupt
+    //if (pin == 10) { // accelerometer interrupt
+      //  accelDataReady = true;
+    //}else 
+    if (pin == 9) { //left button interrupt
+        // led_on(LED_0);
         b21 = true;
+        // btn_state_change(b21, b22);
+        // light_act = do_state_action( curr_x_val );
+        // b21 = false;
+        // led_off(LED_0);
     }
-    else if (pin == 22) { 
+    else if (pin == 10) { // right btn
         //b22 = true;
+        // led_toggle(LED_2);
+        // led_on(LED_1);
         b22 = true;
+        // btn_state_change(b21, b22);
+        // light_act = do_state_action( curr_x_val );
+        // b22 = false;
+        // led_off(LED_1);
     }    
 }
 
@@ -441,7 +454,7 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
 // }
 
 int main(void) {
-    LightAction * light_act;
+    // LightAction light_act;
 
     uint32_t err_code;
     uint8_t gpio_input_count;
@@ -454,17 +467,18 @@ int main(void) {
     led_init(LED_0);
     led_init(LED_1);
     led_init(LED_2);
+    // led_on(LED_2);
 
     //initializeAccelerometer();
     initializeAccelerometer();
 
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
-    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
-                                     {BUTTON2_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
+    static gpio_cfg_t cfgs[] = {  {9, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
+                                     {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
                                      {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler, PIN_GPIOTE_IN}};
     // // It seems only 4 pins can be registered per channel
-    gpio_input_count = 3;
+    gpio_input_count = 2;
 
     /* SET INPUT WITH DRIVER */
     err_code = gpio_init(cfgs, gpio_input_count);
@@ -484,13 +498,14 @@ int main(void) {
     while (true) {
 
         //Get New Values
-        int16_t curr_x_val = 0;
+        // int16_t curr_x_val = 0;
 
-        if(accelDataReady) {
+        //if(accelDataReady) {
           populateAccelDataBank();
-          accelDataReady = false;
-        }
+          //accelDataReady = false;
+        //}
         bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
+
 
         // bool RB = false, LB = false;
 
@@ -508,8 +523,39 @@ int main(void) {
           b22 = false;
         }
 
-        light_act = do_state_action( curr_x_val );
-    readAxisX();
+        if(newAccelVal){
+            light_act = do_state_action( curr_x_val );
+        }
+
+        if(light_act == LIGHT_ACTION_LEFT_TURN){
+            led_on(LED_0);
+            led_off(LED_1);
+        }else if(light_act == LIGHT_ACTION_RIGHT_TURN){
+            led_on(LED_1);
+            led_off(LED_0);
+        }else{
+            led_off(LED_0);
+            led_off(LED_1);
+        }
+
+
+        // if(newAccelVal){
+            // led_toggle(LED_2);
+        // }else{
+            // led_off(LED_2);
+        // }
+    // readAxisX();
+        // if(readAxisX() > 0){
+        //     led_on(LED_0);
+        // }else{
+        //     led_off(LED_0);
+        // }
+
+        // if(readAxisZ() > 500){
+        //     led_on(LED_1);
+        // }else{
+        //     led_off(LED_1);
+        // }
     }
 
 //////////////////////////////////////////////////

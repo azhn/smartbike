@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "AccelTurnControl.h"
+#include "led.h"
 
 void reset_state() {
   thresh_out_count    = 0;
@@ -37,20 +38,21 @@ bool check_out_thresh( bool right_btn_pressed, const int16_t * curr_x_val){
 }
 
 void set_light_output() {
-  // left lights
-  light_output[0].pos = LEFT_TURN;
-  if(LIGHT_STATES[curr_state][0]){
-    light_output[0].state = LIGHT_STATE_BLINKING;  
-  } else {
-    light_output[0].state = LIGHT_STATE_OFF;
+  // left and right lights
+  if(LIGHT_STATES[curr_state][0] && LIGHT_STATES[curr_state][1]){
+    light_output = LIGHT_ACTION_NONE;
+  } 
+  // left light only
+  else if(LIGHT_STATES[curr_state][0] && !LIGHT_STATES[curr_state][1]){
+    light_output = LIGHT_ACTION_LEFT_TURN;
   }
-  
-  // right lights
-  light_output[1].pos = RIGHT_TURN;
-  if(LIGHT_STATES[curr_state][1]){
-    light_output[1].state = LIGHT_STATE_BLINKING;  
-  } else {
-    light_output[1].state = LIGHT_STATE_OFF;
+  // right light only
+  else if(!LIGHT_STATES[curr_state][0] && LIGHT_STATES[curr_state][1]){
+    light_output = LIGHT_ACTION_RIGHT_TURN;  
+  } 
+  // no lights
+  else {
+    light_output = LIGHT_ACTION_NONE;
   }
 }
 
@@ -74,41 +76,46 @@ void btn_state_change( bool left_btn_pressed, bool right_btn_pressed ) {
   } else if(!left_btn_pressed && right_btn_pressed){
     curr_state = BTN_STATES[ curr_state ][1];
   } else {
-    assert(false);
+    // assert(false);
   }
 }
 
 // Perform threshold checking based on current state
-LightAction * do_state_action( int16_t accel_x_val ) {
+LightAction do_state_action( int16_t accel_x_val ) {
   switch( curr_state ){
     case OFF: // All lights off
       //do nothing: btn_state_change controls state transition from
       //  OFF to something else based on button press
+      reset_state();
       break;
     case SIGNAL_R: // Right btn pressed, check for entering turn before going to next state
-      if(check_in_thresh( true, accel_x_val )){
+      if(check_in_thresh( true, &accel_x_val )){
         curr_state = RETURN_R;
       }
       break;
     case SIGNAL_L: // Left btn pressed, check for entering turn before going to next state
-      if(check_in_thresh( false, accel_x_val )){
+      led_on(LED_2);
+      if(check_in_thresh( false, &accel_x_val )){
           curr_state = RETURN_L;
+          led_off(LED_2);
       }
       break;
     case RETURN_R: // Entered right turn, check for return
-      if(check_out_thresh( true, accel_x_val )){
+      if(check_out_thresh( true, &accel_x_val )){
         curr_state = OFF;
         reset_state();
       }
       break;
     case RETURN_L:
-      if(check_out_thresh( false, accel_x_val )){
+      // led_on(LED_2);
+      if(check_out_thresh( false, &accel_x_val )){
         curr_state = OFF;
         reset_state();
+        // led_off(LED_2);
       }
       break;
     default:
-      assert(false);
+      // assert(false);
       break;
   }
 
