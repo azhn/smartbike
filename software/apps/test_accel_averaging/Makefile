@@ -24,6 +24,7 @@ APPLICATION_SRCS += AccelerometerControl.c
 APPLICATION_SRCS += AccelDataDriver.c
 APPLICATION_SRCS += AccelTurnControl.c
 APPLICATION_SRCS += LightControl.c
+APPLICATION_SRCS += LightAction.c
 APPLICATION_SRCS += pwm.c
 
 ifndef TARGET

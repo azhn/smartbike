@@ -22,7 +22,8 @@
 #include "AccelerometerControl.h"
 #include "AccelDataDriver.h"
 #include "AccelTurnControl.h"
-// #include "LightControl.h"
+#include "LightControl.h"
+#include "LightAction.h"
 
 /*******************************************************************************
  *   DEFINES
