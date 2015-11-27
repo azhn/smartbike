@@ -34,17 +34,22 @@ typedef enum LightType {
 } LightType;
 
 enum LedType {
-    LED_LEFT_INDICATOR = 0,
-    LED_RIGHT_INDICATOR,
-    LED_G1,
-    LED_G2,
-    LED_G3,
-    LED_G4,
-    LED_G5,
-    LED_G6,
-    LED_G7,
-    LED_G8,
-    _NUM_LEDS
+    // TURN INDICATOR LEDS
+    LED_LEFT_INDICATOR    = 0,
+    LED_RIGHT_INDICATOR   = 1,
+    _NUM_TURN_INDICATORS  = 2,
+    // GEAR INDICATOR LEDS
+    LED_G1                = 2,
+    LED_G2                = 3,
+    LED_G3                = 4,
+    LED_G4                = 5,
+    LED_G5                = 6,
+    LED_G6                = 7,
+    LED_G7                = 8,
+    LED_G8                = 9,
+    _NUM_GEAR_INDICATORS  = 10,
+
+    _NUM_LEDS             = 10
 } LedType;
 
 typedef struct Light {

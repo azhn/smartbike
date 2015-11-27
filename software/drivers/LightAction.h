@@ -3,49 +3,46 @@
 
 #include "BikeState.h"
 
-/*typedef struct LightAction {
-    LightType pos;
-    LightState state;
-} LightAction;*/
-
 typedef enum LightAction {
+    // Non-braking Light Actions
     LIGHT_ACTION_NONE = 0,
     LIGHT_ACTION_LEFT_TURN = 1,
     LIGHT_ACTION_RIGHT_TURN =2,
      _BRAKE_ADDITION = 3,
+
+    // Braking Light actions
     LIGHT_ACTION_BRAKE = 3,
     LIGHT_ACTION_LEFT_TURN_BRAKE = 4,
     LIGHT_ACTION_RIGHT_TURN_BRAKE = 5,
     _NUM_LIGHT_ACTION = 6
-} LightAction
+} LightAction;
  
-enum LedType {
-    LED_LEFT_INDICATOR = 0,
-    LED_RIGHT_INDICATOR,
-    LED_G1,
-    LED_G2,
-    LED_G3,
-    LED_G4,
-    LED_G5,
-    LED_G6,
-    LED_G7,
-    LED_G8,
-    _NUM_LEDS
-};
-
-const static LightState _light_action_to_states[_NUM_LIGHT_ACTION][_NUM_LIGHT_TYPE] = {
-{
-    // CENTER                   LEFT                    RIGHT
-    {LIGHT_STATE_ON_DIM,        LIGHT_STATE_OFF,        LIGHT_STATE_OFF},      // LIGHT_ACTION_NONE 
-    {LIGHT_STATE_ON_DIM,        LIGHT_STATE_BLINKING,   LIGHT_STATE_OFF},      // LIGHT_ACTION_LEFT_TURN,
-    {LIGHT_STATE_ON_DIM,        LIGHT_STATE_OFF,        LIGHT_STATE_BLINKING}, // LIGHT_ACTION_RIGHT_TURN,
+const static LightState _light_action_to_rear_states[_NUM_LIGHT_ACTION][_NUM_LIGHT_TYPE] = {
+//  {CENTER                     LEFT                    RIGHT}
+    {LIGHT_STATE_DIM_ON,        LIGHT_STATE_OFF,        LIGHT_STATE_OFF},      // LIGHT_ACTION_NONE 
+    {LIGHT_STATE_DIM_ON,        LIGHT_STATE_BLINKING,   LIGHT_STATE_OFF},      // LIGHT_ACTION_LEFT_TURN,
+    {LIGHT_STATE_DIM_ON,        LIGHT_STATE_OFF,        LIGHT_STATE_BLINKING}, // LIGHT_ACTION_RIGHT_TURN,
     {LIGHT_STATE_ON,            LIGHT_STATE_ON,         LIGHT_STATE_ON},       // LIGHT_ACTION_BRAKE
     {LIGHT_STATE_ON,            LIGHT_STATE_BLINKING,   LIGHT_STATE_ON},       // LIGHT_ACTION_LEFT_TURN_BRAKE,
     {LIGHT_STATE_ON,            LIGHT_STATE_OFF,        LIGHT_STATE_BLINKING}  // LIGHT_ACTION_RIGHT_TURN_BRAKE,
 
 };
 
-static LightAction* light_action_to_states(const State* state, const LightAction* light_action);
+const static LightState _light_action_to_turn_states[_NUM_LIGHT_ACTION][_NUM_TURN_INDICATORS] = {
+//  {LEFT                       RIGHT}
+    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF}, // LIGHT_ACTION_NONE 
+    {LIGHT_STATE_ON             LIGHT_STATE_OFF}, // LIGHT_ACTION_LEFT_TURN,
+    {LIGHT_STATE_OFF,           LIGHT_STATE_ON},  // LIGHT_ACTION_RIGHT_TURN,
+    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF}, // LIGHT_ACTION_BRAKE
+    {LIGHT_STATE_ON,            LIGHT_STATE_OFF}, // LIGHT_ACTION_LEFT_TURN_BRAKE,
+    {LIGHT_STATE_OFF,           LIGHT_STATE_ON}   // LIGHT_ACTION_RIGHT_TURN_BRAKE,
+};
+
+// Return LightState array that is dynamically allocated using malloc. Must be freed after use
+LightState* light_action_to_rear_light_states(const State* state, const LightAction* light_action);
+
+// Return LightState array that is dynamically allocated using malloc. Must be freed after use
+LightState* light_action_to_turn_led_states(const State* state, const LightAction* light_action);
 
 void performLightAction(const State* state, const LightAction* light_action, uint8_t count);
 // Takes the state of the rear turn lights, and correctly drives the led indicators
@@ -55,7 +52,7 @@ static void set_led_turn(const LightState* left_state, const LightState* right_s
 static void set_led_gear_indicator(uint8_t curr_gear);
 
 // takes the current bike state, and rear light states, and sets brake lights accordingly
-static void set_brake_indicator(const State* state,
-                                const LightState* left_state,
-                                const LightState* right_state);
+static void check_brake_indicator(const State* state,
+                                  const LightState* left_state,
+                                  const LightState* right_state);
 #endif // LIGHTACTION_H_

@@ -21,7 +21,6 @@ void initializeLights() {
     }
 }
 
-
 void setAllRearLightStates(const LightState* state) {
     assert(sizeof(state)/sizeof(LightState) == _NUM_LIGHT_TYPE);
     uint8_t i 
@@ -61,7 +60,7 @@ void setLEDLightState(uint8_t pos, LightState state ) {
 LightState getRearLightState( LightType type ) {
     assert (type < _NUM_LIGHT_TYPE);
     LightState ret;
-    ret = _rear_lights[type].state
+    ret = _rear_lights[type]._state;
     if (ret == LIGHT_STATE_BLINKING_ON || ret == LIGHT_STATE_BLINKING_OFF) {
         ret = LIGHT_STATE_BLINKING;
     }
@@ -71,7 +70,7 @@ LightState getRearLightState( LightType type ) {
 LightState getLEDLightState( uint8_t pos ) {
     assert(pos < _NUM_LEDS);
     LightState ret;
-    ret = _led_lights[pos].state
+    ret = _led_lights[pos]._state;
     if (ret == LIGHT_STATE_BLINKING_ON || ret == LIGHT_STATE_BLINKING_OFF) {
         ret = LIGHT_STATE_BLINKING;
     }
@@ -90,5 +89,3 @@ void turnOffAllLights( ) {
         pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], LED_LIGHT_PWM_ADDR);
     }
 }
-
-
