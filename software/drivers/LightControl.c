@@ -22,8 +22,16 @@ void initializeLights() {
 }
 
 
+void setAllRearLightStates(const LightState* state) {
+    assert(sizeof(state)/sizeof(LightState) == _NUM_LIGHT_TYPE);
+    uint8_t i 
+    for (i=CENTER_LIGHT; i < _NUM_LIGHT_TYPE; ++i) {
+        setRearLightState((LightType)i, state[i]);
+    }
+}
+
 void setRearLightState(LightType type, LightState state ) {
-    assert (state < _NUM_LIGHT_STATE)
+    assert (type < _NUM_LIGHT_TYPE && state < _NUM_LIGHT_STATE)
     /* SET PWM */
     if (state == LIGHT_STATE_BLINKING) {
         state = LIGHT_STATE_BLINKING_ON;

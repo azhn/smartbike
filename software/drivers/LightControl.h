@@ -83,6 +83,7 @@ void initializeLights();
 /* generic function to set any light state */
 void setRearLightState(LightType type, LightState state );
 void setLEDLightState(uint8_t pos, LightState state );
+void setAllRearLightStates(const LightState* states);
 
 /* generic function to get any light state */
 LightState getRearLightState( LightType type );

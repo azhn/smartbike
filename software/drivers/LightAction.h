@@ -45,6 +45,8 @@ const static LightState _light_action_to_states[_NUM_LIGHT_ACTION][_NUM_LIGHT_TY
 
 };
 
+static LightAction* light_action_to_states(const State* state, const LightAction* light_action);
+
 void performLightAction(const State* state, const LightAction* light_action, uint8_t count);
 // Takes the state of the rear turn lights, and correctly drives the led indicators
 static void set_led_turn(const LightState* left_state, const LightState* right_state);
