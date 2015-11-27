@@ -3,6 +3,10 @@
 
 #include "BikeState.h"
 
+/****************************************************************************
+                               Data Types
+****************************************************************************/
+
 typedef enum LightAction {
     // Non-braking Light Actions
     LIGHT_ACTION_NONE = 0,
@@ -31,12 +35,16 @@ const static LightState _light_action_to_rear_states[_NUM_LIGHT_ACTION][_NUM_LIG
 const static LightState _light_action_to_turn_states[_NUM_LIGHT_ACTION][_NUM_TURN_INDICATORS] = {
 //  {LEFT                       RIGHT}
     {LIGHT_STATE_OFF,           LIGHT_STATE_OFF}, // LIGHT_ACTION_NONE 
-    {LIGHT_STATE_ON             LIGHT_STATE_OFF}, // LIGHT_ACTION_LEFT_TURN,
+    {LIGHT_STATE_ON,            LIGHT_STATE_OFF}, // LIGHT_ACTION_LEFT_TURN,
     {LIGHT_STATE_OFF,           LIGHT_STATE_ON},  // LIGHT_ACTION_RIGHT_TURN,
     {LIGHT_STATE_OFF,           LIGHT_STATE_OFF}, // LIGHT_ACTION_BRAKE
     {LIGHT_STATE_ON,            LIGHT_STATE_OFF}, // LIGHT_ACTION_LEFT_TURN_BRAKE,
     {LIGHT_STATE_OFF,           LIGHT_STATE_ON}   // LIGHT_ACTION_RIGHT_TURN_BRAKE,
 };
+
+/****************************************************************************
+                               Utility Functions
+****************************************************************************/
 
 // Return LightState array that is dynamically allocated using malloc. Must be freed after use
 LightState* light_action_to_rear_light_states(const State* state, const LightAction* light_action);
@@ -44,15 +52,25 @@ LightState* light_action_to_rear_light_states(const State* state, const LightAct
 // Return LightState array that is dynamically allocated using malloc. Must be freed after use
 LightState* light_action_to_turn_led_states(const State* state, const LightAction* light_action);
 
-void performLightAction(const State* state, const LightAction* light_action, uint8_t count);
-// Takes the state of the rear turn lights, and correctly drives the led indicators
-static void set_led_turn(const LightState* left_state, const LightState* right_state);
+
+/****************************************************************************
+                             Static Functions                               
+****************************************************************************/
+
+// takes the turn indicator states and outputs to leds
+static void set_led_turn_indicators(const LightState* led_turn_states);
 
 // takes the current gear and outputs the correct gear state on the leds
 static void set_led_gear_indicator(uint8_t curr_gear);
 
-// takes the current bike state, and rear light states, and sets brake lights accordingly
-static void check_brake_indicator(const State* state,
-                                  const LightState* left_state,
-                                  const LightState* right_state);
+// takes the current bike state, and rear light action, and sets brake lights accordingly
+static void check_brake_indicator(const State* state, LightAction* light_action);
+
+
+/****************************************************************************
+                               Utility Functions
+****************************************************************************/
+void performLightAction(const State* bike, LightAction light_action);
+
+
 #endif // LIGHTACTION_H_
