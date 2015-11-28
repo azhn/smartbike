@@ -30,12 +30,15 @@
 
 // Drivers
 #include "gpio_driver.h"
+#include "AccelDataDriver.h"
 #include "AccelerometerControl.h"
 #include "ServoControl.h"
 #include "LightControl.h"
 #include "BikeState.h"
 #include "HallEffectControl.h"
 #include "BikeTimers.h"
+#include "LightControl.h"
+#include "LightAction.h"
 
 
 /*******************************************************************************
@@ -60,8 +63,8 @@
 #define HALL_EFFECT_PEDAL_PIN 5  // PORT
 #define BUTTON_SHIFT_UP_PIN 4    // PORT
 #define BUTTON_SHIFT_DOWN_PIN 3  // PORT
-#define BUTTON_LEFT_TURN_PIN 10   // PORT
-#define BUTTON_RIGHT_TURN_PIN 8 // PORT
+#define BUTTON_LEFT_TURN_PIN 9 // PORT
+#define BUTTON_RIGHT_TURN_PIN 10   // PORT
 
 
 
@@ -90,6 +93,9 @@ static ble_app_t app;
 
 // GPIO
 uint32_t pin_status = 0x0000;
+
+// Accelerometer Data
+int16_t curr_x_val = 0;
 
 
 /*******************************************************************************
@@ -218,7 +224,7 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
     /*********************************************************/
     if (pin == HALL_EFFECT_PEDAL_PIN) {
         pedalling_interrupt_handler(bike);
-		setPinStatus(HALL_EFFECT_PEDAL_PIN, true);
+        setPinStatus(HALL_EFFECT_PEDAL_PIN, true);
     /*********************************************************/
     /*   SHIFT UP BUTTON INTERRUPT                           */
     /*********************************************************/
@@ -262,8 +268,9 @@ int main(void) {
     bike = create_state();
 
 
-    bool button08 = false, button09 = false, button10 = false, 
-         button21 = false, button22 = false;
+    bool button09 = false, button10 = false, 
+         button06 = false, button05 = false, button04 = false,
+         button03 = false;
     /*********************************************************/
     /*                 Initialize GPIO                       */
     /*********************************************************/
@@ -277,7 +284,7 @@ int main(void) {
     };
 
     uint8_t gpio_cfg_count;
-    gpio_cfg_count = 4;
+    gpio_cfg_count = 6;
 
     err_code = gpio_init(cfgs, gpio_cfg_count);
     APP_ERROR_CHECK(err_code);
@@ -298,49 +305,53 @@ int main(void) {
 
 
     /*********************************************************/
-    /*                  Initialize Timers                    */
-    /*********************************************************/
-    // Setup clock
-    //SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
-
-    // Setup and start timer
-    timers_init();
-    timers_start();
-        // TODO: setup timer for ble data out
-
-
-    /*********************************************************/
     /*                  Initialize BLE                       */
     /*********************************************************/
-    app.test_data = 0xCDAB;
+/*    app.test_data = 0xCDAB;
     simple_ble_app = simple_ble_init(&ble_config);
     //eddystone_adv(PHYSWEB_URL, NULL);
     //simple_adv_only_name();
     simple_adv_service(&smartbike_uuid);
     // Initialization complete
     //led_on(LED_2);
+*/
+    /*********************************************************/
+    /*                  Initialize Timers                    */
+    /*********************************************************/
+    // Setup clock
+    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
+    // Setup and start timer
+    timers_init();
+    timers_start();
+    // TODO: setup timer for ble data out
 
     /*********************************************************/
     /*               Initialize Accelerometer                */
     /*********************************************************/
-    initializeAccelerometer();
+//    initializeAccelerometer();
 
     /*********************************************************/
     /*               Initialize Hall Effects                 */
     /*********************************************************/
 
     /*********************************************************/
-    /*                    Initialize Servos                  */
+    /*         Initialize PWM Driver Related Outputs         */
+    /*                   Servos & Lights                     */
     /*********************************************************/
-	//init i2c
-	i2c_init();	
-	
-	//Setup and init PWM
-	pca9685_init(&twi_instance);
-	pca9685_setPWMFreq(52.0f);
-	//pca9685_setPWM(0,0,2000);
-	update_servos(bike);
+    //init i2c
+    i2c_init();	
+
+    //Setup and init PWM
+    pca9685_init(&twi_instance, LED_LIGHT_PWM_ADDR);
+    pca9685_setPWMFreq(52.0f, LED_LIGHT_PWM_ADDR);
+
+    pca9685_init(&twi_instance, REAR_LIGHT_PWM_ADDR);
+    pca9685_setPWMFreq(52.0f, REAR_LIGHT_PWM_ADDR);
+
+    //pca9685_setPWM(0,0,2000);
+    update_servos(bike);
+    initializeLights();
 
     /*********************************************************/
     /*                     Main Loop                         */
@@ -351,58 +362,70 @@ int main(void) {
         /*     Button Press Update                           */
         /*****************************************************/
         // Get the latest button statuses and store locally
-        button08 = getPinStatusClear(8);
-        button09 = getPinStatusClear(9);
         button10 = getPinStatusClear(10);
-        button21 = getPinStatusClear(21);
-        button22 = getPinStatusClear(22);
+        button09 = getPinStatusClear(9);
+        button06 = getPinStatusClear(6);
+        button05 = getPinStatusClear(5);
+        button04 = getPinStatusClear(4);
+        button03 = getPinStatusClear(3);
 
         /*****************************************************/
         /*     Accelerometeter Data Update                   */
         /*****************************************************/
         // Get the latest accelerometer data & store locally
         
+        // TODO: Only if Accelerometer is ready
+        populateAccelDataBank();
+
+        bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
 
         /* PROCESS DATA */
         /*****************************************************/
         /*     Turn Signal State Machine                     */
         /*****************************************************/
         // Determine what state the turn lights should be in
+        /* TODO: UNCOMMENT
+        btn_state_change(button09, button10);
+        */ 
 
         /*****************************************************/
         /*     Turn Signal State Machine                     */
         /*****************************************************/
-        // Determine what gear we should shift to based on
-        //  wheel speed and accelerometer tilt (slope)
+        /* TODO: UNCOMMENT
+        if(newAccelVal){
+            light_act = do_state_action( curr_x_val );
+        }
+        */
 
         /*****************************************************/
         /*     Calculate Velocity                            */
         /*****************************************************/
         //velocity and acceleration are updated, target gear set
-        
-
-		if(bike->flags[wheel_flag])
-		{
-                        led_toggle(LED_0);
-			update_target_state(bike);
-		}
+        if(bike->flags[wheel_flag])
+        {
+            led_toggle(LED_0);
+            update_target_state(bike);
+        }
 
 
-        
         /* CONTROL HARDWARE */
         /*****************************************************/
         /*     Lighting Control                              */
         /*****************************************************/
         // turn on/off all lights as specified
+        
+        /* TODO: UNCOMMENT
+        performLightAction(bike, light_act);
+        */
 
         /*****************************************************/
         /*     Shifting Control                              */
         /*****************************************************/
-        if(bike->flags[pedal_flag])
-		{
-			update_servos(bike);
-		}
+        /*if(bike->flags[pedal_flag]) {
+            update_servos(bike);
+        }*/
 
+        update_servos(bike);
         /*****************************************************/
         /*     Manage power (do we need this?)               */
         /*****************************************************/

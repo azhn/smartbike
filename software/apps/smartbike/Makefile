@@ -18,6 +18,7 @@ APPLICATION_SRCS += eddystone.c
 APPLICATION_SRCS += led.c
 APPLICATION_SRCS += simple_adv.c
 APPLICATION_SRCS += AccelerometerControl.c
+APPLICATION_SRCS += AccelDataDriver.c
 APPLICATION_SRCS += adxl362.c
 APPLICATION_SRCS += spi_driver.c
 APPLICATION_SRCS += app_error.c
@@ -28,6 +29,8 @@ APPLICATION_SRCS += BikeState.c
 APPLICATION_SRCS += HallEffectControl.c
 APPLICATION_SRCS += ServoControl.c
 APPLICATION_SRCS += BikeTimers.c
+APPLICATION_SRCS += LightControl.c
+APPLICATION_SRCS += LightAction.c
 
 ifndef TARGET
 	TARGET = SMARTBIKE
