@@ -7,22 +7,11 @@
 
 
 void initializeLights() {
-    int i;
-    for(i=0; i<_NUM_LIGHT_TYPE; ++i) {
-        _rear_lights[i]._state = LIGHT_STATE_OFF;
-        _rear_lights[i]._address = _rear_light_address[i];
-        pca9685_setPWM(_rear_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], REAR_LIGHT_PWM_ADDR);
-    }
-
-    for(i=0; i<_NUM_LEDS; ++i) {
-        _led_lights[i]._state = LIGHT_STATE_OFF;
-        _led_lights[i]._address = i;
-        pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], LED_LIGHT_PWM_ADDR);
-    }
+    turnOffAllLights();
 }
 
 void setAllRearLightStates(const LightState* state) {
-    assert(sizeof(state)/sizeof(LightState) == _NUM_LIGHT_TYPE);
+    // assert(sizeof(state)/sizeof(state[0]) == _NUM_LIGHT_TYPE);
     uint8_t i;
     for (i=CENTER_LIGHT; i < _NUM_LIGHT_TYPE; ++i) {
         setRearLightState((LightType)i, state[i]);

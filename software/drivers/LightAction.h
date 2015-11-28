@@ -33,13 +33,13 @@ const static LightState _light_action_to_rear_states[_NUM_LIGHT_ACTION][_NUM_LIG
 };
 
 const static LightState _light_action_to_turn_states[_NUM_LIGHT_ACTION][_NUM_TURN_INDICATORS] = {
-//  {LEFT                       RIGHT}
-    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF}, // LIGHT_ACTION_NONE 
-    {LIGHT_STATE_ON,            LIGHT_STATE_OFF}, // LIGHT_ACTION_LEFT_TURN,
-    {LIGHT_STATE_OFF,           LIGHT_STATE_ON},  // LIGHT_ACTION_RIGHT_TURN,
-    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF}, // LIGHT_ACTION_BRAKE
-    {LIGHT_STATE_ON,            LIGHT_STATE_OFF}, // LIGHT_ACTION_LEFT_TURN_BRAKE,
-    {LIGHT_STATE_OFF,           LIGHT_STATE_ON}   // LIGHT_ACTION_RIGHT_TURN_BRAKE,
+//  {RIGHT                      LEFT}
+    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF},           // LIGHT_ACTION_NONE 
+    {LIGHT_STATE_OFF,           LIGHT_STATE_ON},            // LIGHT_ACTION_LEFT_TURN
+    {LIGHT_STATE_ON,            LIGHT_STATE_OFF},           // LIGHT_ACTION_RIGHT_TURN
+    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF},           // LIGHT_ACTION_BRAKE
+    {LIGHT_STATE_OFF,           LIGHT_STATE_ON},            // LIGHT_ACTION_LEFT_TURN_BRAKE
+    {LIGHT_STATE_ON,            LIGHT_STATE_OFF}            // LIGHT_ACTION_RIGHT_TURN_BRAKE
 };
 
 /****************************************************************************

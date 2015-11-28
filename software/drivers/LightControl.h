@@ -35,8 +35,8 @@ typedef enum LightType {
 
 enum LedType {
     // TURN INDICATOR LEDS
-    LED_LEFT_INDICATOR    = 0,
-    LED_RIGHT_INDICATOR   = 1,
+    LED_RIGHT_INDICATOR   = 0,
+    LED_LEFT_INDICATOR    = 1,
     _NUM_TURN_INDICATORS  = 2,
     // GEAR INDICATOR LEDS
     LED_G1                = 2,
@@ -62,15 +62,15 @@ typedef struct Light {
                                  Globals
 *****************************************************************************/
 /* index by light type, then position */
-const static pwm_address_t _rear_light_address[_NUM_LIGHT_TYPE] = {0/*INSERT ADDR*/,0/*INSERT ADDR*/,0/*INSERT ADDR*/};
+const static pwm_address_t _rear_light_address[_NUM_LIGHT_TYPE] = {2/*INSERT ADDR*/,3/*INSERT ADDR*/,4/*INSERT ADDR*/};
 
 const static pwm_t _light_state_pwm[_NUM_LIGHT_STATE] = {
     0,      //LIGHT_STATE_OFF=0,
-    4095,   //LIGHT_STATE_ON,
-    2048,   //LIGHT_STATE_DIM_ON,
+    600,   //LIGHT_STATE_ON,
+    300,   //LIGHT_STATE_DIM_ON,
     0,      //LIGHT_STATE_BLINKING,
     0,      //LIGHT_STATE_BLINKING_OFF,
-    4095    //LIGHT_STATE_BLINKING_ON,
+    300    //LIGHT_STATE_BLINKING_ON,
 };
 
 Light _rear_lights[_NUM_LIGHT_TYPE]; 

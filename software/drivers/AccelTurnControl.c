@@ -94,10 +94,10 @@ LightAction do_state_action( int16_t accel_x_val ) {
       }
       break;
     case SIGNAL_L: // Left btn pressed, check for entering turn before going to next state
-      led_on(LED_2);
+      // led_on(LED_2);
       if(check_in_thresh( false, &accel_x_val )){
           curr_state = RETURN_L;
-          led_off(LED_2);
+          // led_off(LED_2);
       }
       break;
     case RETURN_R: // Entered right turn, check for return

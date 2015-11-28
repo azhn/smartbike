@@ -7,7 +7,7 @@
 #include "LightAction.h"
 
 static void set_led_turn_indicators(const LightState* led_turn_states) {
-    assert(sizeof(led_turn_states) == _NUM_TURN_INDICATORS);
+    //assert(sizeof(led_turn_states) == _NUM_TURN_INDICATORS);
     uint8_t i;
     for (i=0; i<_NUM_TURN_INDICATORS; ++i) {
         setLEDLightState(i, led_turn_states[i]);
@@ -62,7 +62,7 @@ LightState* light_action_to_turn_led_states(const State* bike_state, const Light
     assert (*light_action < _NUM_LIGHT_ACTION);
     LightState* ret = (LightState*) malloc(_NUM_TURN_INDICATORS * sizeof(LightState));
     uint8_t i;
-    for(i=LED_LEFT_INDICATOR; i < _NUM_TURN_INDICATORS; ++i) {
+    for(i=0; i < _NUM_TURN_INDICATORS; ++i) {
         if (_light_action_to_turn_states[*light_action][i] == LIGHT_STATE_BLINKING) {
             ret[i] = bike_state->blinking_light_output;
         } else {
@@ -72,23 +72,23 @@ LightState* light_action_to_turn_led_states(const State* bike_state, const Light
     return ret;
 }
 
-void performLightAction(const State* bike, LightAction light_action) {
+void performLightAction(const State* bike_state, LightAction light_action) {
     LightState* all_rear_states;
     LightState* all_turn_led_states;
 
     // Check braking
-    check_brake_indicator(bike, &light_action); 
+    check_brake_indicator(bike_state, &light_action); 
 
     // Set back lights
-    all_rear_states = light_action_to_rear_light_states(bike, &light_action);
+    all_rear_states = light_action_to_rear_light_states(bike_state, &light_action);
     setAllRearLightStates(all_rear_states);
     free(all_rear_states); // Must free all_rear_states because dynamically allocated
 
     // set led turn signals
-    all_turn_led_states = light_action_to_turn_led_states(bike, &light_action);
+    all_turn_led_states = light_action_to_turn_led_states(bike_state, &light_action);
     set_led_turn_indicators(all_turn_led_states);
     free(all_turn_led_states); // Must free all_turn_led_states because dynamically allocated
 
     // set led gear indicators
-    set_led_gear_indicator(bike->curr_gear);
+    set_led_gear_indicator(bike_state->curr_gear);
 }
