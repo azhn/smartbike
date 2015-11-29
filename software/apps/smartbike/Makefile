@@ -31,6 +31,7 @@ APPLICATION_SRCS += ServoControl.c
 APPLICATION_SRCS += BikeTimers.c
 APPLICATION_SRCS += LightControl.c
 APPLICATION_SRCS += LightAction.c
+APPLICATION_SRCS += AccelTurnControl.c
 
 ifndef TARGET
 	TARGET = SMARTBIKE

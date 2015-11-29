@@ -80,6 +80,34 @@ void btn_state_change( bool left_btn_pressed, bool right_btn_pressed ) {
   }
 }
 
+void btn_state_change_alt( State* state ) {
+    // must be called when a button is pressed
+    //assert(!left_btn_pressed && !right_btn_pressed);
+    bool *left_btn_pressed = &(state->flags[LEFT_TURN_FLAG]);
+    bool *right_btn_pressed = &(state->flags[RIGHT_TURN_FLAG]);
+
+    if(!*left_btn_pressed && !*right_btn_pressed){
+        return;
+    }
+
+    // handle simultaneous press by resetting to OFF
+    if(*left_btn_pressed && *right_btn_pressed){
+        curr_state = OFF;
+        return;
+    }
+
+    // get next state from our BTN_STATES array
+    if(*left_btn_pressed && !*right_btn_pressed){
+        curr_state = BTN_STATES[ curr_state ][LEFT_BUTTON];
+    } else if(!*left_btn_pressed && *right_btn_pressed){
+        curr_state = BTN_STATES[ curr_state ][RIGHT_BUTTON];
+    } else {
+        // assert(false);
+    }
+    *left_btn_pressed = false;
+    *right_btn_pressed = false;
+}
+
 // Perform threshold checking based on current state
 LightAction do_state_action( int16_t accel_x_val ) {
   switch( curr_state ){

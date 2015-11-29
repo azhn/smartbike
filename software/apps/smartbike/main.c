@@ -31,6 +31,7 @@
 // Drivers
 #include "gpio_driver.h"
 #include "AccelDataDriver.h"
+#include "AccelTurnControl.h"
 #include "AccelerometerControl.h"
 #include "ServoControl.h"
 #include "LightControl.h"
@@ -39,6 +40,7 @@
 #include "BikeTimers.h"
 #include "LightControl.h"
 #include "LightAction.h"
+#include "PinStatus.h"
 
 
 /*******************************************************************************
@@ -51,22 +53,6 @@
 
 #define GPIOTE_CHANNEL_0 0
 #define GPIOTE_CHANNEL_1 1
-
-// GPIO PINS
-#define PIN_08 8
-#define PIN_09 9
-#define PIN_10 10
-#define PIN_21 21
-#define PIN_22 22
-
-#define HALL_EFFECT_WHEEL_PIN 6  // GPIOTE
-#define HALL_EFFECT_PEDAL_PIN 5  // PORT
-#define BUTTON_SHIFT_UP_PIN 4    // PORT
-#define BUTTON_SHIFT_DOWN_PIN 3  // PORT
-#define BUTTON_LEFT_TURN_PIN 9 // PORT
-#define BUTTON_RIGHT_TURN_PIN 10   // PORT
-
-
 
 /*******************************************************************************
  *   CONSTANTS
@@ -91,9 +77,6 @@ ble_uuid_t smartbike_uuid;
 simple_ble_app_t* simple_ble_app;
 static ble_app_t app;
 
-// GPIO
-uint32_t pin_status = 0x0000;
-
 // Accelerometer Data
 int16_t curr_x_val = 0;
 
@@ -116,30 +99,9 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
     // on_sys_evt(sys_evt);
 }
 
-
-
 /*******************************************************************************
  *   INIT FUNCTIONS
  ******************************************************************************/
-
-
-static void setPinStatus(uint8_t pin_num, bool value){
-    if(value) { // set value to 1
-        pin_status |= (1<<pin_num);
-    } else { // set value to 0
-        pin_status &= ( ~(1<<pin_num) );
-    }
-}
-
-static bool getPinStatus(uint8_t pin_num){
-    return ( (pin_status & 1<<pin_num) );
-}
-
-static bool getPinStatusClear(uint8_t pin_num){
-    bool ret = ( (pin_status & 1<<pin_num) );
-    pin_status &= ( ~(1<<pin_num) );
-    return ret;
-}
 
 //setup i2c
 void i2c_init(void)
@@ -204,7 +166,7 @@ void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     /*********************************************************/
     /*   Wheel Hall Effect Interrupt                         */
     /*********************************************************/
-    if (pin == HALL_EFFECT_WHEEL_PIN) { 
+    if (pin == bike->pin_mappings[WHEEL_FLAG]) { 
         if (bike == NULL) return;
 
         wheel_interrupt_handler(bike);
@@ -216,46 +178,55 @@ void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
             led_toggle(LED_2);
         }
         milli = bike->curr_milli;
-        setPinStatus(HALL_EFFECT_WHEEL_PIN, true);
+        setPinStatus(bike->pin_mappings[WHEEL_FLAG], true);
         //led_toggle(LED_2);
     }
 }
 
 void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
+    if (bike == NULL) {
+        return;
+    }
     /*********************************************************/
     /*   PEDALLING HALL EFFECT INTERRUPT                     */
     /*********************************************************/
-    if (pin == HALL_EFFECT_PEDAL_PIN) {
+    if (pin == bike->pin_mappings[PEDAL_FLAG]) {
         pedalling_interrupt_handler(bike);
-        setPinStatus(HALL_EFFECT_PEDAL_PIN, true);
+        setPinStatus(bike->pin_mappings[PEDAL_FLAG], true);
     /*********************************************************/
     /*   SHIFT UP BUTTON INTERRUPT                           */
     /*********************************************************/
-    } else if (pin == BUTTON_SHIFT_UP_PIN) {
+    } else if (pin == bike->pin_mappings[SHIFT_UP_FLAG]) {
         // led_toggle(LED_2);
-        setPinStatus(BUTTON_SHIFT_UP_PIN, true);
+        setPinStatus(bike->pin_mappings[SHIFT_UP_FLAG], true);
     /*********************************************************/
     /*   SHIFT DOWN BUTTON INTERRUPT                         */
     /*********************************************************/
-    } else if (pin == BUTTON_SHIFT_DOWN_PIN) {
+    } else if (pin == bike->pin_mappings[SHIFT_DOWN_FLAG]) {
         // led_toggle(LED_0);   
         // b21 = true;
-        setPinStatus(BUTTON_SHIFT_DOWN_PIN, true);
+        setPinStatus(bike->pin_mappings[SHIFT_DOWN_FLAG], true);
     /*********************************************************/
     /*   LEFT TURN BUTTON INTERRUPT                          */
     /*********************************************************/
-    } else if (pin == BUTTON_LEFT_TURN_PIN) {
+    } else if (pin == bike->pin_mappings[LEFT_TURN_FLAG]) {
         // led_toggle(LED_1); 
         // b22 = true;
-        setPinStatus(BUTTON_LEFT_TURN_PIN, true);
+        setPinStatus(bike->pin_mappings[LEFT_TURN_FLAG], true);
     /*********************************************************/
     /*   RIGHT TURN BUTTON INTERRUPT                         */
     /*********************************************************/
-    } else if (pin == BUTTON_RIGHT_TURN_PIN) {
+    } else if (pin == bike->pin_mappings[RIGHT_TURN_FLAG]) {
         // led_toggle(LED_1); 
         // b22 = true;
-        setPinStatus(BUTTON_RIGHT_TURN_PIN, true);
+        setPinStatus(bike->pin_mappings[RIGHT_TURN_FLAG], true);
+    /*********************************************************/
+    /*   MANUAL MODE SWITCH INTERRUPT                        */
+    /*********************************************************/
+    } else if (pin == bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG]) {
+        setPinStatus(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], true);
     }
+
 }
 
 /*******************************************************************************
@@ -271,9 +242,9 @@ int main(void) {
     bike = create_state();
 
 
-    bool button09 = false, button10 = false, 
+/*    bool button09 = false, button10 = false, 
          button06 = false, button05 = false, button04 = false,
-         button03 = false;
+         button03 = false;*/
     /*********************************************************/
     /*                 Initialize GPIO                       */
     /*********************************************************/
@@ -348,11 +319,11 @@ int main(void) {
     i2c_init();	
 
     //Setup and init PWM
-    pca9685_init(&twi_instance, LED_LIGHT_PWM_ADDR);
-    pca9685_setPWMFreq(52.0f, LED_LIGHT_PWM_ADDR);
+    pca9685_init(&twi_instance, GPIOTE_CHANNEL_0);
+    pca9685_setPWMFreq(52.0f, GPIOTE_CHANNEL_0);
 
-    pca9685_init(&twi_instance, REAR_LIGHT_PWM_ADDR);
-    pca9685_setPWMFreq(52.0f, REAR_LIGHT_PWM_ADDR);
+    pca9685_init(&twi_instance, GPIOTE_CHANNEL_1);
+    pca9685_setPWMFreq(52.0f, GPIOTE_CHANNEL_1);
 
     //pca9685_setPWM(0,0,2000);
     update_servos(bike);
@@ -367,12 +338,13 @@ int main(void) {
         /*     Button Press Update                           */
         /*****************************************************/
         // Get the latest button statuses and store locally
-        button10 = getPinStatusClear(10);
+        /*button10 = getPinStatusClear(10);
         button09 = getPinStatusClear(9);
         button06 = getPinStatusClear(6);
         button05 = getPinStatusClear(5);
         button04 = getPinStatusClear(4);
-        button03 = getPinStatusClear(3);
+        button03 = getPinStatusClear(3);*/
+        state_update_flags(bike);
 
         /*****************************************************/
         /*     Accelerometeter Data Update                   */
@@ -390,8 +362,10 @@ int main(void) {
         /*****************************************************/
         // Determine what state the turn lights should be in
         /* TODO: UNCOMMENT
-        btn_state_change(button09, button10);
-        */ 
+        btn_state_change_alt(bike);
+        */
+        
+        
 
         /*****************************************************/
         /*     Turn Signal State Machine                     */
@@ -437,8 +411,8 @@ int main(void) {
         power_manage();
     }
 
-	destroy_state(bike);
+    destroy_state(bike);
 
-	return 0;
+    return 0;
 }
 

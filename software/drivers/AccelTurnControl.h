@@ -13,7 +13,8 @@
 
 
 /*****************************************************************************/
-
+#define LEFT_BUTTON 0
+#define RIGHT_BUTTON 1
 #define NUM_TURN_BUTTONS 2
 #define NUM_TURN_LIGHTS 2
 
@@ -73,6 +74,7 @@ void set_light_output();
 
 // Check for any state transitions needed based on button presses
 void btn_state_change( bool left_btn_pressed, bool right_btn_pressed );
+void btn_state_change_alt( State* state );
 
 // Perform threshold checking based on current state
 LightAction do_state_action( int16_t accel_x_val );
