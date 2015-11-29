@@ -62,6 +62,7 @@ typedef struct Light {
                                  Globals
 *****************************************************************************/
 /* index by light type, then position */
+// TODO: Double check these values. Can be placeholders
 const static pwm_address_t _rear_light_address[_NUM_LIGHT_TYPE] = {2/*INSERT ADDR*/,3/*INSERT ADDR*/,4/*INSERT ADDR*/};
 
 const static pwm_t _light_state_pwm[_NUM_LIGHT_STATE] = {
