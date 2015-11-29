@@ -198,6 +198,9 @@ void ble_evt_disconnected(ble_evt_t* p_ble_evt) {
 ******************************************************************************/
 void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     static uint32_t milli = 0;
+    if (bike == NULL) {
+        return;
+    }
     /*********************************************************/
     /*   Wheel Hall Effect Interrupt                         */
     /*********************************************************/
@@ -274,13 +277,15 @@ int main(void) {
     /*********************************************************/
     /*                 Initialize GPIO                       */
     /*********************************************************/
+    // TODO: Add a pin for manual/automatic switch
     gpio_cfg_t cfgs[] = {
-        {HALL_EFFECT_WHEEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
-        {HALL_EFFECT_PEDAL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_LEFT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_RIGHT_TURN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_UP_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
-        {BUTTON_SHIFT_DOWN_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN}
+        {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
+        {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN}
     };
 
     uint8_t gpio_cfg_count;
@@ -401,7 +406,7 @@ int main(void) {
         /*     Calculate Velocity                            */
         /*****************************************************/
         //velocity and acceleration are updated, target gear set
-        if(bike->flags[wheel_flag])
+        if(bike->flags[WHEEL_FLAG])
         {
             led_toggle(LED_0);
             update_target_state(bike);
@@ -421,7 +426,7 @@ int main(void) {
         /*****************************************************/
         /*     Shifting Control                              */
         /*****************************************************/
-        /*if(bike->flags[pedal_flag]) {
+        /*if(bike->flags[PEDAL_FLAG]) {
             update_servos(bike);
         }*/
 

@@ -3,11 +3,11 @@
 void wheel_interrupt_handler(State* bike) {
     bike->last_milli = bike->curr_milli;
 	bike->curr_milli = get_millis();
-	bike->flags[wheel_flag] = true;
+	bike->flags[WHEEL_FLAG] = true;
 }
 
 void pedalling_interrupt_handler(State* bike) {
-    bike->flags[pedal_flag] = true;
+    bike->flags[PEDAL_FLAG] = true;
 }
 
 
@@ -22,7 +22,7 @@ void update_target_state(State* bike) {
 	
 	if(bike->target_gear > 5) bike->target_gear = 5;
 
-	bike->flags[wheel_flag] = false;
+	bike->flags[WHEEL_FLAG] = false;
 }
 
 float get_pedalling_speed(const uint32_t* prev_count, const uint32_t* curr_count) {

@@ -92,6 +92,6 @@ void update_servos(State* state)
         }
 
         state->curr_gear = state->target_gear;
-        state->flags[pedal_flag] = false;
+        state->flags[PEDAL_FLAG] = false;
     }
 }

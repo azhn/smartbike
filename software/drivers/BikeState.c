@@ -14,6 +14,8 @@ struct State* create_state()
     state->curr_milli = 0;
     state->last_delta = 0;
     state->curr_delta = 0;
+
+    state->manual_shifting = false;
     state->shift_dir = UP; 
     state->target_gear = 0;
     state->curr_gear = 0;
@@ -23,7 +25,7 @@ struct State* create_state()
     {
         state->flags[i] = false;
     }
-
+    state->pin_mappings = _pin_mappings;
     return state;
 }
 
