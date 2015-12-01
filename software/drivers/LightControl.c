@@ -7,6 +7,15 @@
 
 
 void initializeLights() {
+    uint8_t i;
+
+    for (i=0; i<_NUM_LIGHT_TYPE; ++i) {
+        _rear_lights[i]._address = _rear_light_address[i];
+    }
+
+    for (i=0; i<_NUM_LEDS; ++i) {
+        _led_lights[i]._address = i;
+    }
     turnOffAllLights();
 }
 
@@ -30,7 +39,8 @@ void setRearLightState(LightType type, LightState state ) {
     
     _rear_lights[type]._state = state; 
 
-    pca9685_setPWM(_rear_lights[type]._address, 0, _light_state_pwm[state], REAR_LIGHT_PWM_ADDR);
+    // pca9685_setPWM(_rear_lights[type]._address, 0, _light_state_pwm[state], REAR_LIGHT_PWM_ADDR);
+    pca9685_setPin(_rear_lights[type]._address, _light_state_pwm[state], 0, REAR_LIGHT_PWM_ADDR);
 }
 
 void setLEDLightState(uint8_t pos, LightState state ) {
@@ -43,7 +53,8 @@ void setLEDLightState(uint8_t pos, LightState state ) {
     }
     _led_lights[pos]._state = state; 
     /* SET PWM */
-    pca9685_setPWM(_led_lights[pos]._address, 0, _light_state_pwm[state], LED_LIGHT_PWM_ADDR);
+    //pca9685_setPWM(_led_lights[pos]._address, 0, _light_state_pwm[state], LED_LIGHT_PWM_ADDR);
+    pca9685_setPin(_led_lights[pos]._address, _light_state_pwm[state], 0, LED_LIGHT_PWM_ADDR);
 }
 
 LightState getRearLightState( LightType type ) {
@@ -70,11 +81,13 @@ void turnOffAllLights( ) {
     int i;
     for(i=0; i<_NUM_LIGHT_TYPE; ++i) {
         _rear_lights[i]._state = LIGHT_STATE_OFF;
-        pca9685_setPWM(_rear_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], REAR_LIGHT_PWM_ADDR);
+        // pca9685_setPWM(_rear_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], REAR_LIGHT_PWM_ADDR);
+        pca9685_setPin(_rear_lights[i]._address, _light_state_pwm[LIGHT_STATE_OFF], 0, REAR_LIGHT_PWM_ADDR);
     }
     for(i=0; i<_NUM_LEDS; ++i) {
         _led_lights[i]._state = LIGHT_STATE_OFF;
         /* SET PWM */
-        pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], LED_LIGHT_PWM_ADDR);
+        // pca9685_setPWM(_led_lights[i]._address, 0, _light_state_pwm[LIGHT_STATE_OFF], LED_LIGHT_PWM_ADDR);
+        pca9685_setPin(_led_lights[i]._address, _light_state_pwm[LIGHT_STATE_OFF], 0, LED_LIGHT_PWM_ADDR);
     }
 }
