@@ -269,6 +269,14 @@ int main(void) {
 
     bike->curr_gear = 7;
 
+    bike->curr_delta = 10;
+
+// Uncomment for braking, comment out for not braking
+// bike->curr_delta = 0;
+
+    bike->last_delta = 10;
+    bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+
     while (true) {
         populateAccelDataBank();
         bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
