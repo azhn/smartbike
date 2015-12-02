@@ -263,7 +263,7 @@ int main(void) {
     /*********************************************************/
     /*                 Initialize GPIO                       */
     /*********************************************************/
-    // TODO: Add a pin for manual/automatic switch
+    // TODO: change pin polarity and pull configs
     gpio_cfg_t cfgs[] = {
         {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
         {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
