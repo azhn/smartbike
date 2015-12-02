@@ -22,7 +22,7 @@ static uint8_t                        _gpio_count; /**< Number of configured but
 
 void _pin_direction_reset() {
     int i;
-    for (i=0; i<NUM_GPIO_PINS; ++i) {
+    for (i=0; i<=NUM_GPIO_PINS; ++i) {
         _pin_direction[i] = PIN_UNDEFINED;
     }
 }
@@ -47,11 +47,10 @@ uint32_t gpio_init(gpio_cfg_t *gpio_cfgs,
     _gpio_count = gpio_count;
     
     while (gpio_count--) {
-        assert(_pin_direction[gpio_count] == PIN_UNDEFINED);
-
         gpio_cfg_t* curr_input = &_gpio_cfgs[gpio_count];
+
+        assert(curr_input->pin_no < NUM_GPIO_PINS && _pin_direction[curr_input->pin_no] == PIN_UNDEFINED);
         assert(curr_input->pin_direction != PIN_UNDEFINED);
-        assert(curr_input->pin_no < NUM_GPIO_PINS);
 
         if (curr_input->pin_direction == PIN_OUT) {
             nrf_gpio_cfg_output(curr_input->pin_no);
