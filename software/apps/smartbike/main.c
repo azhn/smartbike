@@ -167,6 +167,7 @@ void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     /*   Wheel Hall Effect Interrupt                         */
     /*********************************************************/
     if (pin == bike->pin_mappings[WHEEL_FLAG]) { 
+        led_toggle(LED_0);
         if (bike == NULL) return;
 
         wheel_interrupt_handler(bike);
@@ -191,39 +192,41 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
     /*   PEDALLING HALL EFFECT INTERRUPT                     */
     /*********************************************************/
     if (pin == bike->pin_mappings[PEDAL_FLAG]) {
+        led_toggle(LED_1);
         pedalling_interrupt_handler(bike);
         setPinStatus(bike->pin_mappings[PEDAL_FLAG], true);
     /*********************************************************/
     /*   SHIFT UP BUTTON INTERRUPT                           */
     /*********************************************************/
     } else if (pin == bike->pin_mappings[SHIFT_UP_FLAG]) {
-        // led_toggle(LED_2);
+        led_toggle(LED_2);
         setPinStatus(bike->pin_mappings[SHIFT_UP_FLAG], true);
     /*********************************************************/
     /*   SHIFT DOWN BUTTON INTERRUPT                         */
     /*********************************************************/
     } else if (pin == bike->pin_mappings[SHIFT_DOWN_FLAG]) {
-        // led_toggle(LED_0);   
+        led_toggle(LED_0);   
         // b21 = true;
         setPinStatus(bike->pin_mappings[SHIFT_DOWN_FLAG], true);
     /*********************************************************/
     /*   LEFT TURN BUTTON INTERRUPT                          */
     /*********************************************************/
     } else if (pin == bike->pin_mappings[LEFT_TURN_FLAG]) {
-        // led_toggle(LED_1); 
+        led_toggle(LED_1); 
         // b22 = true;
         setPinStatus(bike->pin_mappings[LEFT_TURN_FLAG], true);
     /*********************************************************/
     /*   RIGHT TURN BUTTON INTERRUPT                         */
     /*********************************************************/
     } else if (pin == bike->pin_mappings[RIGHT_TURN_FLAG]) {
-        // led_toggle(LED_1); 
+        led_toggle(LED_2); 
         // b22 = true;
         setPinStatus(bike->pin_mappings[RIGHT_TURN_FLAG], true);
     /*********************************************************/
     /*   MANUAL MODE SWITCH INTERRUPT                        */
     /*********************************************************/
     } else if (pin == bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG]) {
+        led_toggle(LED_0); 
         setPinStatus(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], true);
     }
 
@@ -246,29 +249,6 @@ int main(void) {
          button06 = false, button05 = false, button04 = false,
          button03 = false;*/
     /*********************************************************/
-    /*                 Initialize GPIO                       */
-    /*********************************************************/
-    // TODO: Add a pin for manual/automatic switch
-    gpio_cfg_t cfgs[] = {
-        {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
-        {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, &port_event_handler, PIN_PORT_IN}
-    };
-
-    uint8_t gpio_cfg_count;
-    gpio_cfg_count = 6;
-
-    err_code = gpio_init(cfgs, gpio_cfg_count);
-    APP_ERROR_CHECK(err_code);
- 
-    gpio_input_enable_all();
-
-
-    /*********************************************************/
     /*                  Initialize Lights                    */
     /*********************************************************/
     // Initialization of LEDs (two methods)
@@ -280,6 +260,29 @@ int main(void) {
     // nrf_gpio_cfg_output(LED_1);  //Configure LED 1 as output
 
 
+    /*********************************************************/
+    /*                 Initialize GPIO                       */
+    /*********************************************************/
+    // TODO: Add a pin for manual/automatic switch
+    gpio_cfg_t cfgs[] = {
+        {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
+        {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN}
+    };
+
+    uint8_t gpio_cfg_count;
+    gpio_cfg_count = 7;
+
+    err_code = gpio_init(cfgs, gpio_cfg_count);
+    APP_ERROR_CHECK(err_code);
+ 
+    gpio_input_enable_all();
+
+    bike = create_state();
     /*********************************************************/
     /*                  Initialize BLE                       */
     /*********************************************************/
@@ -305,7 +308,7 @@ int main(void) {
     /*********************************************************/
     /*               Initialize Accelerometer                */
     /*********************************************************/
-//    initializeAccelerometer();
+    initializeAccelerometer();
 
     /*********************************************************/
     /*               Initialize Hall Effects                 */
