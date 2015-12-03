@@ -4,6 +4,23 @@
 #include "AccelDataDriver.h"
 
 
+void initializeDataBank(bool readX, bool readY, bool readZ) {
+    uint8_t i; 
+    for (i=0; i<_NUM_ACCEL_DATA; ++i) {
+        _AccelDataBank._accel_poll[i] = false;
+    }
+    if (readX) {
+        _AccelDataBank._accel_poll[DATA_X] = true;
+    }
+
+    if (readY) {
+        _AccelDataBank._accel_poll[DATA_Y] = true;
+    }
+
+    if (readZ) {
+        _AccelDataBank._accel_poll[DATA_Z] = true;
+    }
+}
 int16_t readData(AccelDataType type) {
     assert (type < _NUM_ACCEL_DATA);
     if (type == DATA_X) {

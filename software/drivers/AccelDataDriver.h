@@ -31,6 +31,8 @@ int16_t readData(AccelDataType type);
 /******************************************************************************
 * USER FUNCTIONS
 ******************************************************************************/
+void initializeDataBank(bool readX, bool readY, bool readZ);
+
 // Will populate internal data bank. Should be called whenever Accelerometer
 // has available data in the main loop.
 void populateAccelDataBank();

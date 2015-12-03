@@ -77,6 +77,9 @@ ble_uuid_t smartbike_uuid;
 simple_ble_app_t* simple_ble_app;
 static ble_app_t app;
 
+// Light Action
+LightAction light_act;
+
 // Accelerometer Data
 int16_t curr_x_val = 0;
 
@@ -269,8 +272,8 @@ int main(void) {
         {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
         {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
         {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
         {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_event_handler, PIN_PORT_IN}
     };
 
@@ -282,7 +285,6 @@ int main(void) {
  
     gpio_input_enable_all();
 
-    bike = create_state();
     /*********************************************************/
     /*                  Initialize BLE                       */
     /*********************************************************/
@@ -309,6 +311,7 @@ int main(void) {
     /*               Initialize Accelerometer                */
     /*********************************************************/
     initializeAccelerometer();
+    initializeDataBank(true, false, false);
 
     /*********************************************************/
     /*               Initialize Hall Effects                 */
@@ -322,16 +325,17 @@ int main(void) {
     i2c_init();	
 
     //Setup and init PWM
-    pca9685_init(&twi_instance, GPIOTE_CHANNEL_0);
-    pca9685_setPWMFreq(52.0f, GPIOTE_CHANNEL_0);
+    pca9685_init(&twi_instance, PWM0_ADDR);
+    pca9685_setPWMFreq(52.0f, PWM0_ADDR);
 
-    pca9685_init(&twi_instance, GPIOTE_CHANNEL_1);
-    pca9685_setPWMFreq(52.0f, GPIOTE_CHANNEL_1);
+    pca9685_init(&twi_instance, PWM1_ADDR);
+    pca9685_setPWMFreq(52.0f, PWM1_ADDR);
 
-    //pca9685_setPWM(0,0,2000);
     update_servos(bike);
     initializeLights();
-
+    
+    initializePinStatus();
+    bike = create_state();
     /*********************************************************/
     /*                     Main Loop                         */
     /*********************************************************/
@@ -364,20 +368,18 @@ int main(void) {
         /*     Turn Signal State Machine                     */
         /*****************************************************/
         // Determine what state the turn lights should be in
-        /* TODO: UNCOMMENT
+        /* TODO: UNCOMMENT*/
         btn_state_change_alt(bike);
-        */
         
         
 
         /*****************************************************/
         /*     Turn Signal State Machine                     */
         /*****************************************************/
-        /* TODO: UNCOMMENT
+        /* TODO: UNCOMMENT */
         if(newAccelVal){
             light_act = do_state_action( curr_x_val );
         }
-        */
 
         /*****************************************************/
         /*     Calculate Velocity                            */
@@ -396,9 +398,8 @@ int main(void) {
         /*****************************************************/
         // turn on/off all lights as specified
         
-        /* TODO: UNCOMMENT
+        /* TODO: UNCOMMENT*/
         performLightAction(bike, light_act);
-        */
 
         /*****************************************************/
         /*     Shifting Control                              */
@@ -411,7 +412,7 @@ int main(void) {
         /*****************************************************/
         /*     Manage power (do we need this?)               */
         /*****************************************************/
-        power_manage();
+        //power_manage();
     }
 
     destroy_state(bike);
