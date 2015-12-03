@@ -245,7 +245,10 @@ int main(void) {
     uint32_t err_code;
 
     //create our state
+    // Do not remove any of the create_state functions
+    // We need them to fix an interrupt bug
     bike = create_state();
+
 
 
 /*    bool button09 = false, button10 = false, 
@@ -335,6 +338,9 @@ int main(void) {
     initializeLights();
     
     initializePinStatus();
+    
+    // Do not remove any of the create_state functions
+    // We need them to fix an interrupt bug
     bike = create_state();
     /*********************************************************/
     /*                     Main Loop                         */
@@ -412,7 +418,7 @@ int main(void) {
         /*****************************************************/
         /*     Manage power (do we need this?)               */
         /*****************************************************/
-        //power_manage();
+        power_manage();
     }
 
     destroy_state(bike);
