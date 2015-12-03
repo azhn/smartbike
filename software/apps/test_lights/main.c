@@ -26,6 +26,7 @@
 #include "BikeState.h"
 #include "LightControl.h"
 #include "LightAction.h"
+#include "PinStatus.h"
 
 /*******************************************************************************
  *   DEFINES
@@ -211,6 +212,7 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         // light_act = do_state_action( curr_x_val );
         // b21 = false;
         // led_off(LED_0);
+        setPinStatus(9, true);
         led_toggle(LED_0);
     }
     else if (pin == 10) { // right btn
@@ -222,7 +224,8 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         // light_act = do_state_action( curr_x_val );
         // b22 = false;
         // led_off(LED_1);
-       led_toggle(LED_2);
+        setPinStatus(10, true);
+        led_toggle(LED_2);
     }    
 }
 
@@ -238,10 +241,9 @@ int main(void) {
     led_init(LED_1);
     led_init(LED_2);
 
-    bike = create_state();
 
     static gpio_cfg_t cfgs[] = {  {9, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
-                                  {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN}};
+        {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN}};
     gpio_count = 2;
 
     err_code = gpio_init(cfgs, gpio_count);
@@ -260,40 +262,29 @@ int main(void) {
 
     initializeLights();
 
-    setPollAccelData(DATA_X);
+    initializeDataBank(true, false, false);
 
 
-    
     timers_init();
 
-
+    initializePinStatus();
+    bike = create_state();
     bike->curr_gear = 7;
 
     bike->curr_delta = 10;
 
-// Uncomment for braking, comment out for not braking
-// bike->curr_delta = 0;
+    // Uncomment for braking, comment out for not braking
+    bike->curr_delta = 0;
 
     bike->last_delta = 10;
     bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
 
     while (true) {
         populateAccelDataBank();
+        state_update_flags(bike);
         bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
 
-        btn_state_change(b21, b22);
-        if(b21 == true) {
-            //Effectively latch value of b21
-            // LB = true;
-            b21 = false;
-
-        }
-
-        if(b22 == true) {
-            //Effectively latch the value of b22
-            // RB = true;
-            b22 = false;
-        }
+        btn_state_change_alt(bike);
 
         if(newAccelVal){
             light_act = do_state_action( curr_x_val );
