@@ -226,7 +226,18 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         // led_off(LED_1);
         setPinStatus(10, true);
         led_toggle(LED_2);
-    }    
+
+    }  else if (pin == 4) {
+        if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG])) {
+            bike->handle_right_turn = true;
+            led_on(LED_0); 
+        } else {
+            bike->handle_right_turn = false;
+            led_off(LED_0); 
+        }
+        setPinStatus(4, true);
+    }
+
 }
 
 
@@ -243,8 +254,9 @@ int main(void) {
 
 
     static gpio_cfg_t cfgs[] = {  {9, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
-        {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN}};
-    gpio_count = 2;
+                                  {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
+                                  {4, GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN}};
+    gpio_count = 3;
 
     err_code = gpio_init(cfgs, gpio_count);
     while (err_code) {
