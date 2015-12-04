@@ -2,6 +2,24 @@
 #include "AccelTurnControl.h"
 #include "led.h"
 
+
+void update_handle_turn_status(State * bike, bool right_turn) {
+  if(!right_turn) { // left turn
+    if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_LEFT_TURN_FLAG])) {
+        bike->handle_left_turn = true;
+    } else {
+        bike->handle_left_turn = false;
+    }
+  } else { // right turn
+    if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG])) {
+        bike->handle_right_turn = true;
+    } else {
+        bike->handle_right_turn = false;
+    }
+  }
+
+}
+
 void reset_state() {
   thresh_out_count    = 0;
   thresh_in_count     = 0;

@@ -75,6 +75,7 @@ static uint16_t thresh_in_count = 0;
 
 
 /*****************************************************************************/
+void update_handle_turn_status( State * bike, bool right_turn );
 void reset_state();
 bool check_in_thresh( bool right_btn_pressed, const int16_t * curr_x_val );
 bool check_out_thresh( bool right_btn_pressed, const int16_t * curr_x_val );
