@@ -33,8 +33,17 @@ typedef enum{
     _NUM_STATES
 } TS_STATE;
 
+typedef enum HandleTurn {
+    HANDLE_NO_TURN,
+    HANDLE_LEFT_TURN,
+    HANDLE_RIGHT_TURN,
+    _NUM_HANDLE_TURNS
+} HandleTurn;
 // [0] - left, [1] - right light
+
 LightAction light_output;
+HandleTurn _handle_turn;
+
 
 static TS_STATE BTN_STATES[_NUM_STATES][NUM_TURN_BUTTONS] =
 {

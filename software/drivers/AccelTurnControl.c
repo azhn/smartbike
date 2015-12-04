@@ -85,8 +85,12 @@ void btn_state_change_alt( State* state ) {
     //assert(!left_btn_pressed && !right_btn_pressed);
     bool *left_btn_pressed = &(state->flags[LEFT_TURN_FLAG]);
     bool *right_btn_pressed = &(state->flags[RIGHT_TURN_FLAG]);
+    
+    // TODO: Change the flag name
+    bool *handle_is_turned = &(state->flags[MANUAL_MODE_SWITCH_FLAG]);
 
-    if(!*left_btn_pressed && !*right_btn_pressed){
+
+    if((!*left_btn_pressed && !*right_btn_pressed) && !*handle_is_turned){
         return;
     }
 
@@ -104,8 +108,18 @@ void btn_state_change_alt( State* state ) {
     } else {
         // assert(false);
     }
+
+    if (*handle_is_turned) {
+        if (state->handle_right_turn /* && !bike->handle_turn_left*/) {
+            _handle_turn = HANDLE_RIGHT_TURN;
+        } else {
+            _handle_turn = HANDLE_NO_TURN;
+        }  
+    }
+
     *left_btn_pressed = false;
     *right_btn_pressed = false;
+    *handle_is_turned = false;
 }
 
 // Perform threshold checking based on current state
@@ -117,26 +131,26 @@ LightAction do_state_action( int16_t accel_x_val ) {
       reset_state();
       break;
     case SIGNAL_R: // Right btn pressed, check for entering turn before going to next state
-      if(check_in_thresh( true, &accel_x_val )){
+      if(check_in_thresh( true, &accel_x_val ) || _handle_turn == HANDLE_RIGHT_TURN){
         curr_state = RETURN_R;
       }
       break;
     case SIGNAL_L: // Left btn pressed, check for entering turn before going to next state
       // led_on(LED_2);
-      if(check_in_thresh( false, &accel_x_val )){
+      if(check_in_thresh( false, &accel_x_val ) || _handle_turn == HANDLE_LEFT_TURN){
           curr_state = RETURN_L;
           // led_off(LED_2);
       }
       break;
     case RETURN_R: // Entered right turn, check for return
-      if(check_out_thresh( true, &accel_x_val )){
+      if(/*check_out_thresh( true, &accel_x_val ) ||*/ _handle_turn == HANDLE_NO_TURN){
         curr_state = OFF;
         reset_state();
       }
       break;
     case RETURN_L:
       // led_on(LED_2);
-      if(check_out_thresh( false, &accel_x_val )){
+      if(check_out_thresh( false, &accel_x_val ) ||  _handle_turn == HANDLE_NO_TURN){
         curr_state = OFF;
         reset_state();
         // led_off(LED_2);
