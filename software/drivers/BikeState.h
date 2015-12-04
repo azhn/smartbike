@@ -53,8 +53,13 @@ typedef struct State
     // Should be LIGHT_STATE_BLINKING_ON or LIGHT_STATE_BLINKING_OFF only
     LightState blinking_light_output; 
 
-    //flags
+    // turn stuff
+    bool handle_left_turn;
+    bool handle_right_turn;
+
+    // flags
     bool flags[_NUM_FLAGS];
+    
 
     const uint8_t* pin_mappings;
 }State;

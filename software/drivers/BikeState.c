@@ -21,6 +21,9 @@ struct State* create_state()
     state->curr_gear = 0;
     state->blinking_light_output = LIGHT_STATE_BLINKING_OFF; 
 
+    state->handle_left_turn = false;
+    state->handle_right_turn = false;
+
     for(i = 0; i < _NUM_FLAGS; ++i)
     {
         state->flags[i] = false;
