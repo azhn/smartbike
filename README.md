@@ -1,4 +1,4 @@
-BLEES
+SMARTBIKE
 =====
 
 <img src="https://raw.githubusercontent.com/lab11/blees/master/media/blees.png" alt="BLEES" width="20%;" align="left">
