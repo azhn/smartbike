@@ -477,7 +477,7 @@ int main(void) {
     //      otherwise they will be floating
     static gpio_cfg_t cfgs[] = {  {9, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
                                      {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN},
-                                     {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler, PIN_GPIOTE_IN}};
+                                     {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_GPIOTE_IN}};
     // // It seems only 4 pins can be registered per channel
     gpio_input_count = 2;
 
