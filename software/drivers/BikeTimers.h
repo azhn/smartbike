@@ -20,14 +20,15 @@
 //#define MAX_RATE APP_TIMER_TICKS(1, BIKE_TIMER_PRESCALER) //not sure of this
 #define BIKE_TIMER_MAX_TICKS        16777216
 
-#define ACCEL_TIMER_UPDATE_RATE           APP_TIMER_TICKS(500, BIKE_TIMER_PRESCALER) // 64Hz => 1/64 ~= 15.6ms; 15ms to get more rather than less data
-
+#define ACCEL_TIMER_UPDATE_RATE           APP_TIMER_TICKS(15, BIKE_TIMER_PRESCALER) // 64Hz => 1/64 ~= 15.6ms; 15ms to get more rather than less data
+#define TURN_LIGHT_TIMER_UPDATE_RATE      APP_TIMER_TICKS(500, BIKE_TIMER_PRESCALER) // 2Hz 
 /*
  *  STATIC VARIABLES
  *****************************************************************************/
 
 static app_timer_id_t millis_counter_timer;
 static app_timer_id_t accel_sample_timer;
+static app_timer_id_t turn_signal_sample_timer;
 
 /******************************************************************************
  * FUNCTIONS
@@ -40,5 +41,6 @@ void millis_counter_handler(void* p_context);
 uint32_t get_millis();
 
 void set_accel_handler(app_timer_timeout_handler_t timeout_handler);
+void set_turn_signal_handler(app_timer_timeout_handler_t timeout_handler);
 
 #endif /*BIKE_TIMERS_H*/

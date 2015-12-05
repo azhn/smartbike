@@ -6,6 +6,7 @@
 
 
 app_timer_timeout_handler_t accel_sample_handler;
+app_timer_timeout_handler_t turn_signal_sample_handler;
 
 
 void timers_init(void) {
@@ -16,13 +17,20 @@ void timers_init(void) {
     
     // ADD YOUR TIMERS HERE
     err_code = app_timer_create(&millis_counter_timer, 
-								APP_TIMER_MODE_REPEATED,
-            					millis_counter_handler);
+                                APP_TIMER_MODE_REPEATED,
+                                millis_counter_handler);
     APP_ERROR_CHECK(err_code);
 
     err_code = app_timer_create(&accel_sample_timer,
                                 APP_TIMER_MODE_REPEATED,
                                 accel_sample_handler);
+
+    APP_ERROR_CHECK(err_code);
+
+    err_code = app_timer_create(&turn_signal_sample_timer,
+                                APP_TIMER_MODE_REPEATED,
+                                turn_signal_sample_handler);
+
     APP_ERROR_CHECK(err_code);
 }
 
@@ -34,6 +42,10 @@ void timers_start(void) {
 
     err_code = app_timer_start(accel_sample_timer, ACCEL_TIMER_UPDATE_RATE, NULL);
     APP_ERROR_CHECK(err_code);
+
+    err_code = app_timer_start(turn_signal_sample_timer, TURN_LIGHT_TIMER_UPDATE_RATE, NULL);
+    APP_ERROR_CHECK(err_code);
+
 }
 
 
@@ -46,8 +58,10 @@ uint32_t get_millis() {
     return (uint32_t)NRF_RTC1->COUNTER;
 }
 
-
-
 void set_accel_handler(app_timer_timeout_handler_t timeout_handler) {
     accel_sample_handler = timeout_handler;
+}
+
+void set_turn_signal_handler(app_timer_timeout_handler_t timeout_handler) {
+    turn_signal_sample_handler = timeout_handler;
 }
