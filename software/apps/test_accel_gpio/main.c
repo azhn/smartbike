@@ -235,9 +235,9 @@ int main(void) {
     static gpio_input_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
                                         {BUTTON2_PIN, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler},
                             
-    //                                     {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-    //                                     {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler},
-                                        {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    //                                     {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &pin_handler},
+    //                                     {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &pin_handler},
+                                        {ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &pin_handler}};
     // // It seems only 4 pins can be registered per channel
     gpio_input_count = 3;
 

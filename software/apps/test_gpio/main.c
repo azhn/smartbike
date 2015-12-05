@@ -208,11 +208,11 @@ int main(void) {
 
     // since active high, pins need to be set to have a pull-down resistor,
     //      otherwise they will be floating
-    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_handler, PIN_PORT_IN},
-                                  {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_handler, PIN_OUT},
-                                  {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &port_handler, PIN_PORT_IN},
-                                  {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN},
-                                  {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &gpiote_handler, PIN_GPIOTE_IN}};
+    static gpio_cfg_t cfgs[] = {  {BUTTON_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_handler, PIN_PORT_IN},
+                                  {OUTPUT_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_handler, PIN_OUT},
+                                  {PIN1, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_handler, PIN_PORT_IN},
+                                  {PIN2, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
+                                  {PIN3, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN}};
     // It seems only 4 pins can be registered per channel
     gpio_input_count = 5;
 

@@ -192,7 +192,7 @@ int main(void) {
     //initializeAccelerometer();
     initializeAccelerometer();
 
-    static gpio_input_cfg_t cfgs[] = {{ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_PULLDOWN, &pin_handler}};
+    static gpio_input_cfg_t cfgs[] = {{ACCEL_PIN, GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &pin_handler}};
     gpio_input_count = 1;
 
     /* SET INPUT WITH DRIVER */
