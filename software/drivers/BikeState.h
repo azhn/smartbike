@@ -19,8 +19,10 @@ enum FLAGS
 	SHIFT_DOWN_FLAG,
 	LEFT_TURN_FLAG,
 	RIGHT_TURN_FLAG,
-        MANUAL_MODE_SWITCH_FLAG,
-        _NUM_FLAGS
+    HANDLE_LEFT_TURN_FLAG,
+    HANDLE_RIGHT_TURN_FLAG,
+    MANUAL_MODE_SWITCH_FLAG,
+    _NUM_FLAGS
 };
 
 static const uint8_t _pin_mappings[_NUM_FLAGS] = {
@@ -30,7 +32,9 @@ static const uint8_t _pin_mappings[_NUM_FLAGS] = {
     2,  // SHIFT_DOWN_FLAG,
     9,  // LEFT_TURN_FLAG,
     10, // RIGHT_TURN_FLAG,
-    4   // MANUAL_MODE_SWITCH_FLAG,
+    4,  // HANDLE_LEFT_TURN_FLAG,
+    4,  // HANDLE_RIGHT_TURN_FLAG,
+    4   // MANUAL_MODE_SWITCH_FLAG
 };
 
 
