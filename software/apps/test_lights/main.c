@@ -227,15 +227,28 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         setPinStatus(10, true);
         led_toggle(LED_2);
 
-    }  else if (pin == 4) {
-        if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG])) {
-            bike->handle_right_turn = true;
+    }  else if (pin == 24) { //hall effect turn update left turn
+        // led_toggle(LED_0);
+        //update_handle_turn_status(bike, false);
+        if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_LEFT_TURN_FLAG])) {
+            bike->handle_left_turn = true;
             led_on(LED_0); 
         } else {
-            bike->handle_right_turn = false;
+            bike->handle_left_turn = false;
             led_off(LED_0); 
         }
-        setPinStatus(4, true);
+        setPinStatus(24, true); //hall effect turn update  right turn
+    } else if (pin == 8) {
+        // led_toggle(LED_1);
+        // update_handle_turn_status(bike, true);
+        if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG])) {
+            bike->handle_right_turn = true;
+            led_on(LED_1); 
+        } else {
+            bike->handle_right_turn = false;
+            led_off(LED_1); 
+        }
+        setPinStatus(8, true);
     }
 
 }
@@ -255,8 +268,9 @@ int main(void) {
 
     static gpio_cfg_t cfgs[] = {  {9, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
                                   {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
-                                  {4, GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN}};
-    gpio_count = 3;
+                                 {8, GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
+                                  {24, GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN}};
+    gpio_count = 4;
 
     err_code = gpio_init(cfgs, gpio_count);
     while (err_code) {
@@ -304,6 +318,7 @@ int main(void) {
         performLightAction(bike, light_act);
         //setLEDLightState(0, LIGHT_STATE_ON);
 
+        power_manage();
     }
 }
 
