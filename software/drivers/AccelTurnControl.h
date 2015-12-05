@@ -72,7 +72,7 @@ static TS_STATE curr_state = OFF;
 static const int16_t sampled_accel_x = 0;
 static uint16_t thresh_out_count = 0;
 static uint16_t thresh_in_count = 0;
-
+static bool handle_caused_turn = false;
 
 /*****************************************************************************/
 void update_handle_turn_status( State * bike, bool right_turn );
