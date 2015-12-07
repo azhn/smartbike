@@ -27,6 +27,7 @@ APPLICATION_SRCS += LightControl.c
 APPLICATION_SRCS += LightAction.c
 APPLICATION_SRCS += pwm.c
 APPLICATION_SRCS += BikeState.c
+APPLICATION_SRCS += BikeTimers.c
 
 ifndef TARGET
 	TARGET = SMARTBIKE

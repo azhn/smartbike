@@ -27,6 +27,7 @@
 #include "LightControl.h"
 #include "LightAction.h"
 #include "PinStatus.h"
+#include "BikeTimers.h"
 
 /*******************************************************************************
  *   DEFINES
@@ -50,6 +51,8 @@ LightAction light_act;
 int16_t curr_x_val = 0;
 nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
 
+static bool accel_ready = false;
+State* bike;
 /*******************************************************************************
  *   HANDLERS AND CALLBACKS
  ******************************************************************************/
@@ -114,15 +117,31 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 
 // Timer fired handler
 static void timer_handler (void* p_context) {
+    //led_toggle(BLEES_LED_PIN);
     led_toggle(LED_0);
+    accel_ready = true;
+     
 }
 
+static void timer_handler2 (void* p_context) {
+    //led_toggle(BLEES_LED_PIN);
+    if (bike == NULL) return;
+    led_toggle(LED_2);
+    if (bike->blinking_light_output == LIGHT_STATE_BLINKING_OFF) {
+        bike->blinking_light_output == LIGHT_STATE_BLINKING_ON;
+    } else if (bike->blinking_light_output == LIGHT_STATE_BLINKING_ON) {
+        bike->blinking_light_output == LIGHT_STATE_BLINKING_OFF;
+    } else { 
+        bike->blinking_light_output == LIGHT_STATE_BLINKING_ON;
+    }
+
+}
 
 /*******************************************************************************
  *   INIT FUNCTIONS
  ******************************************************************************/
 
-static void timers_init(void) {
+/*static void timers_init(void) {
     uint32_t err_code;
 
     APP_TIMER_INIT(BLINK_TIMER_PRESCALER, BLINK_TIMER_MAX_TIMERS,
@@ -131,7 +150,7 @@ static void timers_init(void) {
     err_code = app_timer_create(&test_timer, APP_TIMER_MODE_REPEATED,
             timer_handler);
     APP_ERROR_CHECK(err_code);
-}
+}*/
 
 //setup i2c
 void i2c_init(void)
@@ -157,10 +176,10 @@ static void power_manage (void) {
 }
 
 // Start the timers
-static void timers_start(void) {
+/*static void timers_start(void) {
     uint32_t err_code = app_timer_start(test_timer, BLINK_RATE, NULL);
     APP_ERROR_CHECK(err_code);
-}
+}*/
 
 
 /*******************************************************************************
@@ -195,7 +214,6 @@ NRF_GPIOTE->EVENTS_IN[0] = 0;
 
 volatile bool b8, b9, b10, b21, b22, leftSignal, rightSignal;
 
-State* bike;
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     // if (pin == 8) {
@@ -253,7 +271,6 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
 
 }
 
-
 int main(void) {
     // LightAction light_act;
 
@@ -291,7 +308,11 @@ int main(void) {
     initializeDataBank(true, false, false);
 
 
+    // TIMERS
+    set_accel_handler(timer_handler);
+    set_turn_signal_handler(timer_handler2);
     timers_init();
+    timers_start();
 
     initializePinStatus();
     bike = create_state();
@@ -300,13 +321,16 @@ int main(void) {
     bike->curr_delta = 10;
 
     // Uncomment for braking, comment out for not braking
-    bike->curr_delta = 0;
+    // bike->curr_delta = 0;
 
     bike->last_delta = 10;
     bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
 
     while (true) {
-        populateAccelDataBank();
+        if (accel_ready) {
+            populateAccelDataBank();
+            accel_ready = false;
+        }
         state_update_flags(bike);
         bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
 
