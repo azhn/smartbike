@@ -10,8 +10,6 @@
 #include "nordic_common.h"
 #include "softdevice_handler.h"
 #include "app_timer.h"
-#include "app_button.h"
-//#include "boards.h"
 #include "nrf_gpiote.h"
 #include "nrf_drv_gpiote.h"
 
@@ -34,11 +32,11 @@
  ******************************************************************************/
 #include "nrf_drv_config.h"
 
-#define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
+/*#define BLINK_TIMER_PRESCALER       0   // Value of RTC1 PRESCALER register
 #define BLINK_TIMER_MAX_TIMERS      4   // Maximum number of simultaneous timers
 #define BLINK_TIMER_OP_QUEUE_SIZE   4   // Size of timer operation queues
 #define BLINK_RATE  APP_TIMER_TICKS(500, BLINK_TIMER_PRESCALER) // Blink every 0.5 seconds
-
+*/
 #define GPIOTE_CHANNEL_0 0
 #define GPIOTE_CHANNEL_1 1
 
@@ -46,13 +44,14 @@
  *   STATIC AND GLOBAL VARIABLES
  ******************************************************************************/
 
-static app_timer_id_t test_timer;
+//static app_timer_id_t test_timer;
 LightAction light_act;
-int16_t curr_x_val = 0;
+State* bike;
 nrf_drv_twi_t twi_instance = NRF_DRV_TWI_INSTANCE(1);
+int16_t curr_x_val = 0;
 
 static bool accel_ready = false;
-State* bike;
+
 /*******************************************************************************
  *   HANDLERS AND CALLBACKS
  ******************************************************************************/
@@ -83,7 +82,7 @@ void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p
     NVIC_SystemReset();
 }
 
-/*@brief Function for asserts in the SoftDevice.
+/**@brief Function for asserts in the SoftDevice.
  *
  * @details This function will be called in case of an assert in the SoftDevice.
  *
@@ -118,7 +117,7 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 // Timer fired handler
 static void timer_handler (void* p_context) {
     //led_toggle(BLEES_LED_PIN);
-    led_toggle(LED_0);
+    //led_toggle(LED_0);
     accel_ready = true;
      
 }
@@ -128,11 +127,14 @@ static void timer_handler2 (void* p_context) {
     if (bike == NULL) return;
     led_toggle(LED_2);
     if (bike->blinking_light_output == LIGHT_STATE_BLINKING_OFF) {
-        bike->blinking_light_output == LIGHT_STATE_BLINKING_ON;
+        bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+        // bike->curr_gear = 0;
     } else if (bike->blinking_light_output == LIGHT_STATE_BLINKING_ON) {
-        bike->blinking_light_output == LIGHT_STATE_BLINKING_OFF;
+        bike->blinking_light_output = LIGHT_STATE_BLINKING_OFF;
+        // bike->curr_gear = 2;
     } else { 
-        bike->blinking_light_output == LIGHT_STATE_BLINKING_ON;
+        bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+        // bike->curr_gear = 4;
     }
 
 }
@@ -186,33 +188,6 @@ static void power_manage (void) {
  *   MAIN LOOP
  ******************************************************************************/
 
-#define BUTTON_PIN 21
-#define BUTTON2_PIN 22
-
-#define PIN1 8 
-#define PIN2 9
-#define ACCEL_PIN 10
-// static bool accelDataReady = false;
-// volatile int16_t sampled_accel_x = 0;
-// static const int16_t sampled_accel_x = 0;
-// volatile uint16_t thresh_out_count = 0;
-// volatile uint16_t thresh_in_count = 0;
-
-#define ACCEL_THRESH 150
-
-#define ACCEL_OUT_THRESH 200
-#define ACCEL_IN_THRESH 150
-#define ACCEL_TILT_THRESH 100
-// Interrupt handler
-/*void GPIOTE_IRQHandler(){
-//led_toggle(LED_0);
-nrf_gpio_pin_toggle(LED_0);
-//nrf_gpio_pin_toggle(OUTPUT_PIN);
-NRF_GPIOTE->EVENTS_IN[0] = 0;
-}*/
-
-
-volatile bool b8, b9, b10, b21, b22, leftSignal, rightSignal;
 
 
 void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
@@ -225,35 +200,35 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
     //}else 
     if (pin == 9) { //left button interrupt
         // led_on(LED_0);
-        b21 = true;
+        //b21 = true;
         // btn_state_change(b21, b22);
         // light_act = do_state_action( curr_x_val );
         // b21 = false;
         // led_off(LED_0);
         setPinStatus(9, true);
-        led_toggle(LED_0);
+        // led_toggle(LED_0);
     }
     else if (pin == 10) { // right btn
         //b22 = true;
         // led_toggle(LED_2);
         // led_on(LED_1);
-        b22 = true;
+        //b22 = true;
         // btn_state_change(b21, b22);
         // light_act = do_state_action( curr_x_val );
         // b22 = false;
         // led_off(LED_1);
         setPinStatus(10, true);
-        led_toggle(LED_2);
+        // led_toggle(LED_2);
 
     }  else if (pin == 24) { //hall effect turn update left turn
         // led_toggle(LED_0);
         //update_handle_turn_status(bike, false);
         if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_LEFT_TURN_FLAG])) {
             bike->handle_left_turn = true;
-            led_on(LED_0); 
+            // led_on(LED_0); 
         } else {
             bike->handle_left_turn = false;
-            led_off(LED_0); 
+            // led_off(LED_0); 
         }
         setPinStatus(24, true); //hall effect turn update  right turn
     } else if (pin == 8) {
@@ -261,10 +236,10 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         // update_handle_turn_status(bike, true);
         if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG])) {
             bike->handle_right_turn = true;
-            led_on(LED_1); 
+            // led_on(LED_1); 
         } else {
             bike->handle_right_turn = false;
-            led_off(LED_1); 
+            // led_off(LED_1); 
         }
         setPinStatus(8, true);
     }
@@ -272,17 +247,13 @@ void pin_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
 }
 
 int main(void) {
-    // LightAction light_act;
-
     uint32_t err_code;
+
     uint8_t gpio_count;
-    // // Initialization
-    b8=false; b9=false; b10=false; b21=false; b22=false, leftSignal = false; rightSignal = false;
+    // Initialization
     led_init(LED_0);
     led_init(LED_1);
     led_init(LED_2);
-
-
     static gpio_cfg_t cfgs[] = {  {9, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
                                   {10, GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
                                  {8, GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &pin_handler, PIN_PORT_IN},
@@ -296,23 +267,15 @@ int main(void) {
     gpio_input_enable_all();
 
     initializeAccelerometer();
-    i2c_init();	
+    i2c_init();
     pca9685_init(&twi_instance, LED_LIGHT_PWM_ADDR);
     pca9685_setPWMFreq(52.0f, LED_LIGHT_PWM_ADDR);
 
     pca9685_init(&twi_instance, REAR_LIGHT_PWM_ADDR);
     pca9685_setPWMFreq(52.0f, REAR_LIGHT_PWM_ADDR);
-
     initializeLights();
 
     initializeDataBank(true, false, false);
-
-
-    // TIMERS
-    set_accel_handler(timer_handler);
-    set_turn_signal_handler(timer_handler2);
-    timers_init();
-    timers_start();
 
     initializePinStatus();
     bike = create_state();
@@ -324,10 +287,21 @@ int main(void) {
     // bike->curr_delta = 0;
 
     bike->last_delta = 10;
-    bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+    // bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
 
-    while (true) {
+    // Setup clock
+    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+
+    // Setup and start timer
+    set_accel_handler(timer_handler);
+    set_turn_signal_handler(timer_handler2);
+    timers_init();
+    timers_start();
+
+    while (1) {
+	    // accel_ready = true; // TODO: GET RID OF WITH TIMERS
         if (accel_ready) {
+            led_toggle(LED_0);
             populateAccelDataBank();
             accel_ready = false;
         }
@@ -340,9 +314,7 @@ int main(void) {
             light_act = do_state_action( curr_x_val );
         }
         performLightAction(bike, light_act);
-        //setLEDLightState(0, LIGHT_STATE_ON);
-
-        power_manage();
+        // power_manage();
     }
 }
 

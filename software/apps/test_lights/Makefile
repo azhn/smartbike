@@ -55,7 +55,7 @@ SDK_VERSION = 9
 SDK_PATH ?= $(NRF_BASE_PATH)/sdk/nrf51_sdk_9.0.0/
 
 CFLAGS = -Os
-GDB_PORT_NUMBER = 2335
+GDB_PORT_NUMBER = 2337
 
 include $(NRF_BASE_PATH)/Makefile.include
 include $(TEMPLATE_PATH)/Makefile

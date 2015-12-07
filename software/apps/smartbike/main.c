@@ -83,6 +83,7 @@ LightAction light_act;
 // Accelerometer Data
 int16_t curr_x_val = 0;
 
+static bool accel_ready = false;
 
 /*******************************************************************************
  *   FUNCTION DECLARATIONS
@@ -100,6 +101,31 @@ static void service_error_handler(uint32_t nrf_error) {
 static void sys_evt_dispatch(uint32_t sys_evt) {
     // pstorage_sys_event_handler(sys_evt);
     // on_sys_evt(sys_evt);
+}
+
+// Timer fired handler
+static void timer_handler (void* p_context) {
+    //led_toggle(BLEES_LED_PIN);
+    // led_toggle(LED_1);
+    accel_ready = true;
+     
+}
+
+static void timer_handler2 (void* p_context) {
+    //led_toggle(BLEES_LED_PIN);
+    if (bike == NULL) return;
+    // led_toggle(LED_2);
+    if (bike->blinking_light_output == LIGHT_STATE_BLINKING_OFF) {
+        bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+        // bike->curr_gear = 0;
+    } else if (bike->blinking_light_output == LIGHT_STATE_BLINKING_ON) {
+        bike->blinking_light_output = LIGHT_STATE_BLINKING_OFF;
+        // bike->curr_gear = 2;
+    } else { 
+        bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+        // bike->curr_gear = 4;
+    }
+
 }
 
 /*******************************************************************************
@@ -232,7 +258,34 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
         led_toggle(LED_0); 
         setPinStatus(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], true);
     }
-
+    /*********************************************************/
+    /*   HALL EFFECT TURN LEFT                               */
+    /*********************************************************/
+     else if (pin == bike->pin_mappings[HANDLE_LEFT_TURN_FLAG]){
+        //update_handle_turn_status(bike, false);
+        if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_LEFT_TURN_FLAG])) {
+            bike->handle_left_turn = true;
+            // led_on(LED_0); 
+        } else {
+            bike->handle_left_turn = false;
+            // led_off(LED_0); 
+        }
+        setPinStatus(bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], true);
+     }
+    /*********************************************************/
+    /*   HALL EFFECT TURN RIGHT                              */
+    /*********************************************************/
+     else if (pin == bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG]){
+        // update_handle_turn_status(bike, true);
+        if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG])) {
+            bike->handle_right_turn = true;
+            // led_on(LED_1); 
+        } else {
+            bike->handle_right_turn = false;
+            // led_off(LED_1); 
+        }
+        setPinStatus(bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], true);
+     }
 }
 
 /*******************************************************************************
@@ -277,11 +330,13 @@ int main(void) {
         {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
         {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
         {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+        {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
     };
 
     uint8_t gpio_cfg_count;
-    gpio_cfg_count = 7;
+    gpio_cfg_count =9;
 
     err_code = gpio_init(cfgs, gpio_cfg_count);
     APP_ERROR_CHECK(err_code);
@@ -306,6 +361,8 @@ int main(void) {
     SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
     // Setup and start timer
+    set_accel_handler(timer_handler);
+    set_turn_signal_handler(timer_handler2);
     timers_init();
     timers_start();
     // TODO: setup timer for ble data out
@@ -341,6 +398,7 @@ int main(void) {
     
     // Do not remove any of the create_state functions
     // We need them to fix an interrupt bug
+    destroy_state(bike);
     bike = create_state();
     /*********************************************************/
     /*                     Main Loop                         */
@@ -365,9 +423,18 @@ int main(void) {
         // Get the latest accelerometer data & store locally
         
         // TODO: Only if Accelerometer is ready
-        populateAccelDataBank();
+        if (accel_ready) {
+            
+            populateAccelDataBank();
+            accel_ready = false;
+        }
 
         bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
+// if(readAxisX() <=0){
+//     led_on(LED_0);
+// }else{
+//     led_off(LED_0);
+// }
 
         /* PROCESS DATA */
         /*****************************************************/
@@ -418,7 +485,9 @@ int main(void) {
         /*****************************************************/
         /*     Manage power (do we need this?)               */
         /*****************************************************/
-        power_manage();
+        
+        // MESSES UP ACCELEROMETER DATA
+        //power_manage();
     }
 
     destroy_state(bike);
