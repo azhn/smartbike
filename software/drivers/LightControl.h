@@ -69,7 +69,7 @@ const static pwm_t _light_state_pwm[_NUM_LIGHT_STATE] = {
     0,      //LIGHT_STATE_OFF=0,
     4095,   //LIGHT_STATE_ON,
     2048,   //LIGHT_STATE_DIM_ON,
-    4095,   //LIGHT_STATE_BLINKING,
+    0,   //LIGHT_STATE_BLINKING,
     0,      //LIGHT_STATE_BLINKING_OFF,
     4095    //LIGHT_STATE_BLINKING_ON,
 };

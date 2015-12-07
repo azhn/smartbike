@@ -23,7 +23,6 @@ void update_handle_turn_status(State * bike, bool right_turn) {
 void reset_state() {
   thresh_out_count    = 0;
   thresh_in_count     = 0;
-  handle_caused_turn  = false;
 }
 
 bool check_in_thresh( bool right_btn_pressed, const int16_t * curr_x_val ){
@@ -107,11 +106,11 @@ void btn_state_change_alt( State* state ) {
     
     // TODO: Change the flag name
     // bool *handle_is_turned = &(state->flags[MANUAL_MODE_SWITCH_FLAG]);
-    bool *handle_is_turned = &(state->flags[HANDLE_LEFT_TURN_FLAG]) ||
-                             &(state->flags[HANDLE_RIGHT_TURN_FLAG]);
+    bool *handle_left_is_turned = &(state->flags[HANDLE_LEFT_TURN_FLAG]);
+    bool *handle_right_is_turned = &(state->flags[HANDLE_RIGHT_TURN_FLAG]);
+    bool handle_is_turned = (*handle_left_is_turned) || (*handle_right_is_turned);
 
-
-    if((!*left_btn_pressed && !*right_btn_pressed) && !*handle_is_turned){
+    if((!*left_btn_pressed && !*right_btn_pressed) && !handle_is_turned){
         return;
     }
 
@@ -130,13 +129,13 @@ void btn_state_change_alt( State* state ) {
         // assert(false);
     }
 
-    if (*handle_is_turned) {
+    if (handle_is_turned) {
         if (state->handle_right_turn  && !state->handle_left_turn/* && !bike->handle_turn_left*/) {
+            // led_on(LED_0);
             _handle_turn = HANDLE_RIGHT_TURN;
-            handle_caused_turn = true;
         } else if(!state->handle_right_turn && state->handle_left_turn) {
+            // led_on(LED_0);
             _handle_turn = HANDLE_LEFT_TURN;
-            handle_caused_turn = true;
         } else {
             _handle_turn = HANDLE_NO_TURN;
         }  
@@ -144,7 +143,8 @@ void btn_state_change_alt( State* state ) {
 
     *left_btn_pressed = false;
     *right_btn_pressed = false;
-    *handle_is_turned = false;
+    *handle_left_is_turned = false;
+    *handle_right_is_turned = false;
 }
 
 // Perform threshold checking based on current state
@@ -156,31 +156,45 @@ LightAction do_state_action( int16_t accel_x_val ) {
       reset_state();
       break;
     case SIGNAL_R: // Right btn pressed, check for entering turn before going to next state
-      if(check_in_thresh( true, &accel_x_val ) || _handle_turn == HANDLE_RIGHT_TURN){
-        curr_state = RETURN_R;
+      if(check_in_thresh( true, &accel_x_val )){
+        curr_state = RETURN_R_ACCEL;
+      }else if (_handle_turn == HANDLE_RIGHT_TURN){
+        // led_on(LED_0);
+        curr_state = RETURN_HANDLE_R;
       }
       break;
     case SIGNAL_L: // Left btn pressed, check for entering turn before going to next state
-      // led_on(LED_2);
-      if(check_in_thresh( false, &accel_x_val ) || _handle_turn == HANDLE_LEFT_TURN){
-          curr_state = RETURN_L;
-          // led_off(LED_2);
+      if(check_in_thresh( false, &accel_x_val )){
+          curr_state = RETURN_L_ACCEL;
+      } else if(_handle_turn == HANDLE_LEFT_TURN){
+          // led_on(LED_0);
+          curr_state = RETURN_HANDLE_L;
       }
       break;
-    case RETURN_R: // Entered right turn, check for return
-      if( (check_out_thresh( true, &accel_x_val ) && !handle_caused_turn)
-           || _handle_turn == HANDLE_NO_TURN){ // ADD check for speed ( && speed > TEMP )
+    case RETURN_R_ACCEL: // Entered right turn, check for return
+      if( (check_out_thresh( true, &accel_x_val ))){ // ADD check for speed ( && speed > TEMP )
         curr_state = OFF;
         reset_state();
       }
       break;
-    case RETURN_L:
-      // led_on(LED_2);
-      if( (check_out_thresh( false, &accel_x_val ) && !handle_caused_turn) 
-          ||  _handle_turn == HANDLE_NO_TURN){ // ADD check for speed ( && speed > TEMP )
+    case RETURN_L_ACCEL:
+      if( (check_out_thresh( false, &accel_x_val ) ) ) { // ADD check for speed ( && speed > TEMP )
         curr_state = OFF;
         reset_state();
-        // led_off(LED_2);
+      }
+      break;
+    case RETURN_HANDLE_R:
+      if( ((_handle_turn == HANDLE_NO_TURN) )){ // ADD check for speed ( && speed > TEMP )
+        curr_state = OFF;
+        reset_state();
+        // led_off(LED_0);
+      }
+      break;
+    case RETURN_HANDLE_L:
+      if( ((_handle_turn == HANDLE_NO_TURN) )){ // ADD check for speed ( && speed > TEMP )
+        curr_state = OFF;
+        reset_state();
+        // led_off(LED_0);
       }
       break;
     default:

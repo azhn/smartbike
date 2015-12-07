@@ -18,7 +18,7 @@
 #define NUM_TURN_BUTTONS 2
 #define NUM_TURN_LIGHTS 2
 
-#define ACCEL_OUT_THRESH 200
+#define ACCEL_OUT_THRESH 200 //200
 #define ACCEL_IN_THRESH 150
 #define ACCEL_TILT_THRESH 100
 /*****************************************************************************/
@@ -28,8 +28,10 @@ typedef enum{
     OFF,        // OFF
     SIGNAL_R,   // Signal Right - check for entering right turn
     SIGNAL_L,   // Signal Left  - check for entering left turn
-    RETURN_R,   // Return Right - check for returning from right turn
-    RETURN_L,   // Return Left  - check for returning  from left turn
+    RETURN_R_ACCEL,   // Return Right - check for returning from right turn
+    RETURN_L_ACCEL,   // Return Left  - check for returning  from left turn
+    RETURN_HANDLE_R,   // Return Right - check for returning from right turn
+    RETURN_HANDLE_L,   // Return Right - check for returning from right turn
     _NUM_STATES
 } TS_STATE;
 
@@ -51,8 +53,10 @@ static TS_STATE BTN_STATES[_NUM_STATES][NUM_TURN_BUTTONS] =
 	{  SIGNAL_L, SIGNAL_R  }, // Off
 	{  SIGNAL_L, OFF       }, // SIGNAL_R
 	{  OFF,      SIGNAL_R  }, // SIGNAL_L
-	{  SIGNAL_L, OFF       }, // RETURN_R
-	{  OFF,      SIGNAL_R  }  // RETURN_L
+	{  SIGNAL_L, OFF       }, // RETURN_R_ACCEL
+	{  OFF,      SIGNAL_R  }, // RETURN_L_ACCEL
+	{  SIGNAL_L, OFF       }, // RETURN_HANDLE_R
+	{  OFF,      SIGNAL_R  }  // RETURN_HANDLE_L
 };
 
 static bool LIGHT_STATES[_NUM_STATES][NUM_TURN_LIGHTS] =
@@ -61,8 +65,10 @@ static bool LIGHT_STATES[_NUM_STATES][NUM_TURN_LIGHTS] =
 	{  false, false  }, // Off
 	{  false, true   }, // SIGNAL_R
 	{  true,  false  }, // SIGNAL_L
-	{  false, true   }, // RETURN_R
-	{  true,  false  }  // RETURN_L
+	{  false, true   }, // RETURN_R_ACCEL
+	{  true,  false  }, // RETURN_L_ACCEL
+	{  false, true   }, // RETURN_HANDLE_R
+	{  true,  false  }  // RETURN_HANDLE_L
 };
 
 static TS_STATE curr_state = OFF;
@@ -72,7 +78,6 @@ static TS_STATE curr_state = OFF;
 static const int16_t sampled_accel_x = 0;
 static uint16_t thresh_out_count = 0;
 static uint16_t thresh_in_count = 0;
-static bool handle_caused_turn = false;
 
 /*****************************************************************************/
 void update_handle_turn_status( State * bike, bool right_turn );
