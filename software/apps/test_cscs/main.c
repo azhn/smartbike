@@ -512,6 +512,7 @@ static void power_manage(void)
 
 static uint32_t cum_wheel_revs, cum_crank_revs = 0;
 static uint16_t  last_wheel_time, last_crank_time = 0;
+
 static app_timer_id_t test_timer1;
 static void timer_handler1(void* p_context) {
     led_toggle(19);
@@ -534,13 +535,22 @@ static void timer_handler1(void* p_context) {
     
 }
 
+static app_timer_id_t   test_timer2;
+static void timer_handler2(void* p_context) {
+    led_toggle(20);
+}
+
 static void timers_create(void) {
     uint32_t err_code;
 
     err_code = app_timer_create(&test_timer1, APP_TIMER_MODE_REPEATED, timer_handler1);
     APP_ERROR_CHECK(err_code);
+    err_code = app_timer_create(&test_timer2, APP_TIMER_MODE_REPEATED, timer_handler2);
+    APP_ERROR_CHECK(err_code);
 
     err_code = app_timer_start(test_timer1, APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER) , NULL);
+    APP_ERROR_CHECK(err_code);
+    err_code = app_timer_start(test_timer2, APP_TIMER_TICKS(15, APP_TIMER_PRESCALER), NULL);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -550,6 +560,7 @@ static void timers_create(void) {
 int main(void)
 {
     led_init(19);
+    led_init(20);
 
     // Initialize
     timers_init();
