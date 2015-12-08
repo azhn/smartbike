@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Nordic Semiconductor. All Rights Reserved.
+/* Copy/ight (c) 2014 Nordic Semiconductor. All Rights Reserved.
  *
  * The information contained herein is property of Nordic Semiconductor ASA.
  * Terms and conditions of usage are described in detail in NORDIC
@@ -35,6 +35,7 @@
 #include "led.h"
 
 #include "our_service.h"
+#include "ble_cscs.h"
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 0                                           /**< Include or not the service_changed characteristic. if not enabled, the server's database cannot be changed for the lifetime of the device*/
 
@@ -70,6 +71,10 @@ static ble_gap_sec_params_t             m_sec_params;                           
 static uint16_t                         m_conn_handle = BLE_CONN_HANDLE_INVALID;    /**< Handle of the current connection. */
 
 static ble_os_t                         m_our_service;
+static ble_cscs_t                       m_cscs;
+static ble_cscs_init_t                  m_cscs_init;
+static ble_cscs_meas_t                  m_cscs_meas;
+
 static ble_gap_adv_params_t             m_adv_params;
 
 #define SCHED_MAX_EVENT_DATA_SIZE       sizeof(app_timer_event_t)                   /**< Maximum size of scheduler events. Note that scheduler BLE stack events do not contain any data, as the events are being pulled from the stack in the event handler. */
@@ -142,7 +147,7 @@ static void advertising_init(void)
     uint32_t            err_code;
     ble_advdata_t       advdata;    // Struct containing advertising parameters
     uint8_t             flags       = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE; // Defines how your device is seen (or not seen) by other devices
-	ble_uuid_t          adv_uuids[] = {{BLE_UUID_OUR_SERVICE, BLE_UUID_TYPE_BLE}};    // Random example User Unique Identifier
+	ble_uuid_t          adv_uuids[] = {{0x1816, BLE_UUID_TYPE_BLE}};    // Random example User Unique Identifier
   
 
     /* commented out so can fit full device name in advertisement
@@ -162,8 +167,8 @@ static void advertising_init(void)
     advdata.include_appearance      = false;
     //advdata.short_name_len          = 6;                                             
     advdata.flags                   = flags;                                     // Must be included, but not discussed in this tutorial
-    //advdata.uuids_complete.uuid_cnt = sizeof(adv_uuids) / sizeof(adv_uuids[0]); // Must be included, but not discussed in this tutorial
-    //advdata.uuids_complete.p_uuids  = adv_uuids;                                // Must be included, but not discussed in this tutorial
+    advdata.uuids_complete.uuid_cnt = sizeof(adv_uuids) / sizeof(adv_uuids[0]); // Must be included, but not discussed in this tutorial
+    advdata.uuids_complete.p_uuids  = adv_uuids;                                // Must be included, but not discussed in this tutorial
     
     // commented out so can fit full device name in advertisement
     // manufacturer data is set in scan response instead
@@ -191,7 +196,7 @@ static void advertising_init(void)
     advdata_response.uuids_complete.p_uuids  = m_adv_uuids;
 
     // Set the advertisement and scan response packet. 
-    err_code = ble_advdata_set(&advdata, &advdata_response);
+    err_code = ble_advdata_set(&advdata, NULL);
     APP_ERROR_CHECK(err_code);// Check for errors
 }
 
@@ -213,8 +218,32 @@ static void sec_params_init(void)
 static void services_init(void)
 {
     
-    our_service_init(&m_our_service);
+    //our_service_init(&m_our_service);
 
+    memset(&m_cscs, 0, sizeof(m_cscs));
+    memset(&m_cscs_init, 0, sizeof(m_cscs_init));
+   
+    m_cscs_init.evt_handler                     = NULL; // for now
+    m_cscs_init.csc_meas_attr_md                = (ble_srv_cccd_security_mode_t){ .cccd_write_perm = {1, 1}, 
+                                                    .read_perm       = {1, 1},
+                                                    .write_perm      = {1, 1} 
+                                                  };
+    m_cscs_init.csc_ctrlpt_attr_md              = (ble_srv_cccd_security_mode_t){ .cccd_write_perm = {1, 1}, 
+                                                    .read_perm       = {1, 1},
+                                                    .write_perm      = {1, 1}
+                                                  };
+    m_cscs_init.csc_feature_attr_md             = (ble_srv_security_mode_t){ .read_perm       = {1, 1}, 
+                                                    .write_perm      = {1, 1} 
+                                                  };
+    m_cscs_init.feature                         = BLE_CSCS_FEATURE_WHEEL_REV_BIT | BLE_CSCS_FEATURE_CRANK_REV_BIT;
+    m_cscs_init.ctrplt_supported_functions      = BLE_SRV_SC_CTRLPT_CUM_VAL_OP_SUPPORTED; // required if having WHEEL_REV data
+    m_cscs_init.ctrlpt_evt_handler              = NULL; // for now
+    m_cscs_init.list_supported_locations        = NULL; // no location data needed
+    m_cscs_init.size_list_supported_locations   = 0; // no location data so no size
+    m_cscs_init.error_handler                   = NULL; // for now
+    m_cscs_init.sensor_location                 = NULL; // no location data so no pointer needed
+
+    ble_cscs_init(&m_cscs, &m_cscs_init);
 }
 
 
@@ -426,6 +455,7 @@ static void on_ble_evt(ble_evt_t * p_ble_evt)
  */
 static void ble_evt_dispatch(ble_evt_t * p_ble_evt)
 {
+    ble_cscs_on_ble_evt(&m_cscs, p_ble_evt);
     on_ble_evt(p_ble_evt);
     ble_conn_params_on_ble_evt(p_ble_evt);
 }
@@ -480,10 +510,28 @@ static void power_manage(void)
     APP_ERROR_CHECK(err_code);// Check for errors
 }
 
-
+static uint32_t cum_wheel_revs, cum_crank_revs = 0;
+static uint16_t  last_wheel_time, last_crank_time = 0;
 static app_timer_id_t test_timer1;
 static void timer_handler1(void* p_context) {
     led_toggle(19);
+
+    memset(&m_cscs_meas, 0, sizeof(m_cscs_meas));
+
+    m_cscs_meas.is_wheel_rev_data_present       = true;
+    m_cscs_meas.is_crank_rev_data_present       = true;
+    m_cscs_meas.cumulative_wheel_revs           = cum_wheel_revs;
+    m_cscs_meas.last_wheel_event_time           = last_wheel_time;
+    m_cscs_meas.cumulative_crank_revs           = cum_crank_revs;
+    m_cscs_meas.last_crank_event_time           = last_crank_time;
+
+    cum_wheel_revs += 2 + (rand() & 0x1); // 3 wheel revs
+    last_wheel_time += 2048 + (rand() & 0x1FF); // 2 second
+    cum_crank_revs += 1; // 1 crank
+    last_crank_time += 2048; // 2 second;
+
+    ble_cscs_measurement_send(&m_cscs, &m_cscs_meas);
+    
 }
 
 static void timers_create(void) {
@@ -492,7 +540,7 @@ static void timers_create(void) {
     err_code = app_timer_create(&test_timer1, APP_TIMER_MODE_REPEATED, timer_handler1);
     APP_ERROR_CHECK(err_code);
 
-    err_code = app_timer_start(test_timer1, APP_TIMER_TICKS(500, APP_TIMER_PRESCALER) , NULL);
+    err_code = app_timer_start(test_timer1, APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER) , NULL);
     APP_ERROR_CHECK(err_code);
 }
 
