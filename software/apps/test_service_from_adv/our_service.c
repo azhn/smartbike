@@ -51,10 +51,10 @@ void our_service_init(ble_os_t * p_our_service)
     
     // OUR_JOB: Declare 16 bit service and 128 bit base UUIDs and add them to BLE stack table     
     ble_uuid_t                  service_uuid;
-    //ble_uuid128_t base_uuid     = BLE_UUID_OUR_BASE_UUID;
+    ble_uuid128_t base_uuid     = BLE_UUID_OUR_BASE_UUID;
     service_uuid.uuid           = BLE_UUID_OUR_SERVICE;
-    //err_code                    = sd_ble_uuid_vs_add(&base_uuid, &service_uuid.type);
-    //APP_ERROR_CHECK(err_code);
+    err_code                    = sd_ble_uuid_vs_add(&base_uuid, &service_uuid.type);
+    APP_ERROR_CHECK(err_code);
 
     // OUR_JOB: Add our service
     err_code                    = sd_ble_gatts_service_add(BLE_GATTS_SRVC_TYPE_PRIMARY,
@@ -62,7 +62,7 @@ void our_service_init(ble_os_t * p_our_service)
                                                                &p_our_service->service_handle);
     APP_ERROR_CHECK(err_code);   
 
-    
+
     // Print messages to Segger Real Time Terminal
     // UNCOMMENT THE FOUR LINES BELOW AFTER INITIALIZING THE SERVICE OR THE EXAMPLE WILL NOT COMPILE.
 //    SEGGER_RTT_WriteString(0, "Exectuing our_service_init().\n"); // Print message to RTT to the application flow

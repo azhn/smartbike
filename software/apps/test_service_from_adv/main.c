@@ -70,6 +70,7 @@ static ble_gap_sec_params_t             m_sec_params;                           
 static uint16_t                         m_conn_handle = BLE_CONN_HANDLE_INVALID;    /**< Handle of the current connection. */
 
 static ble_os_t                         m_our_service;
+static ble_gap_adv_params_t    m_adv_params;
 
 #define SCHED_MAX_EVENT_DATA_SIZE       sizeof(app_timer_event_t)                   /**< Maximum size of scheduler events. Note that scheduler BLE stack events do not contain any data, as the events are being pulled from the stack in the event handler. */
 #define SCHED_QUEUE_SIZE                10                                          /**< Maximum number of events in the scheduler queue. */
@@ -176,7 +177,7 @@ static void advertising_init(void)
     manuf_data_response.data.size           = sizeof(dataresponse);
     */ 
 
-    ble_uuid_t  m_adv_uuids[] = {{BLE_UUID_OUR_SERVICE, BLE_UUID_TYPE_BLE}};
+    ble_uuid_t  m_adv_uuids[] = {{BLE_UUID_OUR_SERVICE, BLE_UUID_TYPE_VENDOR_BEGIN}};
 
     ble_advdata_t                           advdata_response;
     
@@ -275,6 +276,7 @@ static void conn_params_init(void)
 
 /**@brief Function for starting advertising.
  */
+
 static void advertising_start(void)
 {
     uint32_t             err_code;
@@ -289,9 +291,17 @@ static void advertising_start(void)
     adv_params.interval    = APP_ADV_INTERVAL;
     adv_params.timeout     = APP_ADV_TIMEOUT_IN_SECONDS;
 
+    m_adv_params = adv_params;
+
     err_code = sd_ble_gap_adv_start(&adv_params);
     APP_ERROR_CHECK(err_code);// Check for errors
 }
+
+static void advertising_stop(void) {
+    uint32_t err_code = sd_ble_gap_adv_stop();
+    APP_ERROR_CHECK(err_code);
+}
+
 
 
 /**@brief Function for handling the Application's BLE Stack events.
@@ -317,10 +327,16 @@ static void on_ble_evt(ble_evt_t * p_ble_evt)
     {
         case BLE_GAP_EVT_CONNECTED:
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+            // Resume advertising, but non-connectably
+            //m_adv_params.type = BLE_GAP_ADV_TYPE_ADV_NONCONN_IND;
+            //advertising_start();
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
             m_conn_handle = BLE_CONN_HANDLE_INVALID;         
+            // Go back to advertising connectably
+            //advertising_stop();
+            //m_adv_params.type = BLE_GAP_ADV_TYPE_ADV_IND;
             advertising_start();
             break;
 
@@ -329,6 +345,8 @@ static void on_ble_evt(ble_evt_t * p_ble_evt)
                                                    BLE_GAP_SEC_STATUS_SUCCESS,
                                                    &m_sec_params,
                                                    &m_keys);
+            
+            //err_code = sd_ble_gap_sec_params_reply(m_conn_handle, BLE_GAP_SEC_STATUS_SUCCESS, &m_sec_params, NULL);
             APP_ERROR_CHECK(err_code);// Check for errors
             break;
 
@@ -337,11 +355,14 @@ static void on_ble_evt(ble_evt_t * p_ble_evt)
                                                  NULL,
                                                  0,
                                                  BLE_GATTS_SYS_ATTR_FLAG_SYS_SRVCS | BLE_GATTS_SYS_ATTR_FLAG_USR_SRVCS);
+            
+            //err_code = sd_ble_gatts_sys_attr_set(m_conn_handle, NULL, 0, 0);
             APP_ERROR_CHECK(err_code);// Check for errors
             break;
 
         case BLE_GAP_EVT_AUTH_STATUS:
             m_auth_status = p_ble_evt->evt.gap_evt.params.auth_status;
+            //     
             break;
 
         case BLE_GAP_EVT_SEC_INFO_REQUEST:
@@ -356,6 +377,8 @@ static void on_ble_evt(ble_evt_t * p_ble_evt)
 
             err_code = sd_ble_gap_sec_info_reply(m_conn_handle, p_enc_info, p_id_info, p_sign_info);
             APP_ERROR_CHECK(err_code);// Check for errors
+            
+            //err_code = sd_ble_gap_sec_info_reply(m_conn_handle, NULL, NULL, NULL);
             break;
 
         case BLE_GAP_EVT_TIMEOUT:
@@ -402,7 +425,8 @@ static void ble_stack_init(void)
     uint32_t err_code; // Variable used to check for any errors returned by functions
 
     // Initialize the SoftDevice handler module using the low frequency crystal oscillator with 20 ppm accuracy
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, NULL);
+    //SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, NULL);
+    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
     // Enable BLE stack 
 	// Declaration of a simple struct containing ble parameters
