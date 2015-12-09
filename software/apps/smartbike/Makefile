@@ -13,7 +13,7 @@ APPLICATION_SRCS += nrf_drv_common.c
 APPLICATION_SRCS += nrf_drv_gpiote.c
 APPLICATION_SRCS += nrf_drv_twi.c
 APPLICATION_SRCS += app_scheduler.c
-APPLICATION_SRCS += simple_ble.c
+# APPLICATION_SRCS += simple_ble.c
 APPLICATION_SRCS += eddystone.c
 APPLICATION_SRCS += led.c
 APPLICATION_SRCS += simple_adv.c
@@ -32,10 +32,15 @@ APPLICATION_SRCS += BikeTimers.c
 APPLICATION_SRCS += LightControl.c
 APPLICATION_SRCS += LightAction.c
 APPLICATION_SRCS += AccelTurnControl.c
+APPLICATION_SRCS += ble_cscs.c
+APPLICATION_SRCS += ble_sc_ctrlpt.c
+APPLICATION_SRCS += app_timer_appsh.c
 
 ifndef TARGET
 	TARGET = SMARTBIKE
 endif
+
+RAM_KB = 32
 
 TARGET_UPPER = $(shell echo $(TARGET) | tr a-z A-Z)
 TARGET_LOWER = $(shell echo $(TARGET) | tr A-Z a-z)
@@ -58,6 +63,8 @@ SDK_PATH ?= $(NRF_BASE_PATH)/sdk/nrf51_sdk_9.0.0/
 
 CFLAGS = -Os
 GDB_PORT_NUMBER = 2331
+
+
 
 include $(NRF_BASE_PATH)/Makefile.include
 include $(TEMPLATE_PATH)/Makefile
