@@ -1,4 +1,4 @@
-#include <assert.h>
+//#include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -28,7 +28,7 @@ void _pin_direction_reset() {
 }
 uint32_t gpio_init(gpio_cfg_t *gpio_cfgs,
                    uint8_t gpio_count) {
-    assert(gpio_count < NUM_GPIO_PINS);
+   // assert(gpio_count < NUM_GPIO_PINS);
     uint32_t err_code;
 
     // TODO: WE MIGHT OR MIGHT NOT NEED THIS!! probably do tho
@@ -49,8 +49,8 @@ uint32_t gpio_init(gpio_cfg_t *gpio_cfgs,
     while (gpio_count--) {
         gpio_cfg_t* curr_input = &_gpio_cfgs[gpio_count];
 
-        assert(curr_input->pin_no < NUM_GPIO_PINS && _pin_direction[curr_input->pin_no] == PIN_UNDEFINED);
-        assert(curr_input->pin_direction != PIN_UNDEFINED);
+       // assert(curr_input->pin_no < NUM_GPIO_PINS && _pin_direction[curr_input->pin_no] == PIN_UNDEFINED);
+       // assert(curr_input->pin_direction != PIN_UNDEFINED);
 
         if (curr_input->pin_direction == PIN_OUT) {
             nrf_gpio_cfg_output(curr_input->pin_no);
@@ -106,12 +106,12 @@ void gpio_input_disable_all(void) {
 }
 
 void gpio_output_set(uint8_t pin_no, uint8_t value) {
-    assert(pin_no < NUM_GPIO_PINS && _pin_direction[pin_no] == PIN_OUT);
+   // assert(pin_no < NUM_GPIO_PINS && _pin_direction[pin_no] == PIN_OUT);
     nrf_gpio_pin_write(pin_no, value);
 }
 
 void gpio_output_toggle(uint8_t pin_no) {
-    assert(pin_no < NUM_GPIO_PINS && _pin_direction[pin_no] == PIN_OUT);
+   // assert(pin_no < NUM_GPIO_PINS && _pin_direction[pin_no] == PIN_OUT);
     nrf_gpio_pin_toggle(pin_no);
 }
 

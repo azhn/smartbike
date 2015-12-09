@@ -1,5 +1,5 @@
 #include <stdbool.h>
-#include <assert.h>
+//#include <assert.h>
 #include "AccelerometerControl.h"
 #include "AccelDataDriver.h"
 
@@ -22,7 +22,7 @@ void initializeDataBank(bool readX, bool readY, bool readZ) {
     }
 }
 int16_t readData(AccelDataType type) {
-    assert (type < _NUM_ACCEL_DATA);
+    //assert (type < _NUM_ACCEL_DATA);
     if (type == DATA_X) {
         return readAxisX();
     } else if (type == DATA_Y) {
@@ -53,18 +53,18 @@ void populateAccelDataBank() {
 }
 
 void setPollAccelData(AccelDataType type) {
-    assert(type < _NUM_ACCEL_DATA);
+   // assert(type < _NUM_ACCEL_DATA);
     _AccelDataBank._accel_poll[type] = true;
 }
 
 void unsetPollAccelData(AccelDataType type) {
-    assert(type < _NUM_ACCEL_DATA);
+   // assert(type < _NUM_ACCEL_DATA);
     _AccelDataBank._accel_poll[type] = false;
 }
 
 
 bool grabAccelData(AccelDataType type, int16_t* out, uint16_t *ppos) {
-    assert(out != NULL);
+   // assert(out != NULL);
     if (_AccelDataBank._accel_poll[type] &&
         _AccelDataBank._internal_count[type] == MAX_DATA_COUNT) {
         *out = _AccelDataBank._accel_data[type] >> DATA_BITSHIFT_DIVISOR;

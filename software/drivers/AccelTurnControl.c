@@ -1,4 +1,4 @@
-#include <assert.h>
+//#include <assert.h>
 #include "AccelTurnControl.h"
 #include "led.h"
 
@@ -94,7 +94,7 @@ void btn_state_change( bool left_btn_pressed, bool right_btn_pressed ) {
   } else if(!left_btn_pressed && right_btn_pressed){
     curr_state = BTN_STATES[ curr_state ][1];
   } else {
-    // assert(false);
+    //// assert(false);
   }
 }
 
@@ -126,7 +126,7 @@ void btn_state_change_alt( State* state ) {
     } else if(!*left_btn_pressed && *right_btn_pressed){
         curr_state = BTN_STATES[ curr_state ][RIGHT_BUTTON];
     } else {
-        // assert(false);
+        //// assert(false);
     }
 
     if (handle_is_turned) {
@@ -198,7 +198,7 @@ LightAction do_state_action( int16_t accel_x_val ) {
       }
       break;
     default:
-      // assert(false);
+      //// assert(false);
       break;
   }
 

@@ -1,4 +1,4 @@
-#include <assert.h>    
+//#include <assert.h>    
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -15,7 +15,7 @@ static void set_led_turn_indicators(const LightState* led_turn_states) {
 }
 
 static void set_led_gear_indicator(uint8_t curr_gear) {
-    assert (curr_gear <= _NUM_GEAR_INDICATORS - LED_G1 + 1 && curr_gear >= 0);
+    //assert (curr_gear <= _NUM_GEAR_INDICATORS - LED_G1 + 1 && curr_gear >= 0);
     uint8_t i;
     // run through all leds, check bike_state, ensure that correct lights are on
     for (i=LED_G1; i <= curr_gear + LED_G1; ++i) {
@@ -28,8 +28,8 @@ static void set_led_gear_indicator(uint8_t curr_gear) {
 
 static void check_brake_indicator(const State* bike_state, LightAction* light_action) {
     // Check if previous velocity*0.95 is greater than current velocity
-    assert(bike_state != NULL && light_action != NULL);
-    assert(*light_action < _NUM_LIGHT_ACTION);
+   // assert(bike_state != NULL && light_action != NULL);
+   // assert(*light_action < _NUM_LIGHT_ACTION);
 
     if ((float)(bike_state->last_delta * 0.95f) > (float)(bike_state->curr_delta)) {
         if (*light_action < _BRAKE_ADDITION) {
@@ -43,8 +43,8 @@ static void check_brake_indicator(const State* bike_state, LightAction* light_ac
 }
 
 LightState* light_action_to_rear_light_states(const State* bike_state, const LightAction* light_action) {
-    assert (bike_state != NULL && light_action != NULL);
-    assert (*light_action < _NUM_LIGHT_ACTION);
+    //assert (bike_state != NULL && light_action != NULL);
+    //assert (*light_action < _NUM_LIGHT_ACTION);
     LightState* ret = (LightState*)malloc(_NUM_LIGHT_TYPE * sizeof(LightState));
     uint8_t i;
     for(i=CENTER_LIGHT; i < _NUM_LIGHT_TYPE; ++i) {
@@ -58,8 +58,8 @@ LightState* light_action_to_rear_light_states(const State* bike_state, const Lig
 }
 
 LightState* light_action_to_turn_led_states(const State* bike_state, const LightAction* light_action) {
-    assert (bike_state != NULL && light_action != NULL);
-    assert (*light_action < _NUM_LIGHT_ACTION);
+    //assert (bike_state != NULL && light_action != NULL);
+    //assert (*light_action < _NUM_LIGHT_ACTION);
     LightState* ret = (LightState*) malloc(_NUM_TURN_INDICATORS * sizeof(LightState));
     uint8_t i;
     for(i=0; i < _NUM_TURN_INDICATORS; ++i) {

@@ -1,4 +1,4 @@
-#include <assert.h>
+//#include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -20,7 +20,7 @@ void initializeLights() {
 }
 
 void setAllRearLightStates(const LightState* state) {
-    // assert(sizeof(state)/sizeof(state[0]) == _NUM_LIGHT_TYPE);
+    //// assert(sizeof(state)/sizeof(state[0]) == _NUM_LIGHT_TYPE);
     uint8_t i;
     for (i=CENTER_LIGHT; i < _NUM_LIGHT_TYPE; ++i) {
         setRearLightState((LightType)i, state[i]);
@@ -28,7 +28,7 @@ void setAllRearLightStates(const LightState* state) {
 }
 
 void setRearLightState(LightType type, LightState state ) {
-    assert (type < _NUM_LIGHT_TYPE && state < _NUM_LIGHT_STATE);
+    //assert (type < _NUM_LIGHT_TYPE && state < _NUM_LIGHT_STATE);
     /* SET PWM */
     if (state == LIGHT_STATE_BLINKING) {
         state = LIGHT_STATE_BLINKING_ON;
@@ -44,7 +44,7 @@ void setRearLightState(LightType type, LightState state ) {
 }
 
 void setLEDLightState(uint8_t pos, LightState state ) {
-    assert(pos < _NUM_LEDS);
+   // assert(pos < _NUM_LEDS);
     if (state == LIGHT_STATE_BLINKING) {
         state = LIGHT_STATE_BLINKING_ON;
     }
@@ -58,7 +58,7 @@ void setLEDLightState(uint8_t pos, LightState state ) {
 }
 
 LightState getRearLightState( LightType type ) {
-    assert (type < _NUM_LIGHT_TYPE);
+    //assert (type < _NUM_LIGHT_TYPE);
     LightState ret;
     ret = _rear_lights[type]._state;
     if (ret == LIGHT_STATE_BLINKING_ON || ret == LIGHT_STATE_BLINKING_OFF) {
@@ -68,7 +68,7 @@ LightState getRearLightState( LightType type ) {
 }
 
 LightState getLEDLightState( uint8_t pos ) {
-    assert(pos < _NUM_LEDS);
+   // assert(pos < _NUM_LEDS);
     LightState ret;
     ret = _led_lights[pos]._state;
     if (ret == LIGHT_STATE_BLINKING_ON || ret == LIGHT_STATE_BLINKING_OFF) {
