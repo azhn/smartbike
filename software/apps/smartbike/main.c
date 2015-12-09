@@ -630,7 +630,7 @@ static void timer_handler3(void* p_context) {
     last_crank_time += 2048; // 2 second;
 
     ble_cscs_measurement_send(&m_cscs, &m_cscs_meas);
-    accel_ready = true;
+    // accel_ready = true;
     
 }
 
