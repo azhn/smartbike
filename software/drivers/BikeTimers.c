@@ -10,11 +10,11 @@ app_timer_timeout_handler_t turn_signal_sample_handler;
 app_timer_timeout_handler_t ble_handler;
 
 void timers_app_init(void) {
-    APP_TIMER_APPSH_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, 
-            APP_TIMER_OP_QUEUE_SIZE, true);
-
+    
     APP_TIMER_INIT(BIKE_TIMER_PRESCALER, BIKE_TIMER_MAX_TIMERS, 
             BIKE_TIMER_OP_QUEUE_SIZE, false);
+    APP_TIMER_APPSH_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, 
+            APP_TIMER_OP_QUEUE_SIZE, true);
 }
 
 void timers_init(void) {
@@ -32,11 +32,11 @@ void timers_init(void) {
 
     APP_ERROR_CHECK(err_code);
 
-    err_code = app_timer_create(&turn_signal_sample_timer,
-                                APP_TIMER_MODE_REPEATED,
-                                turn_signal_sample_handler);
+    // err_code = app_timer_create(&turn_signal_sample_timer,
+    //                             APP_TIMER_MODE_REPEATED,
+    //                             turn_signal_sample_handler);
 
-    APP_ERROR_CHECK(err_code);
+    // APP_ERROR_CHECK(err_code);
 
     err_code = app_timer_create(&ble_timer, 
                                 APP_TIMER_MODE_REPEATED, 
@@ -55,8 +55,8 @@ void timers_start(void) {
     err_code = app_timer_start(accel_sample_timer, ACCEL_TIMER_UPDATE_RATE, NULL);
     APP_ERROR_CHECK(err_code);
 
-    err_code = app_timer_start(turn_signal_sample_timer, TURN_LIGHT_TIMER_UPDATE_RATE, NULL);
-    APP_ERROR_CHECK(err_code);
+    // err_code = app_timer_start(turn_signal_sample_timer, TURN_LIGHT_TIMER_UPDATE_RATE, NULL);
+    // APP_ERROR_CHECK(err_code);
 
     err_code = app_timer_start(ble_timer, APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER) , NULL);
     APP_ERROR_CHECK(err_code);

@@ -549,7 +549,8 @@ static void ble_stack_init(void)
 
     // Initialize the SoftDevice handler module using the low frequency crystal oscillator with 20 ppm accuracy
     //SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, NULL);
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+    // SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+// ALREADY BEING DONE
 
     // Enable BLE stack 
     // Declaration of a simple struct containing ble parameters
@@ -587,13 +588,15 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 // Timer fired handler
 static void timer_handler (void* p_context) {
     //led_toggle(BLEES_LED_PIN);
-    // led_toggle(LED_1);
+    // if(get_millis()>0){
+    //     led_toggle(LED_0);
+    // }
     accel_ready = true;
      
 }
 
 static void timer_handler2 (void* p_context) {
-    //led_toggle(BLEES_LED_PIN);
+    // led_toggle(LED_0);
     if (bike == NULL) return;
     // led_toggle(LED_2);
     if (bike->blinking_light_output == LIGHT_STATE_BLINKING_OFF) {
@@ -610,7 +613,7 @@ static void timer_handler2 (void* p_context) {
 }
 
 static void timer_handler3(void* p_context) {
-    // led_toggle(19);
+    led_toggle(LED_1);
 
     memset(&m_cscs_meas, 0, sizeof(m_cscs_meas));
 
@@ -627,6 +630,7 @@ static void timer_handler3(void* p_context) {
     last_crank_time += 2048; // 2 second;
 
     ble_cscs_measurement_send(&m_cscs, &m_cscs_meas);
+    accel_ready = true;
     
 }
 
@@ -758,6 +762,13 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
     /*********************************************************/
     } else if (pin == bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG]) {
         // led_toggle(LED_0); 
+        if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG])) {
+            bike->manual_shifting = true;
+            // led_on(LED_0); 
+        } else {
+            bike->manual_shifting = false;
+            // led_off(LED_0); 
+        }
         setPinStatus(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], true);
     }
     /*********************************************************/
@@ -825,45 +836,47 @@ int main(void) {
     /*                 Initialize GPIO                       */
     /*********************************************************/
     // TODO: change pin polarity and pull configs
-    gpio_cfg_t cfgs[] = {
-        {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
-        {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-        {bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
-    };
+gpio_cfg_t cfgs[] = {
+    {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
+    {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+    {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+    {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+    {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+    {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+    {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+    {bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+    {bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+};
 
-    uint8_t gpio_cfg_count;
-    gpio_cfg_count =9;
+uint8_t gpio_cfg_count;
+gpio_cfg_count =9;
 
-    err_code = gpio_init(cfgs, gpio_cfg_count);
-    APP_ERROR_CHECK(err_code);
- 
-    gpio_input_enable_all();
+err_code = gpio_init(cfgs, gpio_cfg_count);
+APP_ERROR_CHECK(err_code);
+
+gpio_input_enable_all();
+
 
     /*********************************************************/
     /*                  Initialize Timers                    */
     /*********************************************************/
+
     // Setup clock
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
+    // SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
     // Setup and start timer
     set_accel_handler(timer_handler);
     set_turn_signal_handler(timer_handler2);
     set_ble_handler(timer_handler3);
-    // led_on(LED_0);
 
     timers_app_init();
+// Setup clock
+    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
     /*********************************************************/
     /*                  Initialize BLE                       */
-    // /*********************************************************/
+    /*********************************************************/
     ble_stack_init();
-    
     scheduler_init();
     gap_params_init();
     services_init();
@@ -871,7 +884,7 @@ int main(void) {
     conn_params_init();
     sec_params_init();
 
-    // Start execution
+    // // Start execution
     advertising_param_init();
     advertising_start();
     
@@ -881,8 +894,8 @@ int main(void) {
     /*********************************************************/
     /*               Initialize Accelerometer                */
     /*********************************************************/
-    initializeAccelerometer();
-    initializeDataBank(true, false, false);
+initializeAccelerometer();
+initializeDataBank(true, false, false);
 
     /*********************************************************/
     /*               Initialize Hall Effects                 */
@@ -893,24 +906,28 @@ int main(void) {
     /*                   Servos & Lights                     */
     /*********************************************************/
     //init i2c
-    i2c_init();	
+i2c_init();	
 
     //Setup and init PWM
-    pca9685_init(&twi_instance, PWM0_ADDR);
-    pca9685_setPWMFreq(52.0f, PWM0_ADDR);
+pca9685_init(&twi_instance, PWM0_ADDR);
+pca9685_init(&twi_instance, PWM1_ADDR);
 
-    pca9685_init(&twi_instance, PWM1_ADDR);
-    pca9685_setPWMFreq(52.0f, PWM1_ADDR);
+pca9685_setPWMFreq(52.0f, PWM0_ADDR);
 
-    update_servos(bike);
-    initializeLights();
-    
-    initializePinStatus();
+
+pca9685_setPWMFreq(52.0f, PWM1_ADDR);
+
+update_servos(bike);
+initializeLights();
+
+initializePinStatus();
     
     // Do not remove any of the create_state functions
     // We need them to fix an interrupt bug
-    destroy_state(bike);
-    bike = create_state();
+    
+    // destroy_state(bike);
+    // bike = create_state();
+    reset_bike_state(bike);
 
     /*********************************************************/
     /*                     Main Loop                         */
@@ -927,19 +944,19 @@ int main(void) {
         button05 = getPinStatusClear(5);
         button04 = getPinStatusClear(4);
         button03 = getPinStatusClear(3);*/
-        state_update_flags(bike);
+state_update_flags(bike);
 
         /*****************************************************/
         /*     Accelerometeter Data Update                   */
         /*****************************************************/
         // Get the latest accelerometer data & store locally
-        if (accel_ready) {
-            
-            populateAccelDataBank();
-            accel_ready = false;
-        }
+if (accel_ready) {
+    // led_toggle(LED_0);
+    populateAccelDataBank();
+    accel_ready = false;
+}
 
-        bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
+bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
 
 
         /* PROCESS DATA */
@@ -947,26 +964,26 @@ int main(void) {
         /*     Turn Signal State Machine                     */
         /*****************************************************/
         // Determine what state the turn lights should be in
-        btn_state_change_alt(bike);
+btn_state_change_alt(bike);
         
         
 
         /*****************************************************/
         /*     Turn Signal State Machine                     */
         /*****************************************************/
-        if(newAccelVal){
-            light_act = do_state_action( curr_x_val );
-        }
+if(newAccelVal){
+    light_act = do_state_action( curr_x_val );
+}
 
         /*****************************************************/
         /*     Calculate Velocity                            */
         /*****************************************************/
         //velocity and acceleration are updated, target gear set
-        if(bike->flags[WHEEL_FLAG])
-        {
-            // led_toggle(LED_0);
-            update_target_state(bike);
-        }
+if(bike->flags[WHEEL_FLAG])
+{
+    // led_toggle(LED_0);
+    update_target_state(bike);
+}
 
 
         /* CONTROL HARDWARE */
@@ -974,7 +991,7 @@ int main(void) {
         /*     Lighting Control                              */
         /*****************************************************/
         // turn on/off all lights as specified
-        performLightAction(bike, light_act);
+performLightAction(bike, light_act);
 
         // if(readAxisX() <=0){
         //     led_on(LED_0);
@@ -985,9 +1002,9 @@ int main(void) {
         /*****************************************************/
         /*     Shifting Control                              */
         /*****************************************************/
-        if(bike->flags[PEDAL_FLAG]) {
-            update_servos(bike);
-        }
+if(bike->flags[PEDAL_FLAG]) {
+    update_servos(bike);
+}
 
         // update_servos(bike);
 
