@@ -15,7 +15,7 @@ struct State* create_state()
     // state->last_delta = 0;
     // state->curr_delta = 0;
 
-    // state->manual_shifting = false;
+    // state->manual_mode = false;
     // state->shift_dir = UP; 
     // state->target_gear = 0;
     // state->curr_gear = 0;
@@ -40,12 +40,13 @@ void reset_bike_state(State* state)
     state->last_delta = 0;
     state->curr_delta = 0;
 
-    // state->manual_shifting = false;
+    // state->manual_mode = false;
     if (nrf_drv_gpiote_in_is_set(_pin_mappings[MANUAL_MODE_SWITCH_FLAG])) {
-        state->manual_shifting = true;
+        state->manual_mode = true;
     } else {
-        state->manual_shifting = false;
+        state->manual_mode = false;
     }
+
     state->shift_dir = UP; 
     state->target_gear = 0;
     state->curr_gear = 0;

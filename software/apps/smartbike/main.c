@@ -762,10 +762,10 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
     } else if (pin == bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG]) {
         // led_toggle(LED_0); 
         if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG])) {
-            bike->manual_shifting = true;
+            bike->manual_mode = true;
             // led_on(LED_0); 
         } else {
-            bike->manual_shifting = false;
+            bike->manual_mode = false;
             // led_off(LED_0); 
         }
         setPinStatus(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], true);
@@ -777,10 +777,10 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
         //update_handle_turn_status(bike, false);
         if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_LEFT_TURN_FLAG])) {
             bike->handle_left_turn = true;
-            // led_on(LED_0); 
+            led_on(LED_0); 
         } else {
             bike->handle_left_turn = false;
-            // led_off(LED_0); 
+            led_off(LED_0); 
         }
         setPinStatus(bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], true);
      }
@@ -791,10 +791,10 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
         // update_handle_turn_status(bike, true);
         if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG])) {
             bike->handle_right_turn = true;
-            // led_on(LED_1); 
+            led_on(LED_1); 
         } else {
             bike->handle_right_turn = false;
-            // led_off(LED_1); 
+            led_off(LED_1); 
         }
         setPinStatus(bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], true);
      }
@@ -835,26 +835,25 @@ int main(void) {
     /*                 Initialize GPIO                       */
     /*********************************************************/
     // TODO: change pin polarity and pull configs
-gpio_cfg_t cfgs[] = {
-    {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
-    {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-    {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-    {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-    {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-    {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-    {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-    {bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
-    {bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
-};
+    gpio_cfg_t cfgs[] = {
+        {bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
+        {bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[RIGHT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_TOGGLE, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+        {bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+    };
 
-uint8_t gpio_cfg_count;
-gpio_cfg_count =9;
+    uint8_t gpio_cfg_count;
+    gpio_cfg_count = 9;
 
-err_code = gpio_init(cfgs, gpio_cfg_count);
-APP_ERROR_CHECK(err_code);
-
-gpio_input_enable_all();
-
+    err_code = gpio_init(cfgs, gpio_cfg_count);
+    APP_ERROR_CHECK(err_code);
+ 
+    gpio_input_enable_all();
 
     /*********************************************************/
     /*                  Initialize Timers                    */
@@ -948,19 +947,19 @@ if(curr_time > 20000){
         button05 = getPinStatusClear(5);
         button04 = getPinStatusClear(4);
         button03 = getPinStatusClear(3);*/
-state_update_flags(bike);
+		state_update_flags(bike);
 
         /*****************************************************/
         /*     Accelerometeter Data Update                   */
         /*****************************************************/
         // Get the latest accelerometer data & store locally
-if (accel_ready && curr_time) {
-    // led_toggle(LED_0);
-    populateAccelDataBank();
-    accel_ready = false;
-}
+		if (accel_ready && curr_time) {
+			// led_toggle(LED_0);
+			populateAccelDataBank();
+			accel_ready = false;
+		}
 
-bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
+		bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
 
 
         /* PROCESS DATA */
@@ -968,34 +967,34 @@ bool newAccelVal = grabAccelData(DATA_X, &curr_x_val, NULL);
         /*     Turn Signal State Machine                     */
         /*****************************************************/
         // Determine what state the turn lights should be in
-btn_state_change_alt(bike);
+		btn_state_change_alt(bike);
         
         
 
         /*****************************************************/
         /*     Turn Signal State Machine                     */
         /*****************************************************/
-if(newAccelVal){
-    light_act = do_state_action( curr_x_val );
-}
+		if(newAccelVal){
+			light_act = do_state_action( curr_x_val );
+		}
 
         /*****************************************************/
         /*     Calculate Velocity                            */
         /*****************************************************/
         //velocity and acceleration are updated, target gear set
-if(bike->flags[WHEEL_FLAG])
-{
-    // led_toggle(LED_1);
-    update_target_state(bike);
-}
+        if(bike->flags[WHEEL_FLAG] || bike->flags[SHIFT_DOWN_FLAG] ||
+           bike->flags[SHIFT_UP_FLAG]) {
 
+            //led_toggle(LED_0);
+            update_target_state(bike);
+        }
 
         /* CONTROL HARDWARE */
         /*****************************************************/
         /*     Lighting Control                              */
         /*****************************************************/
         // turn on/off all lights as specified
-performLightAction(bike, light_act);
+		performLightAction(bike, light_act);
 
         // if(readAxisX() <=0){
         //     led_on(LED_0);

@@ -13,12 +13,12 @@
 
 enum FLAGS
 {
-	WHEEL_FLAG,
-	PEDAL_FLAG,
-	SHIFT_UP_FLAG,
-	SHIFT_DOWN_FLAG,
-	LEFT_TURN_FLAG,
-	RIGHT_TURN_FLAG,
+    WHEEL_FLAG,
+    PEDAL_FLAG,
+    SHIFT_UP_FLAG,
+    SHIFT_DOWN_FLAG,
+    LEFT_TURN_FLAG,
+    RIGHT_TURN_FLAG,
     HANDLE_LEFT_TURN_FLAG,
     HANDLE_RIGHT_TURN_FLAG,
     MANUAL_MODE_SWITCH_FLAG,
@@ -49,7 +49,7 @@ typedef struct State
     uint32_t curr_delta;
 
     //shifting stuff
-    bool manual_shifting;
+    bool manual_mode;
     bool shift_dir;
     uint8_t target_gear;
     uint8_t curr_gear;

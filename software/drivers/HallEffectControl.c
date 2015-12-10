@@ -18,10 +18,25 @@ void update_target_state(State* bike) {
 	bike->curr_delta = bike->curr_milli - bike->last_milli;
 
 	mm_per_ms = MM_PER_INT / bike->curr_delta;
-	bike->target_gear = mm_per_ms >> 1;
 	
-	if(bike->target_gear > 5) bike->target_gear = 5;
+	if(bike->manual_mode)
+	{
+		if(bike->flags[SHIFT_UP_FLAG])
+		{
+			++bike->target_gear;
+		}
+		if(bike->flags[SHIFT_DOWN_FLAG])
+		{
+			--bike->target_gear;
+		}
+	}
+	else 
+	{
+		bike->target_gear = mm_per_ms >> 1;
+	}
 
+	if(bike->target_gear > 5) bike->target_gear = 5;
+	if(bike->target_gear < 0) bike->target_gear = 0;
 	bike->flags[WHEEL_FLAG] = false;
 }
 
