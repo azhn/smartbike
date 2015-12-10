@@ -24,7 +24,7 @@
 //#define MAX_RATE APP_TIMER_TICKS(1, BIKE_TIMER_PRESCALER) //not sure of this
 #define BIKE_TIMER_MAX_TICKS        16777216
 
-#define ACCEL_TIMER_UPDATE_RATE           APP_TIMER_TICKS(15, BIKE_TIMER_PRESCALER) // 64Hz => 1/64 ~= 15.6ms; 15ms to get more rather than less data
+#define ACCEL_TIMER_UPDATE_RATE           APP_TIMER_TICKS(300/*15*/, BIKE_TIMER_PRESCALER) // 64Hz => 1/64 ~= 15.6ms; 15ms to get more rather than less data
 #define TURN_LIGHT_TIMER_UPDATE_RATE      APP_TIMER_TICKS(500, BIKE_TIMER_PRESCALER) // 2Hz 
 /*
  *  STATIC VARIABLES

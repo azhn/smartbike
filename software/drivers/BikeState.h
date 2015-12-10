@@ -32,8 +32,8 @@ static const uint8_t _pin_mappings[_NUM_FLAGS] = {
     2,  // SHIFT_DOWN_FLAG,
     9,  // LEFT_TURN_FLAG,
     10, // RIGHT_TURN_FLAG,
-    24,  // HANDLE_LEFT_TURN_FLAG,
-    8, // HANDLE_RIGHT_TURN_FLAG,
+    24, // HANDLE_LEFT_TURN_FLAG,
+    8,  // HANDLE_RIGHT_TURN_FLAG,
     4   // MANUAL_MODE_SWITCH_FLAG
     // Pin 23 is still open
 };
@@ -72,7 +72,7 @@ typedef struct State
 bool test_milli_count_flag;
 
 struct State* create_state();
-
+void reset_bike_state(State* state);
 void destroy_state(State* state);
 
 #endif // BIKE_STATE_H

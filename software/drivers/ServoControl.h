@@ -9,6 +9,7 @@
 
 #define REAR_PWM 0
 #define FRONT_PWM 1
+#define NUM_GEARS 6
 
 void update_servos(State* state);
 
