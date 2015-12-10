@@ -37,6 +37,7 @@ void update_target_state(State* bike) {
 
         if(bike->target_gear > 5) bike->target_gear = 5;
         if(bike->target_gear < 0) bike->target_gear = 0;
+
 	bike->flags[WHEEL_FLAG] = false;
         bike->flags[SHIFT_DOWN_FLAG] = false;
         bike->flags[SHIFT_UP_FLAG] = false;
