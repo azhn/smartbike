@@ -15,7 +15,7 @@ struct State* create_state()
     state->last_delta = 0;
     state->curr_delta = 0;
 
-    state->manual_shifting = false;
+    state->manual_mode = false;
     state->shift_dir = UP; 
     state->target_gear = 0;
     state->curr_gear = 0;

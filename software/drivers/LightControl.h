@@ -38,6 +38,7 @@ enum LedType {
     LED_RIGHT_INDICATOR   = 0,
     LED_LEFT_INDICATOR    = 1,
     _NUM_TURN_INDICATORS  = 2,
+
     // GEAR INDICATOR LEDS
     LED_G1                = 2,
     LED_G2                = 3,
@@ -45,9 +46,12 @@ enum LedType {
     LED_G4                = 5,
     LED_G5                = 6,
     LED_G6                = 7,
-    LED_G7                = 8,
-    LED_G8                = 9,
-    _NUM_GEAR_INDICATORS  = 10,
+    _NUM_GEAR_INDICATORS  = 8,
+
+    // SHIFTING MODE INFO LEDS
+    LED_AUTOMATIC_INFO    = 8,
+    LED_MANUAL_INFO       = 9,
+    _NUM_INFO_INDICATORS  = 10,
 
     _NUM_LEDS             = 10
 } LedType;

@@ -458,8 +458,9 @@ int main(void) {
         /*     Calculate Velocity                            */
         /*****************************************************/
         //velocity and acceleration are updated, target gear set
-        if(bike->flags[WHEEL_FLAG])
-        {
+        if(bike->flags[WHEEL_FLAG] || bike->flags[SHIFT_DOWN_FLAG] ||
+           bike->flags[SHIFT_UP_FLAG]) {
+
             //led_toggle(LED_0);
             update_target_state(bike);
         }
