@@ -6,11 +6,6 @@ void wheel_interrupt_handler(State* bike) {
     bike->flags[WHEEL_FLAG] = true;
 }
 
-void pedalling_interrupt_handler(State* bike) {
-    bike->flags[PEDAL_FLAG] = true;
-}
-
-
 void update_target_state(State* bike) {
     int mm_per_ms;
 

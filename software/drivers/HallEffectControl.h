@@ -16,9 +16,6 @@
 //sets wheel flag true
 void wheel_interrupt_handler(State* bike);
 
-//sets pedaling flag true
-void pedalling_interrupt_handler(State* bike);
-
 //call this when flags[wheel_flag] is true
 //updates target state and updates 
 //deltas for use with braking logic

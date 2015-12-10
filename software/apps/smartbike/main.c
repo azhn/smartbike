@@ -586,10 +586,25 @@ static void sys_evt_dispatch(uint32_t sys_evt) {
 
 // Timer fired handler
 static void timer_handler (void* p_context) {
-    //led_toggle(BLEES_LED_PIN);
-    // if(get_millis()>0){
-    //     led_toggle(LED_0);
-    // }
+    static uint32_t light_count = 0; // Once it hits 32, toggle lights
+    light_count++;
+    //led_toggle(LED_0);
+
+    if (light_count >= 33) {
+        gpio_output_toggle(23);
+        light_count = 0;    
+        if (bike->blinking_light_output == LIGHT_STATE_BLINKING_OFF) {
+            bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+            // bike->curr_gear = 0;
+        } else if (bike->blinking_light_output == LIGHT_STATE_BLINKING_ON) {
+            bike->blinking_light_output = LIGHT_STATE_BLINKING_OFF;
+            // bike->curr_gear = 2;
+        } else { 
+            bike->blinking_light_output = LIGHT_STATE_BLINKING_ON;
+            // bike->curr_gear = 4;
+        }
+    }
+
     accel_ready = true;
      
 }
@@ -710,16 +725,20 @@ void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
 	last_wheel_time = (uint16_t)(get_millis() & 0xFFFF);
 
         wheel_interrupt_handler(bike);
-        //led_toggle(LED_1);
-        /*if (test_milli_count_flag) {
-            led_toggle(LED_0);
-        }*/
-        if (bike->curr_milli > bike->last_milli && milli < bike->curr_milli) {
-            // led_toggle(LED_2);
-        }
+       
         milli = bike->curr_milli;
         setPinStatus(bike->pin_mappings[WHEEL_FLAG], true);
         //led_toggle(LED_2);
+
+    /*********************************************************/
+    /*   PEDALLING HALL EFFECT INTERRUPT                     */
+    /*********************************************************/
+    } else if (pin == bike->pin_mappings[PEDAL_FLAG]) {
+        led_toggle(LED_1);
+        last_crank_time = (uint16_t)(get_millis() & 0xFFFF);
+        cum_crank_revs += 1;		
+
+        setPinStatus(bike->pin_mappings[PEDAL_FLAG], true);
     }
 }
 
@@ -728,20 +747,10 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
         return;
     }
 
-	/*********************************************************/
-    /*   PEDALLING HALL EFFECT INTERRUPT                     */
-    /*********************************************************/
-    if (pin == bike->pin_mappings[PEDAL_FLAG]) {
-        // led_toggle(LED_1);
-		last_crank_time = (uint16_t)(get_millis() & 0xFFFF);
-		cum_crank_revs += 1;		
-
-        pedalling_interrupt_handler(bike);
-        setPinStatus(bike->pin_mappings[PEDAL_FLAG], true);
     /*********************************************************/
     /*   SHIFT UP BUTTON INTERRUPT                           */
     /*********************************************************/
-    } else if (pin == bike->pin_mappings[SHIFT_UP_FLAG]) {
+   if (pin == bike->pin_mappings[SHIFT_UP_FLAG]) {
         // led_toggle(LED_2);
         setPinStatus(bike->pin_mappings[SHIFT_UP_FLAG], true);
     /*********************************************************/
@@ -846,7 +855,7 @@ int main(void) {
 	// TODO: change pin polarity and pull configs
 	gpio_cfg_t cfgs[] = {
 		{bike->pin_mappings[WHEEL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
-		{bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
+		{bike->pin_mappings[PEDAL_FLAG], GPIO_ACTIVE_HIGH, NRF_GPIO_PIN_NOPULL, &gpiote_handler, PIN_GPIOTE_IN},
 		{bike->pin_mappings[SHIFT_UP_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
 		{bike->pin_mappings[SHIFT_DOWN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
 		{bike->pin_mappings[LEFT_TURN_FLAG], GPIO_ACTIVE_LOW, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
@@ -854,6 +863,7 @@ int main(void) {
 		{bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], GPIO_ACTIVE_TOGGLE, NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
 		{bike->pin_mappings[HANDLE_RIGHT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN},
 		{bike->pin_mappings[HANDLE_LEFT_TURN_FLAG], GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_PORT_IN}
+		/*{23, GPIO_ACTIVE_TOGGLE , NRF_GPIO_PIN_NOPULL, &port_event_handler, PIN_OUT}*/
 	};
 
 	uint8_t gpio_cfg_count;
@@ -873,7 +883,7 @@ int main(void) {
 
 	// Setup and start timer
 	set_accel_handler(timer_handler);
-	set_turn_signal_handler(timer_handler2);
+	//set_turn_signal_handler(timer_handler2);
 	set_ble_handler(timer_handler3);
 
 	timers_app_init();
