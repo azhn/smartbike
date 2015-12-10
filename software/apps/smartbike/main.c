@@ -52,7 +52,6 @@
 #include "nrf51_bitfields.h"
 
 
-
 /*******************************************************************************
  *   DEFINES
  ******************************************************************************/
@@ -613,7 +612,7 @@ static void timer_handler2 (void* p_context) {
 }
 
 static void timer_handler3(void* p_context) {
-    led_toggle(LED_1);
+    // led_toggle(LED_2);
 
     memset(&m_cscs_meas, 0, sizeof(m_cscs_meas));
 
@@ -805,16 +804,16 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
  *   MAIN FUNCTION
  ******************************************************************************/
 int main(void) {
+    
     /*********************************************************/
     /*               Local Variables/Data                    */
     /*********************************************************/
     uint32_t err_code;
-
+    uint32_t curr_time;
     //create our state
     // Do not remove any of the create_state functions
     // We need them to fix an interrupt bug
     bike = create_state();
-
 
 
 /*    bool button09 = false, button10 = false, 
@@ -928,11 +927,16 @@ initializePinStatus();
     // destroy_state(bike);
     // bike = create_state();
     reset_bike_state(bike);
-
+led_on(LED_1);
     /*********************************************************/
     /*                     Main Loop                         */
     /*********************************************************/
     while (1) {
+
+curr_time = get_millis();
+if(curr_time > 20000){
+    led_off(LED_1);
+}
         /* GET DATA */
         /*****************************************************/
         /*     Button Press Update                           */
@@ -950,7 +954,7 @@ state_update_flags(bike);
         /*     Accelerometeter Data Update                   */
         /*****************************************************/
         // Get the latest accelerometer data & store locally
-if (accel_ready) {
+if (accel_ready && curr_time) {
     // led_toggle(LED_0);
     populateAccelDataBank();
     accel_ready = false;
@@ -981,7 +985,7 @@ if(newAccelVal){
         //velocity and acceleration are updated, target gear set
 if(bike->flags[WHEEL_FLAG])
 {
-    // led_toggle(LED_0);
+    // led_toggle(LED_1);
     update_target_state(bike);
 }
 
@@ -1003,7 +1007,9 @@ performLightAction(bike, light_act);
         /*     Shifting Control                              */
         /*****************************************************/
 if(bike->flags[PEDAL_FLAG]) {
+    // led_on(LED_1);
     update_servos(bike);
+    // led_off(LED_1);
 }
 
         // update_servos(bike);
