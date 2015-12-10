@@ -22,7 +22,7 @@ static uint8_t                        _gpio_count; /**< Number of configured but
 
 void _pin_direction_reset() {
     int i;
-    for (i=0; i<=NUM_GPIO_PINS; ++i) {
+    for (i=0; i<NUM_GPIO_PINS; ++i) {
         _pin_direction[i] = PIN_UNDEFINED;
     }
 }
