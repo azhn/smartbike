@@ -41,7 +41,8 @@ static void check_brake_indicator(const State* bike_state, LightAction* light_ac
    // assert(bike_state != NULL && light_action != NULL);
    // assert(*light_action < _NUM_LIGHT_ACTION);
 
-    if ((float)(bike_state->last_delta * 0.95f) > (float)(bike_state->curr_delta)) {
+    //if ((float)(bike_state->last_delta * 0.95f) > (float)(bike_state->curr_delta)) {
+    if ((int32_t)bike_state->curr_delta - (int32_t)bike_state->last_delta > 2 || bike_state->speed < 1) {
         if (*light_action < _BRAKE_ADDITION) {
             *light_action += _BRAKE_ADDITION;         
         }

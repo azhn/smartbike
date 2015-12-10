@@ -2,8 +2,8 @@
 #include "ServoControl.h"
 #include "led.h"
 
-static const uint16_t REAR_GEAR_UP[6] = {335, 358, 364, 387, 400, 400};
-static const uint16_t REAR_GEAR_DOWN[6] = {322, 340, 357, 376, 400, 400};
+static const uint16_t REAR_GEAR_UP[6] = {335, 358, 370, 387, 400, 400};
+static const uint16_t REAR_GEAR_DOWN[6] = {330, 349, 363, 376, 400, 400};
 static const uint16_t FRONT_GEAR_UP[6] = {305, 305, 305, 285, 285, 225};
 static const uint16_t FRONT_GEAR_DOWN[6] = {305, 305, 305, 305, 325, 230};
 
