@@ -47,6 +47,7 @@ typedef struct State
     uint32_t curr_milli;
     uint32_t last_delta;
     uint32_t curr_delta;
+    uint32_t speed;
 
     //shifting stuff
     bool manual_mode;

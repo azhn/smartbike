@@ -19,6 +19,8 @@ void update_target_state(State* bike) {
 
 	mm_per_ms = MM_PER_INT / bike->curr_delta;
 	
+	bike->speed = mm_per_ms;
+
 	if(bike->manual_mode)
 	{
 		if(bike->flags[SHIFT_UP_FLAG])
