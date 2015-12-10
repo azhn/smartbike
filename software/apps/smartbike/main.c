@@ -763,10 +763,10 @@ void port_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) 
     } else if (pin == bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG]) {
         // led_toggle(LED_0); 
         if (nrf_drv_gpiote_in_is_set(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG])) {
-            bike->manual_shifting = true;
+            bike->manual_mode = true;
             // led_on(LED_0); 
         } else {
-            bike->manual_shifting = false;
+            bike->manual_mode = false;
             // led_off(LED_0); 
         }
         setPinStatus(bike->pin_mappings[MANUAL_MODE_SWITCH_FLAG], true);
