@@ -146,6 +146,7 @@ static bool accel_ready = false;
 // BLE data
 static uint32_t cum_wheel_revs, cum_crank_revs = 0;
 static uint16_t  last_wheel_time, last_crank_time = 0;
+static bool count_the_wheel_rev = true;
 
 /*******************************************************************************
  *   FUNCTION DECLARATIONS
@@ -633,7 +634,7 @@ static void timer_handler3(void* p_context) {
 
     m_cscs_meas.is_wheel_rev_data_present       = true;
     m_cscs_meas.is_crank_rev_data_present       = true;
-    m_cscs_meas.cumulative_wheel_revs           = (cum_wheel_revs >> 2);
+    m_cscs_meas.cumulative_wheel_revs           = cum_wheel_revs;
     m_cscs_meas.last_wheel_event_time           = last_wheel_time;
     m_cscs_meas.cumulative_crank_revs           = cum_crank_revs;
     m_cscs_meas.last_crank_event_time           = last_crank_time;
@@ -721,8 +722,13 @@ void gpiote_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action) {
         // led_toggle(LED_0);
         if (bike == NULL) return;
 
-	++cum_wheel_revs;
-	last_wheel_time = (uint16_t)(get_millis() & 0xFFFF);
+	if (count_the_wheel_rev) {
+            count_the_wheel_rev = !count_the_wheel_rev;
+            ++cum_wheel_revs;
+            last_wheel_time = (uint16_t)(get_millis() & 0xFFFF);
+        } else {
+            count_the_wheel_rev = !count_the_wheel_rev;
+        }
 
         wheel_interrupt_handler(bike);
        
@@ -874,19 +880,21 @@ int main(void) {
 
 	gpio_input_enable_all();
 
+        /*********************************************************/
+	/*                  Reset Bike States                    */
+	/*********************************************************/
+	reset_bike_state(bike);
+
 	/*********************************************************/
 	/*                  Initialize Timers                    */
 	/*********************************************************/
-
-	// Setup clock
-	// SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
-
 	// Setup and start timer
 	set_accel_handler(timer_handler);
 	//set_turn_signal_handler(timer_handler2);
 	set_ble_handler(timer_handler3);
 
 	timers_app_init();
+
 	// Setup clock
 	SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, false);
 
@@ -944,7 +952,6 @@ int main(void) {
 
 	// destroy_state(bike);
 	// bike = create_state();
-	reset_bike_state(bike);
 	led_on(LED_1);
 	/*********************************************************/
 	/*                     Main Loop                         */
