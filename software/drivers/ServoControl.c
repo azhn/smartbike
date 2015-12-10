@@ -1,5 +1,6 @@
 #include "BikeTimers.h"
 #include "ServoControl.h"
+#include "led.h"
 
 static const uint16_t REAR_GEAR_UP[6] = {335, 358, 364, 387, 400, 400};
 static const uint16_t REAR_GEAR_DOWN[6] = {322, 340, 357, 376, 400, 400};
@@ -20,7 +21,6 @@ void update_servos(State* state)
 
     if(state->target_gear == state->curr_gear)
     {
-        //	return;
     } 
 	else 
 	{
@@ -46,5 +46,5 @@ void update_servos(State* state)
 
         state->curr_gear = state->target_gear;
     }
-        state->flags[PEDAL_FLAG] = false;
+     state->flags[PEDAL_FLAG] = false;
 }

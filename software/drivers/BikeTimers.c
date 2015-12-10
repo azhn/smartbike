@@ -69,7 +69,7 @@ void millis_counter_handler(void* p_context) {
 
 
 uint32_t get_millis() {
-    return (uint32_t)NRF_RTC1->COUNTER;
+    return ( (uint32_t)NRF_RTC1->COUNTER >> 5 );
 }
 
 void set_accel_handler(app_timer_timeout_handler_t timeout_handler) {

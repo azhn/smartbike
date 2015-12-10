@@ -14,15 +14,25 @@ static void set_led_turn_indicators(const LightState* led_turn_states) {
     }
 }
 
-static void set_led_gear_indicator(uint8_t curr_gear) {
+static void set_led_gear_indicators(uint8_t curr_gear) {
     //assert (curr_gear <= _NUM_GEAR_INDICATORS - LED_G1 + 1 && curr_gear >= 0);
     uint8_t i;
     // run through all leds, check bike_state, ensure that correct lights are on
     for (i=LED_G1; i <= curr_gear + LED_G1; ++i) {
         setLEDLightState(i, LIGHT_STATE_ON);
     } 
-    for (i=curr_gear + LED_G1 + 1; i <= LED_G8; ++i) {
+    for (i=curr_gear + LED_G1 + 1; i < _NUM_GEAR_INDICATORS; ++i) {
         setLEDLightState(i, LIGHT_STATE_OFF);
+    }
+}
+
+static void set_led_shifting_mode_indicators(bool manual_mode) {
+    if (manual_mode) {
+        setLEDLightState(LED_MANUAL_INFO, LIGHT_STATE_DIM_ON);    
+        setLEDLightState(LED_AUTOMATIC_INFO, LIGHT_STATE_OFF);    
+    } else {
+        setLEDLightState(LED_AUTOMATIC_INFO, LIGHT_STATE_DIM_ON);    
+        setLEDLightState(LED_MANUAL_INFO, LIGHT_STATE_OFF);    
     }
 }
 
@@ -63,10 +73,10 @@ LightState* light_action_to_turn_led_states(const State* bike_state, const Light
     LightState* ret = (LightState*) malloc(_NUM_TURN_INDICATORS * sizeof(LightState));
     uint8_t i;
     for(i=0; i < _NUM_TURN_INDICATORS; ++i) {
-        if (_light_action_to_turn_states[*light_action][i] == LIGHT_STATE_BLINKING) {
+        if (_light_action_to_turn_led_states[*light_action][i] == LIGHT_STATE_BLINKING) {
             ret[i] = bike_state->blinking_light_output;
         } else {
-            ret[i] = _light_action_to_turn_states[*light_action][i];
+            ret[i] = _light_action_to_turn_led_states[*light_action][i];
         }
     } 
     return ret;
@@ -90,5 +100,8 @@ void performLightAction(const State* bike_state, LightAction light_action) {
     free(all_turn_led_states); // Must free all_turn_led_states because dynamically allocated
 
     // set led gear indicators
-    set_led_gear_indicator(bike_state->curr_gear);
+    set_led_gear_indicators(bike_state->curr_gear);
+    
+    // set shifting info led indicators
+    set_led_shifting_mode_indicators(bike_state->manual_mode);
 }
