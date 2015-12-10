@@ -28,8 +28,8 @@ enum FLAGS
 static const uint8_t _pin_mappings[_NUM_FLAGS] = {
     6,  // WHEEL_FLAG,
     5,  // PEDAL_FLAG,
-    3,  // SHIFT_UP_FLAG,
-    2,  // SHIFT_DOWN_FLAG,
+    2,  // SHIFT_UP_FLAG,
+    3,  // SHIFT_DOWN_FLAG,
     9,  // LEFT_TURN_FLAG,
     10, // RIGHT_TURN_FLAG,
     24, // HANDLE_LEFT_TURN_FLAG,
