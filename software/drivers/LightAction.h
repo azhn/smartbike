@@ -34,12 +34,12 @@ const static LightState _light_action_to_rear_states[_NUM_LIGHT_ACTION][_NUM_LIG
 
 const static LightState _light_action_to_turn_led_states[_NUM_LIGHT_ACTION][_NUM_TURN_INDICATORS] = {
 //  {RIGHT                      LEFT}
-    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF},           // LIGHT_ACTION_NONE 
-    {LIGHT_STATE_OFF,           LIGHT_STATE_BLINKING},      // LIGHT_ACTION_LEFT_TURN
-    {LIGHT_STATE_BLINKING,      LIGHT_STATE_OFF},           // LIGHT_ACTION_RIGHT_TURN
-    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF},           // LIGHT_ACTION_BRAKE
-    {LIGHT_STATE_OFF,           LIGHT_STATE_BLINKING},      // LIGHT_ACTION_LEFT_TURN_BRAKE
-    {LIGHT_STATE_BLINKING,      LIGHT_STATE_OFF}            // LIGHT_ACTION_RIGHT_TURN_BRAKE
+    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF},     // LIGHT_ACTION_NONE 
+    {LIGHT_STATE_OFF,           LIGHT_STATE_ON},      // LIGHT_ACTION_LEFT_TURN
+    {LIGHT_STATE_ON,            LIGHT_STATE_OFF},     // LIGHT_ACTION_RIGHT_TURN
+    {LIGHT_STATE_OFF,           LIGHT_STATE_OFF},     // LIGHT_ACTION_BRAKE
+    {LIGHT_STATE_OFF,           LIGHT_STATE_ON},      // LIGHT_ACTION_LEFT_TURN_BRAKE
+    {LIGHT_STATE_ON,            LIGHT_STATE_OFF}      // LIGHT_ACTION_RIGHT_TURN_BRAKE
 };
 
 /****************************************************************************
@@ -62,7 +62,7 @@ static void set_led_turn_indicators(const LightState* led_turn_states);
 
 // takes the current gear and outputs the correct gear state on the leds
 static void set_led_gear_indicators(uint8_t curr_gear);
-static void set_led_shifting_mode_indicators(bool automatic);
+static void set_led_shifting_mode_indicators(bool manual_mode);
 
 // takes the current bike state, and rear light action, and sets brake lights accordingly
 static void check_brake_indicator(const State* state, LightAction* light_action);
