@@ -6,7 +6,7 @@
 #include "BikeState.h"
 #include "BikeTimers.h"
 
-#define MM_PER_INT 1050// 997 is true value
+#define MM_PER_INT 1150// 997 is true value
 
 /*****************************************************************************
                             Interrupt Handlers
