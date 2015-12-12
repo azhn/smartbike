@@ -20,7 +20,7 @@
 
 #define ACCEL_OUT_THRESH 200 //200
 #define ACCEL_IN_THRESH 150
-#define ACCEL_TILT_THRESH 10
+#define ACCEL_TILT_THRESH 5 //10 before
 /*****************************************************************************/
 
 // state enums

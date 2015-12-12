@@ -2,10 +2,10 @@
 #include "ServoControl.h"
 #include "led.h"
 
-static const uint16_t REAR_GEAR_UP[6] = {335, 358, 364, 387, 400, 400};
-static const uint16_t REAR_GEAR_DOWN[6] = {322, 340, 357, 376, 400, 400};
-static const uint16_t FRONT_GEAR_UP[6] = {305, 305, 305, 285, 285, 225};
-static const uint16_t FRONT_GEAR_DOWN[6] = {305, 305, 305, 305, 325, 230};
+static const uint16_t REAR_GEAR_UP[6] = {335, 358, 372, 390, 403, 400};
+static const uint16_t REAR_GEAR_DOWN[6] = {350, 350, 365, 376, 400, 400};
+static const uint16_t FRONT_GEAR_UP[6] = {305, 305, 305, 285, 285, 223};
+static const uint16_t FRONT_GEAR_DOWN[6] = {305, 305, 305, 305, 360, 230};
 
 
 void update_servos(State* state)
